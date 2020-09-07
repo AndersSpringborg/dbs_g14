@@ -1,1 +1,3 @@
-# dbs_g14
+# Database Systems - Mini projects
+
+## Miniproject 1 - Drugs database
