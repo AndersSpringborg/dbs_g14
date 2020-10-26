@@ -1,5 +1,12 @@
 create schema if not exists miniproject_1;
 
+create table if not exists miniproject_1.drug_categories(
+    drug_category_id serial
+        constraint drug_category_pk
+            primary key,
+    name text not null
+);
+
 create table if not exists miniproject_1.drugs
 (
 	drug_id serial
@@ -7,6 +14,7 @@ create table if not exists miniproject_1.drugs
 			primary key,
 	name text not null,
 	drug_category_id int
+        references miniproject_1.drug_categories(drug_category_id)
 );
 
 create table if not exists miniproject_1.companies(
@@ -24,15 +32,12 @@ create table if not exists miniproject_1.products
 	name text not null,
 	drug_id int
 		constraint drug_fk
-			references miniproject_1.drugs
+			references miniproject_1.drugs,
+	company int
+        references miniproject_1.companies(company_id)
 );
 
-create table if not exists miniproject_1.drug_categories(
-    drug_category_id serial
-        constraint drug_categorie_pk
-            primary key,
-    name text not null
-);
+
 
 
 create table if not exists miniproject_1.disease_categories
@@ -62,9 +67,8 @@ create table if not exists miniproject_1.trials
 	start_date date,
 	completion_date date,
 	participants int,
-	product_id int
-		constraint product_id_fk
-			references miniproject_1.products
+	drug_id int
+		references miniproject_1.drugs(drug_id)
 );
 
 create table if not exists miniproject_1.side_effects
@@ -110,4 +114,3 @@ create table if not exists miniproject_1.drug_side_effect
 	constraint drug_side_effect_pk
 		primary key (drug_id, side_effect_id)
 );
-
