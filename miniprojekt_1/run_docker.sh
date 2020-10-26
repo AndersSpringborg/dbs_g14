@@ -6,4 +6,4 @@ else
     echo "Created db-data dir"
 fi
 
-docker-compose up
+docker-compose up; docker-compose down
