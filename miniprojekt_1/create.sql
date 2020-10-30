@@ -1,116 +1,75 @@
-create schema if not exists miniproject_1;
-
-create table if not exists miniproject_1.drug_categories(
-    drug_category_id serial
-        constraint drug_category_pk
-            primary key,
-    name text not null
+CREATE TABLE IF NOT EXISTS drug_categories(
+    drug_category_id SERIAL PRIMARY KEY,
+    name TEXT UNIQUE NOT NULL
 );
 
-create table if not exists miniproject_1.drugs
+CREATE TABLE IF NOT EXISTS drugs(
+	drug_id SERIAL PRIMARY KEY,
+	name TEXT UNIQUE NOT NULL,
+	drug_category_id INT REFERENCES drug_categories
+);
+
+CREATE TABLE IF NOT EXISTS companies(
+    company_id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS products
 (
-	drug_id serial
-		constraint drugs_pk
-			primary key,
-	name text not null,
-	drug_category_id int
-        references miniproject_1.drug_categories(drug_category_id)
+	product_id SERIAL PRIMARY KEY,
+	name TEXT NOT NULL,
+	drug_id int	REFERENCES drugs,
+	company int REFERENCES companies
 );
 
-create table if not exists miniproject_1.companies(
-    company_id serial
-        constraint companies_pk
-            primary key,
-    name text not null
-);
 
-create table if not exists miniproject_1.products
+CREATE TABLE IF NOT EXISTS disease_categories
 (
-	product_id serial
-		constraint products_pk
-			primary key,
-	name text not null,
-	drug_id int
-		constraint drug_fk
-			references miniproject_1.drugs,
-	company int
-        references miniproject_1.companies(company_id)
+	disease_category_id SERIAL PRIMARY KEY,
+	name TEXT NOT NULL
 );
 
 
-
-
-create table if not exists miniproject_1.disease_categories
+CREATE TABLE IF NOT EXISTS diseases
 (
-	disease_category_id serial
-		constraint disease_categories_pk
-			primary key,
-	name text
+	disease_id SERIAL PRIMARY KEY,
+	name TEXT NOT NULL,
+	disease_category_id INT REFERENCES disease_categories
 );
 
-create table if not exists miniproject_1.diseases
+CREATE TABLE IF NOT EXISTS trials
 (
-	disease_id serial
-		constraint diseases_pk
-			primary key,
-	name text,
-	disease_category_id int
-		constraint disease_category_id_fk
-			references miniproject_1.disease_categories
+	trail_id SERIAL PRIMARY KEY,
+	start_date DATE NOT NULL,
+	completion_date DATE,
+	participants INT NOT NULL,
+	drug_id INT REFERENCES drugs 
 );
 
-create table if not exists miniproject_1.trials
+CREATE TABLE IF NOT EXISTS side_effects
 (
-	trail_id serial
-		constraint trials_pk
-			primary key,
-	start_date date,
-	completion_date date,
-	participants int,
-	drug_id int
-		references miniproject_1.drugs(drug_id)
+	side_effect_id SERIAL PRIMARY KEY,
+	name TEXT NOT NULL,
 );
 
-create table if not exists miniproject_1.side_effects
+CREATE TABLE IF NOT EXISTS drugs_diseases
 (
-	side_effect_id serial
-		constraint side_effects_pk
-			primary key,
-	name text
+	drug_id INT REFERENCES drugs,
+	disease_id INT REFERENCES diseases,
+	CONSTRAINT drugs_diseases_pk PRIMARY KEY (drug_id, disease_id)
 );
 
-create table if not exists miniproject_1.drugs_diseases
+CREATE TABLE IF NOT EXISTS drug_interactions
 (
-	drug_id int
-		constraint drug_fk
-			references miniproject_1.drugs,
-	disease_id int
-		constraint disease_fk
-			references miniproject_1.diseases,
-	constraint drugs_diseases_pk
-		primary key (drug_id, disease_id)
+	drug_id_a INT REFERENCES drugs,
+	drug_id_b INT REFERENCES drugs,
+	CONSTRAINT drug_interactions_pk PRIMARY KEY (drug_id_a, drug_id_b)
 );
 
-create table if not exists miniproject_1.drug_interactions
+CREATE TABLE IF NOT EXISTS drug_side_effect
 (
-	drug_id_a int
-		constraint drug_a_fk
-			references miniproject_1.drugs,
-	drug_id_b int
-		constraint drug_b_fk
-			references miniproject_1.drugs,
-	constraint drug_interactions_pk
-		primary key (drug_id_a, drug_id_b)
-);
-
-create table if not exists miniproject_1.drug_side_effect
-(
-	drug_id int
-		constraint drug_fk
-			references miniproject_1.drugs,
-	side_effect_id int
-		constraint side_effect_fk
-			references miniproject_1.side_effects,
-	constraint drug_side_effect_pk
-		primary key (drug_id, side_effect_id)
+      drug_id INT REFERENCES drugs,
+      side_effect_id INT REFERENCES side_effects,
+      CONSTRAINT drug_side_effect_pk PRIMARY KEY (drug_id, side_effect_id)
+	
 );
