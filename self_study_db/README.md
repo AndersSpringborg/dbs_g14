@@ -1,12 +1,13 @@
 # RUN
-    - server_ip: db
-    - username: postgres
-    - password: postgres
-    - 
+Just run the two commands under docker setup
 ## docker setup
 - install docker
 - `docker-compose up -d`
 - `docker exec -it self_study_db_db_1 /bin/bash /home/setup_db.sh`
+### ip
+  - server_ip: db
+  - username: postgres
+  - password: postgres
 ## pgadmin
 - login
   - username: admin@admin.com
