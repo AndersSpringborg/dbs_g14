@@ -7,7 +7,7 @@ Now the database and a instance of pgadming is running in a vm in the background
 You can use pgadmin or something like datagrip to connect to the database.
 
 The Ip and username is
-  - server_ip: db
+  - server_ip: localhost
   - username: postgres
   - password: postgres
 ## pgadmin
