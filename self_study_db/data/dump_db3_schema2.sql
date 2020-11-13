@@ -51,7 +51,7 @@ ALTER TABLE public.condition OWNER TO postgres;
 --
 
 CREATE TABLE public.disease (
-    disease_name character varying(100),
+    disease_name character varying(256),
     disease_category_id bigint
 );
 
@@ -75,7 +75,7 @@ ALTER TABLE public.disease_category OWNER TO postgres;
 --
 
 CREATE TABLE public.drug (
-    drug_name character varying(30)
+    drug_name character varying(256)
 );
 
 
@@ -98,7 +98,7 @@ ALTER TABLE public.drug_category OWNER TO postgres;
 --
 
 CREATE TABLE public.drug_in_category (
-    drug_name character varying(30),
+    drug_name character varying(256),
     drug_category_id bigint
 );
 
@@ -110,12 +110,24 @@ ALTER TABLE public.drug_in_category OWNER TO postgres;
 --
 
 CREATE TABLE public.drug_interaction (
-    drug_name_a character varying(30),
-    drug_name_b character varying(30)
+    drug_name_a character varying(256),
+    drug_name_b character varying(256)
 );
 
 
 ALTER TABLE public.drug_interaction OWNER TO postgres;
+
+--
+-- Name: drug_side_effects; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.drug_side_effects (
+    drug_name character varying(256),
+    side_effect_id bigint
+);
+
+
+ALTER TABLE public.drug_side_effects OWNER TO postgres;
 
 --
 -- Name: institution; Type: TABLE; Schema: public; Owner: postgres
@@ -135,7 +147,7 @@ ALTER TABLE public.institution OWNER TO postgres;
 --
 
 CREATE TABLE public.product (
-    product_name character varying(128),
+    product_name character varying(256),
     company_name character varying(128)
 );
 
@@ -147,8 +159,8 @@ ALTER TABLE public.product OWNER TO postgres;
 --
 
 CREATE TABLE public.product_drug_relation (
-    product_name character varying(128),
-    drug_name character varying(30)
+    product_name character varying(256),
+    drug_name character varying(256)
 );
 
 
@@ -196,8 +208,8 @@ ALTER TABLE public.side_effect OWNER TO postgres;
 --
 
 CREATE TABLE public.treats (
-    drug_name character varying(30),
-    disease_name character varying(100)
+    drug_name character varying(256),
+    disease_name character varying(256)
 );
 
 
@@ -227,8 +239,8 @@ ALTER TABLE public.trial OWNER TO postgres;
 
 CREATE TABLE public.trial_drug_disease (
     trial_id bigint,
-    drug_name character varying(30),
-    disease_name character varying(100)
+    drug_name character varying(256),
+    disease_name character varying(256)
 );
 
 
@@ -251,13 +263,13 @@ ALTER TABLE public.trial_researchers OWNER TO postgres;
 --
 
 COPY public.condition (condition_id, condition_name) FROM stdin;
-1	Abscess
-2	Achilles Tendinopathy
-3	Acute Coronary Syndrome
-4	Acute Kidney Injury
-5	Acute Lymphoblastic Leukemia
-6	Acute Renal Failure
-7	AIDS
+1	AIDS
+2	Abscess
+3	Achilles Tendinopathy
+4	Acute Coronary Syndrome
+5	Acute Kidney Injury
+6	Acute Lymphoblastic Leukemia
+7	Acute Renal Failure
 8	Alzheimer Disease
 9	Angioplasty
 10	Angioplasty, Transluminal, Percutaneous Coronary
@@ -273,26 +285,26 @@ COPY public.condition (condition_id, condition_name) FROM stdin;
 20	Blood Platelets
 21	Brain Death
 22	Breast Cancer
-23	Candidiasis
-24	Cardiovascular Disease
-25	Carotid Atherosclerosis
-26	Central Nervous System Tumor, Pediatric
-27	Chronic Bronchitis
-28	Chronic Central Serous Chorioretinopathy
-29	Chronic Hepatitis C
-30	Chronic Kidney Disease
-31	Chronic Laryngitis
-32	Chronic Myeloproliferative Disorders
-33	Chronic Obstructive Pulmonary Disease
-34	Clostridium Difficile Infection
-35	Cocaine Addictions
-36	Cocaine-Related Disorders
-37	Contraception
-38	Coronary Heart Disease
-39	Cough
-40	Cowden's Disease
-41	Cryptococcal Meningitis
-42	CVD
+23	CVD
+24	Candidiasis
+25	Cardiovascular Disease
+26	Carotid Atherosclerosis
+27	Central Nervous System Tumor, Pediatric
+28	Chronic Bronchitis
+29	Chronic Central Serous Chorioretinopathy
+30	Chronic Hepatitis C
+31	Chronic Kidney Disease
+32	Chronic Laryngitis
+33	Chronic Myeloproliferative Disorders
+34	Chronic Obstructive Pulmonary Disease
+35	Clostridium Difficile Infection
+36	Cocaine Addictions
+37	Cocaine-Related Disorders
+38	Contraception
+39	Coronary Heart Disease
+40	Cough
+41	Cowden's Disease
+42	Cryptococcal Meningitis
 43	Delirium
 44	Diabetes
 45	Diabetes Mellitus
@@ -309,24 +321,24 @@ COPY public.condition (condition_id, condition_name) FROM stdin;
 56	Fanconi Anemia
 57	Folliculitis
 58	Fungal Infection
-59	Gastroesophageal Reflux
-60	Gastroesophageal Reflux Disease (GERD)
-61	Genotype-related Drug Metabolism
-62	Gout
-63	Graft Versus Host Disease
-64	GVHD
-65	Hamartoma Syndrome, Multiple
-66	Headache
-67	Healthy
-68	Healthy Volunteers
-69	Heart Disease
-70	Heart Failure, Congestive
-71	Heart Failure, Diastolic
-72	HIV
-73	HIV-1 Infection
-74	HIV Infection
-75	HIV Infections
-76	H-pylori
+59	GVHD
+60	Gastroesophageal Reflux
+61	Gastroesophageal Reflux Disease (GERD)
+62	Genotype-related Drug Metabolism
+63	Gout
+64	Graft Versus Host Disease
+65	H-pylori
+66	HIV
+67	HIV Infection
+68	HIV Infections
+69	HIV-1 Infection
+70	Hamartoma Syndrome, Multiple
+71	Headache
+72	Healthy
+73	Healthy Volunteers
+74	Heart Disease
+75	Heart Failure, Congestive
+76	Heart Failure, Diastolic
 77	Hydroxymethylglutaryl-CoA Reductase Inhibitors
 78	Hypercholesterolemia
 79	Hypertension, Pulmonary
@@ -367,8 +379,8 @@ COPY public.condition (condition_id, condition_name) FROM stdin;
 114	Muscle Fatigue
 115	Muscle Weakness
 116	Musculoskeletal Complications
-117	Myelodysplastic/Myeloproliferative Neoplasms
-118	Myelodysplastic Syndromes
+117	Myelodysplastic Syndromes
+118	Myelodysplastic/Myeloproliferative Neoplasms
 119	Myocardial Infarction
 120	Necrotizing Enterocolitis
 121	Neonatal Seizures
@@ -386,10 +398,10 @@ COPY public.condition (condition_id, condition_name) FROM stdin;
 133	Peripheral Arterial Disease
 134	Phimosis
 135	Pneumonia, Viral
-136	Post-Operative Delirium
-137	Post Stroke Fatigue
-138	Precancerous Condition
-139	Pre Diabetes
+136	Post Stroke Fatigue
+137	Post-Operative Delirium
+138	Pre Diabetes
+139	Precancerous Condition
 140	Pregnancy
 141	Prematurity
 142	Preterm Labor With Intact Membranes
@@ -437,290 +449,290 @@ COPY public.condition (condition_id, condition_name) FROM stdin;
 --
 
 COPY public.disease (disease_name, disease_category_id) FROM stdin;
+Congestive heart failure	3
+Schizophrenia	15
 IgG receptor I, phagocytic, familial deficiency of	10
-Cystic fibrosis	18
-Obesity, resistance to	14
 Acquired long QT syndrome	3
 Platelet defect/deficiency	9
-Malaria, cerebral, susceptibility to	10
-Renal tubular acidosis-osteopetrosis syndrome	17
-Dubin-Johnson syndrome, 237500	11
-Diabetes mellitus	7
-Anxiety-related personality traits	16
-Dementia, vascular, susceptibility to	13
-Waardenburg-Shah syndrome	12
-Cerebral amyloid angiopathy	13
-Waardenburg-Shah syndrome, 277580	12
-Hypolactasia, adult type, 223100	11
-Glioblastoma	2
-Hypobetalipoproteinemia	11
-Brugada syndrome	3
-Obsessive-compulsive disorder, susceptibility to, 164230	16
-Congenital bilateral absence of vas deferens, 277180	20
-Hypoglycemia of infancy, persistent hyperinsulinemic, 256450	11
-Lipodystrophy	11
-Placental abruption	20
-Acromegaly	7
-Heinz body anemia	9
-Cholestasis	8
-Renal tubular dysgenesis, 267430	17
-Hypertension, essential, susceptibility to, 145500	3
-Costello syndrome, 218040	12
-Migraine, susceptibility to, 157300	13
-Atherosclerosis	3
-Malaria	10
-Thyroid carcinoma	2
-Diabetes mellitus, permanent neonatal, with neurologic features, 606176	7
-Hypolactasia, adult type	11
-Ezetimibe, nonresponse to	20
-Blood group, Yt system, 112100	9
-Tuberculosis, susceptibility to, 607948	18
-Coronary artery disease	3
-Atrioventricular block	3
-Hypokalemic periodic paralysis	17
-Neutropenia, alloimmune neonatal	9
-Malignant hyperthermia susceptibility 5, 601887	13
-Central hypoventilation syndrome, congenital, 209880	18
-Hyperapobetalipoproteinemia, susceptibility to	11
-Cerebral amyloid angiopathy, 105150	13
-Hypogonadotropic hypogonadism	7
-Epilepsy, juvenile myoclonic, 606904	13
-Bladder cancer, somatic, 109800	2
-Preeclampsia, susceptibility to	3
-Methemoglobinemias, alpha-	9
-Obsessive-compulsive disorder	16
-Tuberculosis	18
-Mast cell leukemia	2
-Lymphoma, progression of	2
-Insensitivity to pain	13
-Hypertrypsinemia, neonatal	8
-Congenital bilateral absence of vas deferens	20
-Hypereosinophilic syndrome	9
-Myeloid malignancy, predisposition to	2
-Anorexia nervosa	14
-Acromegaly, 102200	7
-Central hypoventilation syndrome	18
-Benzene toxicity	20
-Piebaldism	6
-Epilepsy, generalized idiopathic, 600669	13
-Amyloidosis	13
-Bladder cancer	2
-Dementia	13
-HDL cholesterol level QTL	11
-Insensitivity to pain, congenital, with anhidrosis, 256800	13
-Erythremias	9
-ABCD syndrome	12
-Hypercholesterolemia	11
-Beta-2-adrenoreceptor agonist, reduced response to	20
-Multiple endocrine neoplasia IIB, 162300	2
-Sick sinus syndrome	3
-Immunodeficiency, X-linked, with hyper-IgM, 308230	10
-Alzheimer disease, late-onset, susceptibility to, 104300	13
-Lymphoma	2
-Dysprothrombinemia	9
-Leukemia, Philadelphia chromosome-positive, resistant to imatinib	2
-Coronary heart disease, susceptibility to	3
-Tall stature, susceptibility to	19
-Immunodeficiency	10
-Persistent hyperinsulinemic hypoglycemia of infancy	11
-Sepsis	10
-Gastrointestinal stromal tumor	2
-Coronary artery disease, susceptibility to	3
-Resting heart rate	3
-Cardiomyopathy, dilated, with ventricular tachycardia, 608569	3
-Complementary component deficiency	10
-Myeloproliferative disorder with eosinophilia, 131440	2
-Migraine, resistance to, 157300	13
-Insulin resistance	11
-Lipoprotein lipase deficiency	11
-Long QT syndrome-3, 603830	3
-Medullary thyroid carcinoma, familial, 155240	2
-Renal tubular acidosis	17
-Schizophrenia, susceptibility to, 181500	16
-Congestive heart failure, susceptibility to	3
-Alcohol dependence	20
-Obesity	14
-Ataxia	13
-Hypoglycemia	11
-Hypertrypsinemia	8
-Migraine	13
-Timothy syndrome, 601005	12
-Anorexia nervosa, susceptibility to, 606788	14
-C1q deficiency, type B	10
-Alcohol dependence, susceptibility to, 103780	20
-Alpha-methylacetoacetic aciduria	11
-TSC2 angiomyolipomas, renal, modifier of, 191100	12
-Orthostatic intolerance	3
-Mental retardation	13
-Sweat chloride elevation without CF	20
-Asthma	18
-Heart block, progressive, type I, 113900	3
-Heart block	3
-HDL response to hormone replacement, augmented	11
-Tuberous sclerosis	12
-Atherosclerosis, susceptibility to	3
-Hypoglycemia of infancy, leucine-sensitive, 240800	11
-Vitamin K-dependent coagulation defect, 277450	9
-AIDS	10
-Cystic fibrosis, 219700	18
-Cortisol resistance	7
-Tangier disease, 205400	11
-Obesity, susceptibility to, 601665	14
-Estrogen resistance	7
-Schizophrenia	16
-Asthma, susceptibility to, 600807	18
-Germ cell tumors, 273300	2
-Oculodentodigital dysplasia, 164200	19
-Leukemia, acute myeloid, 601626	2
-Congestive heart failure	3
 Pancreatitis, idiopathic	8
 Hyperprothrombinemia	9
 Warfarin resistance/sensitivity	9
+Malaria, cerebral, susceptibility to	10
 Lupus nephritis, susceptibility to	5
 Ventricular fibrillation, idiopathic	3
 Kaposi sarcoma, susceptibility to, 148000	10
 Gastrointestinal stromal tumor, somatic, 606764	2
+Beta-2-adrenoreceptor agonist, reduced response to	19
+Dubin-Johnson syndrome, 237500	11
 Hypoprothrombinemia	9
+Diabetes mellitus	7
+Cerebral amyloid angiopathy	12
+Oculodentodigital dysplasia	18
 Statins	11
 C1q deficiency, type A	10
 Hypertension, susceptibility to, 145500	3
-Syndactyly	19
 Coronary artery disease in familial hypercholesterolemia, protection against, 143890	3
+Anorexia nervosa	13
+Cystic fibrosis, 219700	17
 Persistent hyperinsulinemic hypoglycemia of infancy, 256450	11
 Ventricular fibrillation, idiopathic, 603829	3
 Leukemia	2
-Syndactyly, type III, 186100	19
 Medullary thyroid carcinoma	2
-Long QT syndrome	3
+Alzheimer disease	12
+Hypolactasia, adult type, 223100	11
+Anxiety-related personality traits	15
+Amyloid neuropathy, familial, several allelic types	12
+Glioblastoma	2
+Central hypoventilation syndrome, congenital, 209880	17
 Kaposi sarcoma	10
-Ataxia, episodic	13
-Obesity, hyperphagia, and developmental delay	14
-Colchicine resistance	20
+Long QT syndrome	3
+Hypobetalipoproteinemia	11
+Brugada syndrome	3
+Obesity, adrenal insufficiency, and red hair	13
+Hypoglycemia of infancy, persistent hyperinsulinemic, 256450	11
+ABCD syndrome, 600501	20
 Hirschsprung disease-2, 600155	8
+Asthma	17
+Epilepsy, severe myoclonic, of infancy, 607208	12
+Lipodystrophy	11
 Platelet ADP receptor defect	9
-Timothy syndrome	12
+Tall stature, susceptibility to	18
+Heinz body anemia	9
+Acromegaly	7
+Cholestasis	8
+Night blindness	14
+Hypertension, essential, susceptibility to, 145500	3
+Schizophrenia, susceptibility to, 181500	15
+Timothy syndrome, 601005	20
+Atherosclerosis	3
 Myeloproliferative disorder	2
-Chylomicronemia syndrome, familial	11
+Malaria	10
 Xanthinuria, type I	11
+Chylomicronemia syndrome, familial	11
 Heinz body anemias, alpha-	9
-Dystonia	13
-Dystonia, myoclonic, 159900	13
-Malignant hyperthermia susceptibility	13
+Costello syndrome, 218040	20
+Diabetes mellitus, permanent neonatal, with neurologic features, 606176	7
+Thyroid carcinoma	2
+Hypolactasia, adult type	11
 Thalassemias	9
 Diabetes, permanent neonatal, 606176	7
+Blood group, Yt system, 112100	9
 Cardiomyopathy	3
+Malignant hyperthermia susceptibility 5, 601887	12
 Mastocytosis with associated hematologic disorder	10
-Hypokalemic periodic paralysis, 170400	17
+Epilepsy, generalized idiopathic, 600669	12
+Syndactyly, type III, 186100	18
+Carpal tunnel syndrome, familial	19
+Renal tubular dysgenesis	16
+Cerebral amyloid angiopathy, 105150	12
+Coronary artery disease	3
 Hyperapobetalipoproteinemia	11
 DNA topoisomerase II, resistance to inhibition of, by amsacrine	11
+Atrioventricular block	3
 Methemoglobinemia	9
+Insensitivity to pain, congenital, with anhidrosis, 256800	12
+Neutropenia, alloimmune neonatal	9
 Hypertension, pregnancy-induced, 189800	3
 Dysalbuminemic hyperthyroxinemia	9
-Renal tubular dysgenesis	17
+Costello syndrome	20
 Myelomonocytic leukemia, chronic	2
+Hypokalemic periodic paralysis, 170400	16
+Hyperapobetalipoproteinemia, susceptibility to	11
 Myelogenous leukemia	2
+Hypogonadotropic hypogonadism	7
+Tuberculosis	17
+Bladder cancer, somatic, 109800	2
 Pancreatitis	8
-Bartter syndrome	12
+Methemoglobinemias, alpha-	9
 Preeclampsia	3
+Preeclampsia, susceptibility to	3
+Sweat chloride elevation without CF	19
+Tuberculosis, susceptibility to, 607948	17
 Colonic aganglionosis, total, with small bowel involvement	8
 Statins, attenuated cholesterol lowering by	11
+Mast cell leukemia	2
 Coronary artery spasm, susceptibility to	3
+Lymphoma, progression of	2
+Placental abruption	19
+Hypertrypsinemia, neonatal	8
+Benzene toxicity, susceptibility to	19
 Medullary thyroid carcinoma, 155240	2
 Diabetes mellitus, insulin-resistant, with acanthosis nigricans and hypertension, 604367	7
 Alpha-methylacetoacetic aciduria, 203750	11
+Syndactyly	18
 Dubin-Johnson syndrome	11
+Hypereosinophilic syndrome	9
+Migraine, susceptibility to, 157300	12
+Myeloid malignancy, predisposition to	2
+Dystonia	12
 Viral infection	10
+Acromegaly, 102200	7
+Waardenburg-Shah syndrome	20
 Osteolysis, idiopathic, Saudi type, 605156	1
 DNA topoisomerase	11
 Xanthinuria, type I, 278300	11
+Oculodentodigital dysplasia, 164200	18
 Viral infections, recurrent	10
 Sick sinus syndrome, 608567	3
 Hypertension	3
+Piebaldism	6
 Multiple endocrine neoplasia IIA, 171400	2
-Amyloid neuropathy	13
 Combined hyperlipemia, familial	11
+Anorexia nervosa, susceptibility to, 606788	13
 Aplastic anemia	9
+Bladder cancer	2
+Renal tubular dysgenesis, 267430	16
+Dementia	12
 Combined hyperlipemia	11
-Bartter syndrome, type 2, 241200	12
 Long QT syndrome-2	3
+Migraine, resistance to, 157300	12
+HDL cholesterol level QTL	11
+Renal tubular acidosis-osteopetrosis syndrome	16
 Familial Mediterranean fever	10
 Multiple endocrine neoplasia	2
 Insulin resistance, severe, digenic, 604367	11
-Migraine without aura, susceptibility to, 157300	13
+Obsessive-compulsive disorder, susceptibility to, 164230	15
+Erythremias	9
 Resting heart rate, 607276	3
+Hypercholesterolemia	11
 Coronary spasms	3
 AIDS, rapid progression to, 609423	10
+Multiple endocrine neoplasia IIB, 162300	2
+Migraine without aura, susceptibility to, 157300	12
 Acquired long QT syndrome, susceptibility to	3
 Dystransthyretinemic hyperthyroxinemia	9
+Sick sinus syndrome	3
+Bartter syndrome	20
+Immunodeficiency, X-linked, with hyper-IgM, 308230	10
 Analbuminemia	9
-Orthostatic intolerance, 604715	3
 Hypercholesterolemia, due to ligand-defective apo B, 144010	11
+Orthostatic intolerance, 604715	3
+Epilepsy	12
+Lymphoma	2
+Cystic fibrosis	17
 Hirschsprung disease	8
 Hypoplastic left heart syndrome	3
-ABCD syndrome, 600501	12
-Obsessive-compulsive disorder 1, 164230	16
+Dysprothrombinemia	9
+Leukemia, Philadelphia chromosome-positive, resistant to imatinib	2
+Tuberous sclerosis	20
+Renal tubular acidosis	16
+Coronary heart disease, susceptibility to	3
+Congenital bilateral absence of vas deferens, 277180	19
+Ezetimibe, nonresponse to	19
 Erythremias, alpha-	9
+Asthma, nocturnal, susceptibility to	17
 Neutropenia	9
+Immunodeficiency	10
+Persistent hyperinsulinemic hypoglycemia of infancy	11
+Alzheimer disease, late-onset, susceptibility to, 104300	12
+Sepsis	10
 Dystransthyretinemic hyperthyroxinemia(3)	9
+Gastrointestinal stromal tumor	2
 Familial Mediterranean fever, 249100	10
 Leukocyte adhesion deficiency, 116920	10
+Obsessive-compulsive disorder 1, 164230	15
+Resting heart rate	3
+Coronary artery disease, susceptibility to	3
+Complementary component deficiency	10
 Blood group, Colton, 110450	9
-Amyloid neuropathy, familial, several allelic types	13
+Cardiomyopathy, dilated, with ventricular tachycardia, 608569	3
 Coronary spasms, susceptibility to	3
+Amyloid neuropathy	12
+Myeloproliferative disorder with eosinophilia, 131440	2
+Ataxia	12
+Alcohol dependence	19
+Obesity, hyperphagia, and developmental delay	13
 Warfarin resistance, 122700	9
+Obesity, susceptibility to, 601665	13
 Malaria, resistance to, 248310	10
 Thyroid carcinoma, follicular, somatic, 188470	2
 Cholestasis, progressive familial intrahepatic 2, 601847	8
+Insulin resistance	11
 Leukocyte adhesion deficiency	10
-Obesity, severe, 601665	14
+Malignant hyperthermia susceptibility	12
+Lipoprotein lipase deficiency	11
+Amyloidosis	12
+Long QT syndrome-3, 603830	3
+Bartter syndrome, type 2, 241200	20
+Medullary thyroid carcinoma, familial, 155240	2
+Dystonia, myoclonic, 159900	12
 Abetalipoproteinemia	11
 Brugada syndrome, 601144	3
-Benzene toxicity, susceptibility to	20
-Amyloidosis, senile systemic	13
-Seasonal affective disorder	16
+Epilepsy, juvenile myoclonic, 606904	12
+Congestive heart failure, susceptibility to	3
+Alcohol dependence, susceptibility to, 103780	19
+Obesity, resistance to	13
+ABCD syndrome	20
+Hypokalemic periodic paralysis	16
+Hypoglycemia	11
 Lipodystrophy, familial partial, 151660	11
+Hypertrypsinemia	8
+Seasonal affective disorder, susceptibility to, 608516	15
 Blood group	9
+Timothy syndrome	20
+Colchicine resistance	19
 Fertile eunuch syndrome, 228300	7
 Thyrotoxic periodic paralysis	7
 Septic shock, susceptibility to	10
-Oculodentodigital dysplasia	19
+C1q deficiency, type B	10
 Thyrotoxic periodic paralysis, susceptibility to, 188580	7
+Asthma, dimished response to antileukotriene treatment in, 600807	17
 Thalassemias, alpha-	9
-Night blindness, congenital stationary, X-linked, type 2, 300071	15
+Alpha-methylacetoacetic aciduria	11
 Diabetic retinopathy, NIDDM-related, susceptibility to, 125853	7
-Carpal tunnel syndrome, familial	20
-Costello syndrome	12
+Mental retardation	12
+Night blindness, congenital stationary, X-linked, type 2, 300071	14
+Orthostatic intolerance	3
 Hypoplastic left heart syndrome, 241550	3
-Alzheimer disease	13
+Obesity	13
 Immunodeficiency with hyper-IgM, type 3, 606843	10
-Epilepsy, generalized, with febrile seizures plus, type 2, 604233	13
-Night blindness	15
 Hirschsprung disease, 142623	8
-Seasonal affective disorder, susceptibility to, 608516	16
-Obesity, adrenal insufficiency, and red hair	14
 Lupus erythematosus	4
+Waardenburg-Shah syndrome, 277580	20
+Dementia, vascular, susceptibility to	12
+Heart block, progressive, type I, 113900	3
+HDL response to hormone replacement, augmented	11
+Heart block	3
+Atherosclerosis, susceptibility to	3
 Diabetes mellitus, 125853	7
+Asthma, susceptibility to, 600807	17
+Hypoglycemia of infancy, leucine-sensitive, 240800	11
+Insensitivity to pain	12
 Heart block, nonprogressive, 113900	3
-Asthma, nocturnal, susceptibility to	18
+Vitamin K-dependent coagulation defect, 277450	9
+Seasonal affective disorder	15
 Vitamin K-dependent clotting factors, combined deficiency of, 2, 607473	9
+Central hypoventilation syndrome	17
 Aplastic anemia, 609135	9
 HDL deficiency, familial, 604091	11
-Epilepsy	13
+AIDS	10
+Benzene toxicity	19
 Immunodeficiency due to defect in CD3-epsilon	10
+Migraine	12
+Cortisol resistance	7
+Obesity, severe, 601665	13
+Tangier disease, 205400	11
+Congenital bilateral absence of vas deferens	19
 Osteolysis	1
-Epilepsy, severe myoclonic, of infancy, 607208	13
+Amyloidosis, senile systemic	12
+Estrogen resistance	7
 Hypereosinophilic syndrome, idiopathic, resistant to imatinib, 607685	9
 Leukemia, post-chemotherapy, susceptibility to	2
 Tangier disease	11
+Obsessive-compulsive disorder	15
 C1s deficiency, isolated	10
+Ataxia, episodic	12
 Vitamin K-dependent coagulation defect	9
 Glioblastoma, susceptibility to, 137800	2
-Aquaporin-1 deficiency	20
+Germ cell tumors, 273300	2
+Epilepsy, generalized, with febrile seizures plus, type 2, 604233	12
+TSC2 angiomyolipomas, renal, modifier of, 191100	20
+Leukemia, acute myeloid, 601626	2
 Atrioventricular septal defect, 600309	3
-Asthma, dimished response to antileukotriene treatment in, 600807	18
+Aquaporin-1 deficiency	19
+Tall stature	18
 Germ cell tumor	2
 Fertile eunuch syndrome	7
-Tall stature	19
 \.
 
 
@@ -740,15 +752,15 @@ COPY public.disease_category (disease_category_id, disease_category_name) FROM s
 9	Hematological
 10	Immunological
 11	Metabolic
-12	multiple
-13	Neurological
-14	Nutritional
-15	Ophthamological
-16	Psychiatric
-17	Renal
-18	Respiratory
-19	Skeletal
-20	Unclassified
+12	Neurological
+13	Nutritional
+14	Ophthamological
+15	Psychiatric
+16	Renal
+17	Respiratory
+18	Skeletal
+19	Unclassified
+20	multiple
 \.
 
 
@@ -910,34 +922,34 @@ COPY public.drug_category (drug_category_id, drug_category_name) FROM stdin;
 5	Analgesics, non-narcotic
 6	Anorexigenic agents
 7	Anti-bacterial agents
-8	Antibacterial agents
-9	Antibiotics
-10	Antibiotics, antifungal
-11	Antibiotics, antineoplastic
-12	Antibiotics, antitubercular
-13	Anticholesteremic agents
-14	Anticoagulants
-15	Anticonvulsants
-16	Antiemetics
-17	Antifungal agents
-18	Antifungals
-19	Anti-hiv agents
-20	Antihypertensive agents
-21	Anti-infective agents
-22	Anti-infectives
-23	Anti-inflammatory agents
-24	Anti-inflammatory agents, non-steroidal
-25	Antilipemic agents
-26	Antimanic agents
-27	Antimetabolites
-28	Antimetabolites, antineoplastic
-29	Antineoplastic agents
-30	Anti-obesity agents
-31	Antiprotozoal agents
-32	Antiprotozoals
-33	Antirheumatic agents
-34	Antituberculosis agents
-35	Anti-ulcer agents
+8	Anti-hiv agents
+9	Anti-infective agents
+10	Anti-infectives
+11	Anti-inflammatory agents
+12	Anti-inflammatory agents, non-steroidal
+13	Anti-obesity agents
+14	Anti-ulcer agents
+15	Antibacterial agents
+16	Antibiotics
+17	Antibiotics, antifungal
+18	Antibiotics, antineoplastic
+19	Antibiotics, antitubercular
+20	Anticholesteremic agents
+21	Anticoagulants
+22	Anticonvulsants
+23	Antiemetics
+24	Antifungal agents
+25	Antifungals
+26	Antihypertensive agents
+27	Antilipemic agents
+28	Antimanic agents
+29	Antimetabolites
+30	Antimetabolites, antineoplastic
+31	Antineoplastic agents
+32	Antiprotozoal agents
+33	Antiprotozoals
+34	Antirheumatic agents
+35	Antituberculosis agents
 36	Cardiovascular agents
 37	Central nervous system agents
 38	Central nervous system stimulants
@@ -985,136 +997,136 @@ COPY public.drug_category (drug_category_id, drug_category_name) FROM stdin;
 --
 
 COPY public.drug_in_category (drug_name, drug_category_id) FROM stdin;
-oxcarbazepine	15
 clarithromycin	65
 terbinafine	43
-voriconazole	18
 azithromycin	61
-methotrexate	33
-itraconazole	18
 modafinil	38
 norfloxacin	7
 lovastatin	49
+itraconazole	24
 methotrexate	53
-ritonavir	19
-itraconazole	17
+posaconazole	17
 indomethacin	36
-lovastatin	13
+methotrexate	34
 metoclopramide	63
 etodolac	59
-quinupristin	8
+simvastatin	27
 rifampin	60
-rifabutin	12
 ketoprofen	40
 troglitazone	74
-carbamazepine	15
-bosentan	20
-methotrexate	28
-nabumetone	29
-etodolac	24
+terbinafine	24
+methotrexate	31
 lovastatin	50
-terbinafine	18
 metoclopramide	42
-voriconazole	17
+nabumetone	31
+ezetimibe	20
+etodolac	12
+pravastatin	20
 tacrolimus	53
 modafinil	57
-sirolimus	11
+carbamazepine	22
+atazanavir	8
+sulfamethoxazole	9
 glipizide	51
 naproxen	47
+piroxicam	12
+simvastatin	20
 sirolimus	7
 simvastatin	50
 methotrexate	60
-orlistat	30
 sirolimus	53
 ibuprofen	40
 indomethacin	47
+metoclopramide	23
 pravastatin	49
+rifampin	16
 clarithromycin	61
-ibuprofen	23
 azithromycin	7
 itraconazole	32
+cyclosporine	34
+cyclosporine	24
+lovastatin	31
 telithromycin	54
 cyclosporine	43
+indomethacin	11
 imipenem	7
 orlistat	43
+norfloxacin	10
 erythromycin	7
+rifampin	19
+rifampin	35
+oxcarbazepine	22
 ibuprofen	59
 pravastatin	50
-omeprazole	35
+ritonavir	8
 posaconazole	73
 efavirenz	58
-simvastatin	25
-piroxicam	24
 ritonavir	48
-sirolimus	17
-terbinafine	17
 methotrexate	46
+indomethacin	12
 rifampin	43
-troglitazone	29
-cyclosporine	17
+bosentan	26
 ibuprofen	5
 methotrexate	1
-rifampin	12
+methotrexate	30
+omeprazole	14
+orlistat	13
+ethotoin	22
 atazanavir	64
-atazanavir	19
 methotrexate	41
 terbinafine	3
-rifampin	9
 cyclosporine	52
 etodolac	40
 rifampin	55
+voriconazole	24
 ezetimibe	39
 aspirin	62
 indomethacin	72
-indomethacin	23
 troglitazone	45
 cyclosporine	41
 modafinil	37
 ethinyl estradiol	44
-metoclopramide	16
-efavirenz	19
+ketoprofen	12
+quinupristin	15
 sirolimus	18
 cyclosporine	53
-cyclosporine	33
 carbamazepine	4
 sulfamethoxazole	71
-itraconazole	31
+sulfamethoxazole	10
 efavirenz	68
 indomethacin	40
 terbinafine	73
-ibuprofen	24
-aspirin	24
-sulfamethoxazole	22
-methotrexate	27
+nabumetone	12
+naproxen	12
+itraconazole	25
+aspirin	12
+voriconazole	25
 indomethacin	59
-sulfamethoxazole	21
-ethotoin	15
 rifabutin	7
-simvastatin	13
+efavirenz	8
 repaglinide	51
-ketoprofen	24
+rifabutin	19
+troglitazone	31
 methotrexate	43
-nabumetone	24
 carbamazepine	5
-ezetimibe	13
-posaconazole	10
-lovastatin	29
+sirolimus	24
 omeprazole	66
 piroxicam	40
+sirolimus	25
 methotrexate	29
-rifampin	34
+aspirin	21
 methotrexate	2
 repaglinide	56
-pravastatin	13
+carbamazepine	28
 clarithromycin	7
 ibuprofen	4
 telithromycin	7
+itraconazole	33
 aspirin	40
+terbinafine	25
 modafinil	6
-naproxen	24
-carbamazepine	26
-norfloxacin	22
 troglitazone	62
+ibuprofen	11
 omeprazole	43
 aspirin	69
 aspirin	45
@@ -1122,11 +1134,11 @@ norfloxacin	43
 modafinil	70
 atazanavir	48
 naproxen	40
+lovastatin	20
 norfloxacin	60
+ibuprofen	12
 troglitazone	51
 norfloxacin	67
-aspirin	14
-indomethacin	24
 \.
 
 
@@ -2773,6 +2785,5819 @@ fluconazole	ethotoin
 fluconazole	dicumarol
 fluconazole	anisindione
 edrophonium	hydrocortisone
+\.
+
+
+--
+-- Data for Name: drug_side_effects; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.drug_side_effects (drug_name, side_effect_id) FROM stdin;
+efavirenz	1165
+efavirenz	46
+efavirenz	530
+efavirenz	173
+efavirenz	1100
+efavirenz	1069
+efavirenz	26
+efavirenz	735
+efavirenz	44
+efavirenz	283
+efavirenz	230
+efavirenz	136
+efavirenz	373
+efavirenz	98
+efavirenz	963
+efavirenz	101
+efavirenz	702
+efavirenz	1053
+efavirenz	414
+efavirenz	246
+efavirenz	531
+efavirenz	304
+efavirenz	831
+efavirenz	415
+efavirenz	385
+efavirenz	616
+efavirenz	532
+efavirenz	6
+efavirenz	777
+efavirenz	911
+efavirenz	396
+efavirenz	1141
+efavirenz	584
+efavirenz	795
+efavirenz	638
+efavirenz	386
+efavirenz	1119
+efavirenz	705
+efavirenz	1157
+efavirenz	961
+efavirenz	72
+efavirenz	547
+efavirenz	809
+efavirenz	54
+efavirenz	679
+efavirenz	229
+efavirenz	813
+efavirenz	863
+efavirenz	496
+efavirenz	289
+efavirenz	962
+efavirenz	1026
+efavirenz	281
+efavirenz	798
+efavirenz	423
+efavirenz	924
+efavirenz	871
+efavirenz	864
+efavirenz	557
+efavirenz	467
+efavirenz	872
+efavirenz	449
+efavirenz	980
+efavirenz	814
+efavirenz	925
+efavirenz	1159
+efavirenz	68
+efavirenz	490
+efavirenz	22
+efavirenz	450
+efavirenz	621
+efavirenz	1094
+efavirenz	641
+efavirenz	424
+efavirenz	417
+efavirenz	384
+efavirenz	79
+efavirenz	1219
+efavirenz	802
+efavirenz	236
+efavirenz	328
+efavirenz	728
+efavirenz	879
+efavirenz	844
+efavirenz	681
+efavirenz	614
+efavirenz	908
+efavirenz	709
+efavirenz	184
+efavirenz	630
+efavirenz	727
+efavirenz	436
+efavirenz	353
+efavirenz	782
+efavirenz	815
+efavirenz	357
+efavirenz	1124
+efavirenz	75
+efavirenz	333
+efavirenz	62
+efavirenz	395
+efavirenz	71
+efavirenz	613
+efavirenz	86
+efavirenz	370
+efavirenz	303
+efavirenz	1151
+efavirenz	649
+efavirenz	1095
+efavirenz	238
+efavirenz	493
+efavirenz	1089
+efavirenz	10
+efavirenz	91
+efavirenz	763
+efavirenz	882
+efavirenz	1093
+efavirenz	529
+efavirenz	668
+efavirenz	1087
+efavirenz	309
+efavirenz	278
+efavirenz	922
+efavirenz	729
+oxcarbazepine	488
+oxcarbazepine	380
+oxcarbazepine	1165
+oxcarbazepine	505
+oxcarbazepine	24
+oxcarbazepine	1100
+oxcarbazepine	1069
+oxcarbazepine	421
+oxcarbazepine	244
+oxcarbazepine	466
+oxcarbazepine	44
+oxcarbazepine	874
+oxcarbazepine	759
+oxcarbazepine	312
+oxcarbazepine	1216
+oxcarbazepine	239
+oxcarbazepine	1110
+oxcarbazepine	500
+oxcarbazepine	182
+oxcarbazepine	1040
+oxcarbazepine	736
+oxcarbazepine	330
+oxcarbazepine	998
+oxcarbazepine	580
+oxcarbazepine	39
+oxcarbazepine	1007
+oxcarbazepine	1215
+oxcarbazepine	385
+oxcarbazepine	388
+oxcarbazepine	381
+oxcarbazepine	1178
+oxcarbazepine	595
+oxcarbazepine	1141
+oxcarbazepine	584
+oxcarbazepine	45
+oxcarbazepine	403
+oxcarbazepine	875
+oxcarbazepine	1172
+oxcarbazepine	386
+oxcarbazepine	1157
+oxcarbazepine	70
+oxcarbazepine	1104
+oxcarbazepine	54
+oxcarbazepine	573
+oxcarbazepine	982
+oxcarbazepine	878
+oxcarbazepine	983
+oxcarbazepine	334
+oxcarbazepine	786
+oxcarbazepine	339
+oxcarbazepine	512
+oxcarbazepine	336
+oxcarbazepine	798
+oxcarbazepine	1126
+oxcarbazepine	871
+oxcarbazepine	1212
+oxcarbazepine	944
+oxcarbazepine	609
+oxcarbazepine	674
+oxcarbazepine	198
+oxcarbazepine	980
+oxcarbazepine	925
+oxcarbazepine	224
+oxcarbazepine	487
+oxcarbazepine	932
+oxcarbazepine	30
+oxcarbazepine	602
+oxcarbazepine	859
+oxcarbazepine	116
+oxcarbazepine	621
+oxcarbazepine	1022
+oxcarbazepine	510
+oxcarbazepine	1231
+oxcarbazepine	420
+oxcarbazepine	424
+oxcarbazepine	717
+oxcarbazepine	647
+oxcarbazepine	328
+oxcarbazepine	909
+oxcarbazepine	148
+oxcarbazepine	697
+oxcarbazepine	1224
+oxcarbazepine	1047
+oxcarbazepine	347
+oxcarbazepine	920
+oxcarbazepine	453
+oxcarbazepine	400
+oxcarbazepine	324
+oxcarbazepine	630
+oxcarbazepine	436
+oxcarbazepine	830
+oxcarbazepine	1124
+oxcarbazepine	338
+oxcarbazepine	552
+oxcarbazepine	367
+oxcarbazepine	1123
+oxcarbazepine	345
+oxcarbazepine	333
+oxcarbazepine	62
+oxcarbazepine	395
+oxcarbazepine	1209
+oxcarbazepine	613
+oxcarbazepine	1151
+oxcarbazepine	649
+oxcarbazepine	1130
+oxcarbazepine	1225
+oxcarbazepine	668
+oxcarbazepine	262
+oxcarbazepine	569
+oxcarbazepine	1184
+oxcarbazepine	589
+oxcarbazepine	522
+oxcarbazepine	835
+oxcarbazepine	645
+oxcarbazepine	232
+oxcarbazepine	46
+oxcarbazepine	1079
+oxcarbazepine	965
+oxcarbazepine	277
+oxcarbazepine	132
+oxcarbazepine	27
+oxcarbazepine	1181
+oxcarbazepine	735
+oxcarbazepine	912
+oxcarbazepine	327
+oxcarbazepine	283
+oxcarbazepine	821
+oxcarbazepine	373
+oxcarbazepine	560
+oxcarbazepine	626
+oxcarbazepine	98
+oxcarbazepine	101
+oxcarbazepine	963
+oxcarbazepine	438
+oxcarbazepine	810
+oxcarbazepine	941
+oxcarbazepine	1223
+oxcarbazepine	290
+oxcarbazepine	412
+oxcarbazepine	99
+oxcarbazepine	616
+oxcarbazepine	544
+oxcarbazepine	6
+oxcarbazepine	186
+oxcarbazepine	748
+oxcarbazepine	80
+oxcarbazepine	317
+oxcarbazepine	696
+oxcarbazepine	638
+oxcarbazepine	906
+oxcarbazepine	343
+oxcarbazepine	585
+oxcarbazepine	661
+oxcarbazepine	72
+oxcarbazepine	809
+oxcarbazepine	688
+oxcarbazepine	1009
+oxcarbazepine	974
+oxcarbazepine	685
+oxcarbazepine	525
+oxcarbazepine	229
+oxcarbazepine	959
+oxcarbazepine	509
+oxcarbazepine	81
+oxcarbazepine	623
+oxcarbazepine	699
+oxcarbazepine	496
+oxcarbazepine	1109
+oxcarbazepine	289
+oxcarbazepine	605
+oxcarbazepine	1074
+oxcarbazepine	432
+oxcarbazepine	864
+oxcarbazepine	237
+oxcarbazepine	462
+oxcarbazepine	563
+oxcarbazepine	1084
+oxcarbazepine	1020
+oxcarbazepine	601
+oxcarbazepine	22
+oxcarbazepine	14
+oxcarbazepine	55
+oxcarbazepine	938
+oxcarbazepine	1092
+oxcarbazepine	641
+oxcarbazepine	708
+oxcarbazepine	417
+oxcarbazepine	79
+oxcarbazepine	1219
+oxcarbazepine	858
+oxcarbazepine	236
+oxcarbazepine	109
+oxcarbazepine	162
+oxcarbazepine	730
+oxcarbazepine	728
+oxcarbazepine	503
+oxcarbazepine	593
+oxcarbazepine	778
+oxcarbazepine	206
+oxcarbazepine	383
+oxcarbazepine	1193
+oxcarbazepine	1085
+oxcarbazepine	357
+oxcarbazepine	329
+oxcarbazepine	303
+oxcarbazepine	577
+oxcarbazepine	1167
+oxcarbazepine	238
+oxcarbazepine	592
+oxcarbazepine	315
+oxcarbazepine	1045
+oxcarbazepine	126
+oxcarbazepine	91
+oxcarbazepine	869
+oxcarbazepine	763
+oxcarbazepine	394
+oxcarbazepine	1087
+oxcarbazepine	278
+oxcarbazepine	914
+oxcarbazepine	141
+oxcarbazepine	913
+oxcarbazepine	698
+oxcarbazepine	716
+oxcarbazepine	280
+oxcarbazepine	411
+tacrolimus	191
+tacrolimus	361
+tacrolimus	1165
+tacrolimus	1100
+tacrolimus	1069
+tacrolimus	1206
+tacrolimus	244
+tacrolimus	1078
+tacrolimus	204
+tacrolimus	157
+tacrolimus	1149
+tacrolimus	604
+tacrolimus	541
+tacrolimus	245
+tacrolimus	1110
+tacrolimus	1053
+tacrolimus	182
+tacrolimus	597
+tacrolimus	580
+tacrolimus	715
+tacrolimus	615
+tacrolimus	952
+tacrolimus	1139
+tacrolimus	385
+tacrolimus	381
+tacrolimus	127
+tacrolimus	1178
+tacrolimus	595
+tacrolimus	396
+tacrolimus	1141
+tacrolimus	465
+tacrolimus	978
+tacrolimus	475
+tacrolimus	945
+tacrolimus	770
+tacrolimus	564
+tacrolimus	1157
+tacrolimus	725
+tacrolimus	1148
+tacrolimus	70
+tacrolimus	1104
+tacrolimus	562
+tacrolimus	54
+tacrolimus	663
+tacrolimus	669
+tacrolimus	982
+tacrolimus	267
+tacrolimus	905
+tacrolimus	799
+tacrolimus	1161
+tacrolimus	459
+tacrolimus	339
+tacrolimus	336
+tacrolimus	798
+tacrolimus	1060
+tacrolimus	871
+tacrolimus	545
+tacrolimus	25
+tacrolimus	29
+tacrolimus	557
+tacrolimus	793
+tacrolimus	198
+tacrolimus	872
+tacrolimus	92
+tacrolimus	582
+tacrolimus	51
+tacrolimus	1198
+tacrolimus	156
+tacrolimus	980
+tacrolimus	814
+tacrolimus	925
+tacrolimus	224
+tacrolimus	69
+tacrolimus	287
+tacrolimus	1195
+tacrolimus	1051
+tacrolimus	405
+tacrolimus	556
+tacrolimus	30
+tacrolimus	855
+tacrolimus	1008
+tacrolimus	602
+tacrolimus	996
+tacrolimus	1057
+tacrolimus	1135
+tacrolimus	694
+tacrolimus	450
+tacrolimus	859
+tacrolimus	804
+tacrolimus	919
+tacrolimus	116
+tacrolimus	621
+tacrolimus	348
+tacrolimus	800
+tacrolimus	314
+tacrolimus	677
+tacrolimus	326
+tacrolimus	424
+tacrolimus	717
+tacrolimus	337
+tacrolimus	675
+tacrolimus	1073
+tacrolimus	540
+tacrolimus	857
+tacrolimus	328
+tacrolimus	909
+tacrolimus	433
+tacrolimus	1117
+tacrolimus	1168
+tacrolimus	897
+tacrolimus	1047
+tacrolimus	446
+tacrolimus	453
+tacrolimus	324
+tacrolimus	918
+tacrolimus	1163
+tacrolimus	250
+tacrolimus	65
+tacrolimus	1194
+tacrolimus	1196
+tacrolimus	1056
+tacrolimus	1124
+tacrolimus	789
+tacrolimus	915
+tacrolimus	838
+tacrolimus	345
+tacrolimus	333
+tacrolimus	823
+tacrolimus	62
+tacrolimus	1131
+tacrolimus	1209
+tacrolimus	86
+tacrolimus	649
+tacrolimus	534
+tacrolimus	1179
+tacrolimus	554
+tacrolimus	848
+tacrolimus	1130
+tacrolimus	1225
+tacrolimus	612
+tacrolimus	1140
+tacrolimus	882
+tacrolimus	529
+tacrolimus	668
+tacrolimus	1160
+tacrolimus	733
+tacrolimus	1184
+tacrolimus	589
+tacrolimus	695
+tacrolimus	899
+tacrolimus	1
+tacrolimus	344
+tacrolimus	701
+tacrolimus	46
+tacrolimus	247
+tacrolimus	910
+tacrolimus	132
+tacrolimus	277
+tacrolimus	1181
+tacrolimus	499
+tacrolimus	283
+tacrolimus	617
+tacrolimus	234
+tacrolimus	560
+tacrolimus	316
+tacrolimus	98
+tacrolimus	963
+tacrolimus	219
+tacrolimus	438
+tacrolimus	1218
+tacrolimus	49
+tacrolimus	567
+tacrolimus	175
+tacrolimus	926
+tacrolimus	1152
+tacrolimus	276
+tacrolimus	99
+tacrolimus	220
+tacrolimus	599
+tacrolimus	6
+tacrolimus	63
+tacrolimus	1033
+tacrolimus	1030
+tacrolimus	968
+tacrolimus	995
+tacrolimus	58
+tacrolimus	620
+tacrolimus	1190
+tacrolimus	1023
+tacrolimus	795
+tacrolimus	696
+tacrolimus	539
+tacrolimus	636
+tacrolimus	343
+tacrolimus	407
+tacrolimus	608
+tacrolimus	585
+tacrolimus	860
+tacrolimus	72
+tacrolimus	257
+tacrolimus	809
+tacrolimus	1054
+tacrolimus	35
+tacrolimus	974
+tacrolimus	445
+tacrolimus	229
+tacrolimus	594
+tacrolimus	509
+tacrolimus	50
+tacrolimus	623
+tacrolimus	67
+tacrolimus	170
+tacrolimus	496
+tacrolimus	289
+tacrolimus	432
+tacrolimus	864
+tacrolimus	237
+tacrolimus	462
+tacrolimus	596
+tacrolimus	928
+tacrolimus	255
+tacrolimus	559
+tacrolimus	739
+tacrolimus	1084
+tacrolimus	145
+tacrolimus	622
+tacrolimus	275
+tacrolimus	340
+tacrolimus	1020
+tacrolimus	687
+tacrolimus	811
+tacrolimus	66
+tacrolimus	183
+tacrolimus	22
+tacrolimus	783
+tacrolimus	904
+tacrolimus	55
+tacrolimus	938
+tacrolimus	102
+tacrolimus	11
+tacrolimus	641
+tacrolimus	708
+tacrolimus	366
+tacrolimus	1134
+tacrolimus	79
+tacrolimus	1219
+tacrolimus	858
+tacrolimus	236
+tacrolimus	802
+tacrolimus	162
+tacrolimus	202
+tacrolimus	166
+tacrolimus	341
+tacrolimus	730
+tacrolimus	728
+tacrolimus	402
+tacrolimus	1038
+tacrolimus	94
+tacrolimus	279
+tacrolimus	1200
+tacrolimus	454
+tacrolimus	627
+tacrolimus	273
+tacrolimus	497
+tacrolimus	542
+tacrolimus	1210
+tacrolimus	624
+tacrolimus	684
+tacrolimus	1193
+tacrolimus	1085
+tacrolimus	782
+tacrolimus	196
+tacrolimus	357
+tacrolimus	329
+tacrolimus	303
+tacrolimus	577
+tacrolimus	93
+tacrolimus	1176
+tacrolimus	976
+tacrolimus	238
+tacrolimus	592
+tacrolimus	315
+tacrolimus	493
+tacrolimus	1063
+tacrolimus	208
+tacrolimus	10
+tacrolimus	91
+tacrolimus	767
+tacrolimus	763
+tacrolimus	394
+tacrolimus	434
+tacrolimus	1032
+tacrolimus	227
+tacrolimus	1034
+tacrolimus	914
+tacrolimus	724
+tacrolimus	587
+tacrolimus	913
+tacrolimus	1035
+tacrolimus	259
+tacrolimus	120
+tacrolimus	456
+tacrolimus	457
+orlistat	872
+orlistat	92
+orlistat	645
+orlistat	980
+orlistat	628
+orlistat	294
+orlistat	418
+orlistat	1181
+orlistat	759
+orlistat	163
+orlistat	4
+orlistat	116
+orlistat	316
+orlistat	641
+orlistat	417
+orlistat	1007
+orlistat	76
+orlistat	384
+orlistat	322
+orlistat	79
+orlistat	1219
+orlistat	831
+orlistat	858
+orlistat	6
+orlistat	433
+orlistat	180
+orlistat	620
+orlistat	1172
+orlistat	65
+orlistat	1193
+orlistat	782
+orlistat	1116
+orlistat	984
+orlistat	486
+orlistat	345
+orlistat	961
+orlistat	70
+orlistat	1148
+orlistat	303
+orlistat	93
+orlistat	750
+orlistat	54
+orlistat	1064
+orlistat	714
+orlistat	496
+orlistat	289
+orlistat	836
+orlistat	529
+orlistat	668
+orlistat	309
+orlistat	798
+orlistat	432
+orlistat	864
+orlistat	1184
+orlistat	886
+orlistat	589
+orlistat	165
+naproxen	191
+naproxen	1165
+naproxen	505
+naproxen	958
+naproxen	1100
+naproxen	1069
+naproxen	244
+naproxen	157
+naproxen	473
+naproxen	604
+naproxen	231
+naproxen	883
+naproxen	1110
+naproxen	500
+naproxen	245
+naproxen	1107
+naproxen	260
+naproxen	998
+naproxen	1055
+naproxen	580
+naproxen	1011
+naproxen	392
+naproxen	1215
+naproxen	158
+naproxen	476
+naproxen	385
+naproxen	381
+naproxen	1178
+naproxen	127
+naproxen	264
+naproxen	1086
+naproxen	1141
+naproxen	396
+naproxen	153
+naproxen	584
+naproxen	1222
+naproxen	475
+naproxen	790
+naproxen	770
+naproxen	386
+naproxen	460
+naproxen	705
+naproxen	749
+naproxen	564
+naproxen	1157
+naproxen	700
+naproxen	892
+naproxen	70
+naproxen	1104
+naproxen	19
+naproxen	562
+naproxen	54
+naproxen	1113
+naproxen	669
+naproxen	982
+naproxen	799
+naproxen	983
+naproxen	512
+naproxen	336
+naproxen	798
+naproxen	1126
+naproxen	871
+naproxen	806
+naproxen	674
+naproxen	872
+naproxen	198
+naproxen	92
+naproxen	980
+naproxen	925
+naproxen	224
+naproxen	69
+naproxen	287
+naproxen	487
+naproxen	932
+naproxen	1051
+naproxen	405
+naproxen	30
+naproxen	1008
+naproxen	602
+naproxen	375
+naproxen	804
+naproxen	116
+naproxen	1214
+naproxen	934
+naproxen	800
+naproxen	314
+naproxen	514
+naproxen	326
+naproxen	629
+naproxen	873
+naproxen	424
+naproxen	717
+naproxen	337
+naproxen	675
+naproxen	868
+naproxen	652
+naproxen	328
+naproxen	909
+naproxen	148
+naproxen	697
+naproxen	124
+naproxen	433
+naproxen	1047
+naproxen	453
+naproxen	324
+naproxen	630
+naproxen	918
+naproxen	1163
+naproxen	65
+naproxen	933
+naproxen	250
+naproxen	203
+naproxen	815
+naproxen	889
+naproxen	452
+naproxen	367
+naproxen	838
+naproxen	345
+naproxen	501
+naproxen	333
+naproxen	780
+naproxen	62
+naproxen	1131
+naproxen	1209
+naproxen	133
+naproxen	86
+naproxen	1151
+naproxen	794
+naproxen	649
+naproxen	893
+naproxen	1043
+naproxen	633
+naproxen	1130
+naproxen	848
+naproxen	1225
+naproxen	389
+naproxen	931
+naproxen	882
+naproxen	1021
+naproxen	529
+naproxen	668
+naproxen	492
+naproxen	144
+naproxen	1184
+naproxen	589
+naproxen	899
+naproxen	1
+naproxen	816
+naproxen	46
+naproxen	247
+naproxen	132
+naproxen	95
+naproxen	1181
+naproxen	637
+naproxen	912
+naproxen	283
+naproxen	136
+naproxen	373
+naproxen	234
+naproxen	560
+naproxen	376
+naproxen	626
+naproxen	316
+naproxen	98
+naproxen	18
+naproxen	49
+naproxen	175
+naproxen	683
+naproxen	1223
+naproxen	290
+naproxen	304
+naproxen	1025
+naproxen	648
+naproxen	99
+naproxen	616
+naproxen	544
+naproxen	6
+naproxen	748
+naproxen	995
+naproxen	80
+naproxen	795
+naproxen	696
+naproxen	179
+naproxen	636
+naproxen	670
+naproxen	860
+naproxen	257
+naproxen	72
+naproxen	809
+naproxen	1054
+naproxen	853
+naproxen	974
+naproxen	1019
+naproxen	525
+naproxen	229
+naproxen	1144
+naproxen	509
+naproxen	623
+naproxen	67
+naproxen	496
+naproxen	289
+naproxen	444
+naproxen	281
+naproxen	640
+naproxen	518
+naproxen	432
+naproxen	1074
+naproxen	864
+naproxen	237
+naproxen	21
+naproxen	563
+naproxen	1084
+naproxen	479
+naproxen	145
+naproxen	622
+naproxen	430
+naproxen	275
+naproxen	1020
+naproxen	687
+naproxen	221
+naproxen	1118
+naproxen	1003
+naproxen	551
+naproxen	490
+naproxen	66
+naproxen	83
+naproxen	22
+naproxen	746
+naproxen	783
+naproxen	1166
+naproxen	55
+naproxen	1183
+naproxen	393
+naproxen	641
+naproxen	708
+naproxen	366
+naproxen	384
+naproxen	79
+naproxen	1219
+naproxen	858
+naproxen	236
+naproxen	802
+naproxen	491
+naproxen	1120
+naproxen	202
+naproxen	162
+naproxen	341
+naproxen	730
+naproxen	728
+naproxen	372
+naproxen	951
+naproxen	1200
+naproxen	1182
+naproxen	454
+naproxen	187
+naproxen	778
+naproxen	497
+naproxen	206
+naproxen	383
+naproxen	803
+naproxen	1193
+naproxen	1085
+naproxen	782
+naproxen	357
+naproxen	455
+naproxen	1199
+naproxen	742
+naproxen	20
+naproxen	329
+naproxen	303
+naproxen	577
+naproxen	1167
+naproxen	93
+naproxen	238
+naproxen	1115
+naproxen	1064
+naproxen	493
+naproxen	315
+naproxen	515
+naproxen	826
+naproxen	10
+naproxen	47
+naproxen	91
+naproxen	619
+naproxen	767
+naproxen	763
+naproxen	394
+naproxen	227
+naproxen	999
+naproxen	1034
+naproxen	801
+naproxen	914
+naproxen	1136
+naproxen	913
+naproxen	292
+naproxen	1180
+naproxen	259
+naproxen	698
+naproxen	456
+naproxen	457
+aspirin	1165
+aspirin	505
+aspirin	1100
+aspirin	1069
+aspirin	26
+aspirin	244
+aspirin	284
+aspirin	473
+aspirin	807
+aspirin	163
+aspirin	1082
+aspirin	1080
+aspirin	231
+aspirin	1110
+aspirin	500
+aspirin	260
+aspirin	570
+aspirin	385
+aspirin	764
+aspirin	777
+aspirin	1141
+aspirin	396
+aspirin	1001
+aspirin	790
+aspirin	386
+aspirin	705
+aspirin	305
+aspirin	700
+aspirin	1157
+aspirin	70
+aspirin	1104
+aspirin	562
+aspirin	832
+aspirin	54
+aspirin	669
+aspirin	878
+aspirin	983
+aspirin	682
+aspirin	336
+aspirin	798
+aspirin	1126
+aspirin	298
+aspirin	871
+aspirin	97
+aspirin	29
+aspirin	185
+aspirin	929
+aspirin	872
+aspirin	198
+aspirin	51
+aspirin	92
+aspirin	980
+aspirin	937
+aspirin	925
+aspirin	932
+aspirin	176
+aspirin	602
+aspirin	1214
+aspirin	306
+aspirin	873
+aspirin	997
+aspirin	424
+aspirin	717
+aspirin	675
+aspirin	986
+aspirin	652
+aspirin	328
+aspirin	148
+aspirin	885
+aspirin	433
+aspirin	527
+aspirin	453
+aspirin	324
+aspirin	436
+aspirin	65
+aspirin	838
+aspirin	345
+aspirin	501
+aspirin	333
+aspirin	395
+aspirin	1209
+aspirin	133
+aspirin	215
+aspirin	86
+aspirin	1151
+aspirin	649
+aspirin	374
+aspirin	1043
+aspirin	893
+aspirin	1130
+aspirin	1031
+aspirin	612
+aspirin	882
+aspirin	529
+aspirin	668
+aspirin	309
+aspirin	144
+aspirin	606
+aspirin	1184
+aspirin	589
+aspirin	1052
+aspirin	901
+aspirin	46
+aspirin	1010
+aspirin	132
+aspirin	654
+aspirin	283
+aspirin	657
+aspirin	373
+aspirin	560
+aspirin	234
+aspirin	626
+aspirin	98
+aspirin	219
+aspirin	410
+aspirin	1111
+aspirin	290
+aspirin	304
+aspirin	32
+aspirin	99
+aspirin	6
+aspirin	968
+aspirin	995
+aspirin	317
+aspirin	696
+aspirin	638
+aspirin	930
+aspirin	72
+aspirin	257
+aspirin	809
+aspirin	35
+aspirin	84
+aspirin	974
+aspirin	1017
+aspirin	229
+aspirin	948
+aspirin	509
+aspirin	67
+aspirin	496
+aspirin	289
+aspirin	640
+aspirin	432
+aspirin	864
+aspirin	622
+aspirin	275
+aspirin	1003
+aspirin	752
+aspirin	490
+aspirin	66
+aspirin	83
+aspirin	22
+aspirin	746
+aspirin	211
+aspirin	331
+aspirin	55
+aspirin	938
+aspirin	1018
+aspirin	641
+aspirin	417
+aspirin	706
+aspirin	79
+aspirin	1219
+aspirin	236
+aspirin	802
+aspirin	202
+aspirin	341
+aspirin	730
+aspirin	951
+aspirin	755
+aspirin	935
+aspirin	497
+aspirin	383
+aspirin	603
+aspirin	1002
+aspirin	803
+aspirin	1085
+aspirin	782
+aspirin	881
+aspirin	214
+aspirin	1199
+aspirin	742
+aspirin	535
+aspirin	303
+aspirin	269
+aspirin	577
+aspirin	216
+aspirin	655
+aspirin	238
+aspirin	493
+aspirin	315
+aspirin	515
+aspirin	826
+aspirin	208
+aspirin	47
+aspirin	91
+aspirin	394
+aspirin	1032
+aspirin	227
+aspirin	999
+aspirin	1087
+aspirin	1034
+aspirin	913
+aspirin	1180
+aspirin	716
+aspirin	456
+aspirin	692
+rifampin	449
+rifampin	980
+rifampin	247
+rifampin	224
+rifampin	132
+rifampin	373
+rifampin	234
+rifampin	626
+rifampin	1214
+rifampin	101
+rifampin	963
+rifampin	41
+rifampin	219
+rifampin	1070
+rifampin	1072
+rifampin	514
+rifampin	1226
+rifampin	708
+rifampin	997
+rifampin	424
+rifampin	417
+rifampin	615
+rifampin	1223
+rifampin	1219
+rifampin	304
+rifampin	652
+rifampin	802
+rifampin	202
+rifampin	616
+rifampin	385
+rifampin	186
+rifampin	777
+rifampin	433
+rifampin	995
+rifampin	957
+rifampin	266
+rifampin	829
+rifampin	463
+rifampin	890
+rifampin	37
+rifampin	778
+rifampin	436
+rifampin	696
+rifampin	300
+rifampin	65
+rifampin	803
+rifampin	386
+rifampin	407
+rifampin	513
+rifampin	1199
+rifampin	501
+rifampin	345
+rifampin	333
+rifampin	72
+rifampin	303
+rifampin	368
+rifampin	1151
+rifampin	35
+rifampin	1043
+rifampin	54
+rifampin	1115
+rifampin	974
+rifampin	147
+rifampin	669
+rifampin	515
+rifampin	525
+rifampin	229
+rifampin	1130
+rifampin	47
+rifampin	509
+rifampin	378
+rifampin	67
+rifampin	1161
+rifampin	496
+rifampin	289
+rifampin	529
+rifampin	668
+rifampin	1160
+rifampin	1153
+rifampin	798
+rifampin	298
+rifampin	891
+rifampin	956
+rifampin	432
+rifampin	864
+rifampin	1184
+rifampin	650
+lovastatin	198
+lovastatin	872
+lovastatin	92
+lovastatin	901
+lovastatin	745
+lovastatin	247
+lovastatin	814
+lovastatin	980
+lovastatin	902
+lovastatin	490
+lovastatin	284
+lovastatin	689
+lovastatin	373
+lovastatin	807
+lovastatin	626
+lovastatin	98
+lovastatin	352
+lovastatin	211
+lovastatin	55
+lovastatin	182
+lovastatin	1018
+lovastatin	690
+lovastatin	410
+lovastatin	424
+lovastatin	706
+lovastatin	79
+lovastatin	1219
+lovastatin	744
+lovastatin	236
+lovastatin	802
+lovastatin	990
+lovastatin	574
+lovastatin	202
+lovastatin	385
+lovastatin	328
+lovastatin	730
+lovastatin	6
+lovastatin	777
+lovastatin	1044
+lovastatin	527
+lovastatin	935
+lovastatin	324
+lovastatin	436
+lovastatin	696
+lovastatin	65
+lovastatin	782
+lovastatin	386
+lovastatin	930
+lovastatin	103
+lovastatin	881
+lovastatin	1157
+lovastatin	1199
+lovastatin	333
+lovastatin	72
+lovastatin	70
+lovastatin	1209
+lovastatin	834
+lovastatin	535
+lovastatin	303
+lovastatin	1151
+lovastatin	216
+lovastatin	649
+lovastatin	54
+lovastatin	974
+lovastatin	691
+lovastatin	89
+lovastatin	315
+lovastatin	669
+lovastatin	515
+lovastatin	525
+lovastatin	1130
+lovastatin	826
+lovastatin	208
+lovastatin	713
+lovastatin	91
+lovastatin	619
+lovastatin	67
+lovastatin	878
+lovastatin	882
+lovastatin	496
+lovastatin	289
+lovastatin	529
+lovastatin	668
+lovastatin	798
+lovastatin	295
+lovastatin	144
+lovastatin	432
+lovastatin	864
+lovastatin	1184
+lovastatin	913
+lovastatin	842
+lovastatin	716
+lovastatin	1052
+lovastatin	557
+lovastatin	929
+etodolac	191
+etodolac	816
+etodolac	1165
+etodolac	973
+etodolac	505
+etodolac	1100
+etodolac	1069
+etodolac	132
+etodolac	912
+etodolac	473
+etodolac	283
+etodolac	887
+etodolac	373
+etodolac	234
+etodolac	560
+etodolac	626
+etodolac	253
+etodolac	98
+etodolac	231
+etodolac	207
+etodolac	1110
+etodolac	500
+etodolac	260
+etodolac	385
+etodolac	99
+etodolac	6
+etodolac	1178
+etodolac	1141
+etodolac	396
+etodolac	995
+etodolac	790
+etodolac	696
+etodolac	179
+etodolac	386
+etodolac	705
+etodolac	1157
+etodolac	72
+etodolac	257
+etodolac	70
+etodolac	809
+etodolac	1104
+etodolac	656
+etodolac	54
+etodolac	974
+etodolac	853
+etodolac	669
+etodolac	229
+etodolac	509
+etodolac	67
+etodolac	983
+etodolac	496
+etodolac	289
+etodolac	1026
+etodolac	640
+etodolac	336
+etodolac	798
+etodolac	1126
+etodolac	871
+etodolac	319
+etodolac	432
+etodolac	864
+etodolac	674
+etodolac	1187
+etodolac	872
+etodolac	980
+etodolac	1020
+etodolac	925
+etodolac	224
+etodolac	932
+etodolac	1003
+etodolac	66
+etodolac	83
+etodolac	602
+etodolac	568
+etodolac	1214
+etodolac	746
+etodolac	55
+etodolac	873
+etodolac	641
+etodolac	997
+etodolac	424
+etodolac	717
+etodolac	675
+etodolac	79
+etodolac	1219
+etodolac	236
+etodolac	652
+etodolac	802
+etodolac	162
+etodolac	202
+etodolac	328
+etodolac	341
+etodolac	728
+etodolac	730
+etodolac	909
+etodolac	697
+etodolac	1047
+etodolac	951
+etodolac	527
+etodolac	453
+etodolac	324
+etodolac	630
+etodolac	497
+etodolac	436
+etodolac	1210
+etodolac	624
+etodolac	383
+etodolac	65
+etodolac	803
+etodolac	203
+etodolac	1085
+etodolac	838
+etodolac	1199
+etodolac	345
+etodolac	501
+etodolac	333
+etodolac	742
+etodolac	1209
+etodolac	133
+etodolac	86
+etodolac	303
+etodolac	577
+etodolac	1167
+etodolac	1151
+etodolac	649
+etodolac	374
+etodolac	1043
+etodolac	893
+etodolac	238
+etodolac	493
+etodolac	315
+etodolac	515
+etodolac	1130
+etodolac	208
+etodolac	47
+etodolac	882
+etodolac	394
+etodolac	227
+etodolac	529
+etodolac	999
+etodolac	668
+etodolac	1034
+etodolac	144
+etodolac	1184
+etodolac	913
+etodolac	259
+bosentan	500
+bosentan	525
+bosentan	1130
+bosentan	980
+bosentan	966
+bosentan	436
+bosentan	417
+bosentan	213
+bosentan	797
+bosentan	496
+bosentan	972
+bosentan	668
+bosentan	56
+bosentan	602
+bosentan	345
+bosentan	871
+bosentan	328
+bosentan	70
+bosentan	577
+bosentan	216
+bosentan	54
+bosentan	266
+ketoprofen	1165
+ketoprofen	505
+ketoprofen	1100
+ketoprofen	1069
+ketoprofen	132
+ketoprofen	95
+ketoprofen	283
+ketoprofen	821
+ketoprofen	373
+ketoprofen	163
+ketoprofen	234
+ketoprofen	231
+ketoprofen	207
+ketoprofen	1170
+ketoprofen	1110
+ketoprofen	500
+ketoprofen	1053
+ketoprofen	747
+ketoprofen	304
+ketoprofen	1025
+ketoprofen	385
+ketoprofen	6
+ketoprofen	381
+ketoprofen	1012
+ketoprofen	595
+ketoprofen	1141
+ketoprofen	396
+ketoprofen	995
+ketoprofen	790
+ketoprofen	386
+ketoprofen	460
+ketoprofen	906
+ketoprofen	343
+ketoprofen	407
+ketoprofen	72
+ketoprofen	809
+ketoprofen	656
+ketoprofen	840
+ketoprofen	54
+ketoprofen	853
+ketoprofen	974
+ketoprofen	1019
+ketoprofen	669
+ketoprofen	525
+ketoprofen	229
+ketoprofen	509
+ketoprofen	623
+ketoprofen	67
+ketoprofen	983
+ketoprofen	496
+ketoprofen	289
+ketoprofen	459
+ketoprofen	640
+ketoprofen	975
+ketoprofen	682
+ketoprofen	798
+ketoprofen	1126
+ketoprofen	518
+ketoprofen	871
+ketoprofen	432
+ketoprofen	864
+ketoprofen	806
+ketoprofen	872
+ketoprofen	1198
+ketoprofen	92
+ketoprofen	980
+ketoprofen	1020
+ketoprofen	224
+ketoprofen	287
+ketoprofen	405
+ketoprofen	490
+ketoprofen	996
+ketoprofen	1214
+ketoprofen	746
+ketoprofen	1166
+ketoprofen	904
+ketoprofen	55
+ketoprofen	331
+ketoprofen	514
+ketoprofen	641
+ketoprofen	1219
+ketoprofen	236
+ketoprofen	652
+ketoprofen	802
+ketoprofen	202
+ketoprofen	328
+ketoprofen	730
+ketoprofen	909
+ketoprofen	1224
+ketoprofen	1200
+ketoprofen	453
+ketoprofen	324
+ketoprofen	497
+ketoprofen	624
+ketoprofen	383
+ketoprofen	65
+ketoprofen	803
+ketoprofen	916
+ketoprofen	1085
+ketoprofen	782
+ketoprofen	345
+ketoprofen	333
+ketoprofen	62
+ketoprofen	742
+ketoprofen	1209
+ketoprofen	86
+ketoprofen	303
+ketoprofen	577
+ketoprofen	1151
+ketoprofen	649
+ketoprofen	1043
+ketoprofen	893
+ketoprofen	493
+ketoprofen	315
+ketoprofen	167
+ketoprofen	1130
+ketoprofen	1225
+ketoprofen	461
+ketoprofen	47
+ketoprofen	619
+ketoprofen	763
+ketoprofen	882
+ketoprofen	529
+ketoprofen	668
+ketoprofen	1184
+ketoprofen	913
+ketoprofen	1035
+ketoprofen	456
+ketoprofen	1046
+piroxicam	1165
+piroxicam	505
+piroxicam	1100
+piroxicam	1069
+piroxicam	132
+piroxicam	473
+piroxicam	283
+piroxicam	234
+piroxicam	560
+piroxicam	626
+piroxicam	98
+piroxicam	231
+piroxicam	48
+piroxicam	1110
+piroxicam	500
+piroxicam	260
+piroxicam	304
+piroxicam	385
+piroxicam	99
+piroxicam	6
+piroxicam	381
+piroxicam	1141
+piroxicam	396
+piroxicam	995
+piroxicam	790
+piroxicam	696
+piroxicam	386
+piroxicam	705
+piroxicam	1157
+piroxicam	72
+piroxicam	257
+piroxicam	70
+piroxicam	809
+piroxicam	1104
+piroxicam	562
+piroxicam	840
+piroxicam	54
+piroxicam	974
+piroxicam	669
+piroxicam	229
+piroxicam	509
+piroxicam	67
+piroxicam	983
+piroxicam	496
+piroxicam	289
+piroxicam	1026
+piroxicam	640
+piroxicam	336
+piroxicam	798
+piroxicam	871
+piroxicam	432
+piroxicam	864
+piroxicam	806
+piroxicam	872
+piroxicam	406
+piroxicam	980
+piroxicam	925
+piroxicam	69
+piroxicam	932
+piroxicam	1003
+piroxicam	83
+piroxicam	602
+piroxicam	746
+piroxicam	55
+piroxicam	873
+piroxicam	641
+piroxicam	424
+piroxicam	717
+piroxicam	675
+piroxicam	79
+piroxicam	1219
+piroxicam	236
+piroxicam	652
+piroxicam	802
+piroxicam	1101
+piroxicam	328
+piroxicam	341
+piroxicam	730
+piroxicam	223
+piroxicam	433
+piroxicam	951
+piroxicam	453
+piroxicam	935
+piroxicam	630
+piroxicam	497
+piroxicam	383
+piroxicam	65
+piroxicam	803
+piroxicam	1085
+piroxicam	838
+piroxicam	1199
+piroxicam	345
+piroxicam	501
+piroxicam	333
+piroxicam	742
+piroxicam	1209
+piroxicam	133
+piroxicam	613
+piroxicam	86
+piroxicam	303
+piroxicam	577
+piroxicam	649
+piroxicam	374
+piroxicam	238
+piroxicam	1039
+piroxicam	493
+piroxicam	315
+piroxicam	515
+piroxicam	1130
+piroxicam	47
+piroxicam	907
+piroxicam	882
+piroxicam	394
+piroxicam	227
+piroxicam	529
+piroxicam	668
+piroxicam	1034
+piroxicam	144
+piroxicam	1184
+piroxicam	913
+piroxicam	589
+sulfamethoxazole	872
+sulfamethoxazole	816
+sulfamethoxazole	973
+sulfamethoxazole	980
+sulfamethoxazole	53
+sulfamethoxazole	811
+sulfamethoxazole	95
+sulfamethoxazole	244
+sulfamethoxazole	252
+sulfamethoxazole	473
+sulfamethoxazole	283
+sulfamethoxazole	83
+sulfamethoxazole	373
+sulfamethoxazole	738
+sulfamethoxazole	626
+sulfamethoxazole	301
+sulfamethoxazole	101
+sulfamethoxazole	746
+sulfamethoxazole	894
+sulfamethoxazole	78
+sulfamethoxazole	308
+sulfamethoxazole	805
+sulfamethoxazole	424
+sulfamethoxazole	417
+sulfamethoxazole	1223
+sulfamethoxazole	384
+sulfamethoxazole	1219
+sulfamethoxazole	652
+sulfamethoxazole	802
+sulfamethoxazole	792
+sulfamethoxazole	202
+sulfamethoxazole	385
+sulfamethoxazole	6
+sulfamethoxazole	1027
+sulfamethoxazole	595
+sulfamethoxazole	1141
+sulfamethoxazole	396
+sulfamethoxazole	995
+sulfamethoxazole	80
+sulfamethoxazole	957
+sulfamethoxazole	527
+sulfamethoxazole	600
+sulfamethoxazole	839
+sulfamethoxazole	696
+sulfamethoxazole	65
+sulfamethoxazole	803
+sulfamethoxazole	1085
+sulfamethoxazole	782
+sulfamethoxazole	386
+sulfamethoxazole	838
+sulfamethoxazole	333
+sulfamethoxazole	72
+sulfamethoxazole	70
+sulfamethoxazole	809
+sulfamethoxazole	1209
+sulfamethoxazole	613
+sulfamethoxazole	562
+sulfamethoxazole	1151
+sulfamethoxazole	368
+sulfamethoxazole	649
+sulfamethoxazole	238
+sulfamethoxazole	54
+sulfamethoxazole	1039
+sulfamethoxazole	974
+sulfamethoxazole	506
+sulfamethoxazole	493
+sulfamethoxazole	669
+sulfamethoxazole	515
+sulfamethoxazole	1130
+sulfamethoxazole	208
+sulfamethoxazole	47
+sulfamethoxazole	91
+sulfamethoxazole	67
+sulfamethoxazole	496
+sulfamethoxazole	1109
+sulfamethoxazole	289
+sulfamethoxazole	529
+sulfamethoxazole	668
+sulfamethoxazole	798
+sulfamethoxazole	864
+sulfamethoxazole	1184
+sulfamethoxazole	913
+sulfamethoxazole	458
+sulfamethoxazole	758
+sulfamethoxazole	589
+sulfamethoxazole	716
+ethinyl estradiol	191
+ethinyl estradiol	768
+ethinyl estradiol	380
+ethinyl estradiol	247
+ethinyl estradiol	1227
+ethinyl estradiol	847
+ethinyl estradiol	516
+ethinyl estradiol	132
+ethinyl estradiol	1181
+ethinyl estradiol	244
+ethinyl estradiol	157
+ethinyl estradiol	759
+ethinyl estradiol	286
+ethinyl estradiol	137
+ethinyl estradiol	1204
+ethinyl estradiol	98
+ethinyl estradiol	245
+ethinyl estradiol	182
+ethinyl estradiol	209
+ethinyl estradiol	175
+ethinyl estradiol	825
+ethinyl estradiol	1007
+ethinyl estradiol	290
+ethinyl estradiol	59
+ethinyl estradiol	987
+ethinyl estradiol	158
+ethinyl estradiol	142
+ethinyl estradiol	437
+ethinyl estradiol	1013
+ethinyl estradiol	385
+ethinyl estradiol	99
+ethinyl estradiol	6
+ethinyl estradiol	186
+ethinyl estradiol	2
+ethinyl estradiol	1186
+ethinyl estradiol	748
+ethinyl estradiol	397
+ethinyl estradiol	1213
+ethinyl estradiol	1190
+ethinyl estradiol	155
+ethinyl estradiol	364
+ethinyl estradiol	943
+ethinyl estradiol	1172
+ethinyl estradiol	790
+ethinyl estradiol	386
+ethinyl estradiol	355
+ethinyl estradiol	749
+ethinyl estradiol	201
+ethinyl estradiol	564
+ethinyl estradiol	585
+ethinyl estradiol	521
+ethinyl estradiol	257
+ethinyl estradiol	439
+ethinyl estradiol	70
+ethinyl estradiol	1148
+ethinyl estradiol	809
+ethinyl estradiol	1133
+ethinyl estradiol	38
+ethinyl estradiol	1054
+ethinyl estradiol	54
+ethinyl estradiol	427
+ethinyl estradiol	679
+ethinyl estradiol	669
+ethinyl estradiol	100
+ethinyl estradiol	861
+ethinyl estradiol	862
+ethinyl estradiol	623
+ethinyl estradiol	496
+ethinyl estradiol	1109
+ethinyl estradiol	289
+ethinyl estradiol	1189
+ethinyl estradiol	1067
+ethinyl estradiol	640
+ethinyl estradiol	798
+ethinyl estradiol	876
+ethinyl estradiol	1212
+ethinyl estradiol	969
+ethinyl estradiol	432
+ethinyl estradiol	864
+ethinyl estradiol	545
+ethinyl estradiol	274
+ethinyl estradiol	872
+ethinyl estradiol	60
+ethinyl estradiol	1197
+ethinyl estradiol	980
+ethinyl estradiol	294
+ethinyl estradiol	1020
+ethinyl estradiol	687
+ethinyl estradiol	224
+ethinyl estradiol	811
+ethinyl estradiol	711
+ethinyl estradiol	30
+ethinyl estradiol	192
+ethinyl estradiol	66
+ethinyl estradiol	704
+ethinyl estradiol	1135
+ethinyl estradiol	996
+ethinyl estradiol	1185
+ethinyl estradiol	116
+ethinyl estradiol	342
+ethinyl estradiol	326
+ethinyl estradiol	641
+ethinyl estradiol	664
+ethinyl estradiol	504
+ethinyl estradiol	366
+ethinyl estradiol	417
+ethinyl estradiol	424
+ethinyl estradiol	384
+ethinyl estradiol	1134
+ethinyl estradiol	523
+ethinyl estradiol	1219
+ethinyl estradiol	151
+ethinyl estradiol	448
+ethinyl estradiol	162
+ethinyl estradiol	195
+ethinyl estradiol	1155
+ethinyl estradiol	23
+ethinyl estradiol	328
+ethinyl estradiol	447
+ethinyl estradiol	909
+ethinyl estradiol	697
+ethinyl estradiol	433
+ethinyl estradiol	426
+ethinyl estradiol	1047
+ethinyl estradiol	85
+ethinyl estradiol	454
+ethinyl estradiol	1097
+ethinyl estradiol	921
+ethinyl estradiol	353
+ethinyl estradiol	1163
+ethinyl estradiol	933
+ethinyl estradiol	1193
+ethinyl estradiol	782
+ethinyl estradiol	357
+ethinyl estradiol	741
+ethinyl estradiol	889
+ethinyl estradiol	435
+ethinyl estradiol	345
+ethinyl estradiol	122
+ethinyl estradiol	303
+ethinyl estradiol	577
+ethinyl estradiol	649
+ethinyl estradiol	1176
+ethinyl estradiol	9
+ethinyl estradiol	750
+ethinyl estradiol	1115
+ethinyl estradiol	208
+ethinyl estradiol	193
+ethinyl estradiol	1225
+ethinyl estradiol	461
+ethinyl estradiol	354
+ethinyl estradiol	387
+ethinyl estradiol	365
+ethinyl estradiol	91
+ethinyl estradiol	767
+ethinyl estradiol	763
+ethinyl estradiol	646
+ethinyl estradiol	668
+ethinyl estradiol	569
+ethinyl estradiol	189
+ethinyl estradiol	363
+ethinyl estradiol	754
+ethinyl estradiol	1071
+ethinyl estradiol	733
+ethinyl estradiol	867
+ethinyl estradiol	1184
+ethinyl estradiol	751
+ethinyl estradiol	716
+ethinyl estradiol	698
+ethinyl estradiol	1
+omeprazole	43
+omeprazole	645
+omeprazole	816
+omeprazole	361
+omeprazole	1006
+omeprazole	1165
+omeprazole	46
+omeprazole	247
+omeprazole	323
+omeprazole	106
+omeprazole	847
+omeprazole	1069
+omeprazole	757
+omeprazole	132
+omeprazole	244
+omeprazole	1181
+omeprazole	667
+omeprazole	44
+omeprazole	526
+omeprazole	499
+omeprazole	346
+omeprazole	283
+omeprazole	1127
+omeprazole	373
+omeprazole	107
+omeprazole	560
+omeprazole	316
+omeprazole	98
+omeprazole	1110
+omeprazole	313
+omeprazole	1223
+omeprazole	290
+omeprazole	926
+omeprazole	990
+omeprazole	648
+omeprazole	142
+omeprazole	385
+omeprazole	6
+omeprazole	381
+omeprazole	1178
+omeprazole	595
+omeprazole	1141
+omeprazole	80
+omeprazole	978
+omeprazole	475
+omeprazole	1172
+omeprazole	317
+omeprazole	272
+omeprazole	846
+omeprazole	696
+omeprazole	737
+omeprazole	300
+omeprazole	386
+omeprazole	705
+omeprazole	1157
+omeprazole	756
+omeprazole	585
+omeprazole	961
+omeprazole	72
+omeprazole	70
+omeprazole	809
+omeprazole	834
+omeprazole	138
+omeprazole	562
+omeprazole	1099
+omeprazole	54
+omeprazole	561
+omeprazole	974
+omeprazole	669
+omeprazole	229
+omeprazole	73
+omeprazole	594
+omeprazole	509
+omeprazole	67
+omeprazole	496
+omeprazole	289
+omeprazole	566
+omeprazole	444
+omeprazole	1005
+omeprazole	798
+omeprazole	871
+omeprazole	432
+omeprazole	864
+omeprazole	596
+omeprazole	198
+omeprazole	872
+omeprazole	1121
+omeprazole	1198
+omeprazole	51
+omeprazole	980
+omeprazole	814
+omeprazole	925
+omeprazole	69
+omeprazole	811
+omeprazole	490
+omeprazole	602
+omeprazole	704
+omeprazole	689
+omeprazole	694
+omeprazole	634
+omeprazole	116
+omeprazole	451
+omeprazole	314
+omeprazole	55
+omeprazole	64
+omeprazole	873
+omeprazole	641
+omeprazole	708
+omeprazole	664
+omeprazole	1004
+omeprazole	845
+omeprazole	424
+omeprazole	417
+omeprazole	771
+omeprazole	79
+omeprazole	1219
+omeprazole	647
+omeprazole	236
+omeprazole	652
+omeprazole	802
+omeprazole	1101
+omeprazole	730
+omeprazole	148
+omeprazole	951
+omeprazole	527
+omeprazole	324
+omeprazole	778
+omeprazole	8
+omeprazole	827
+omeprazole	1163
+omeprazole	65
+omeprazole	803
+omeprazole	665
+omeprazole	1085
+omeprazole	782
+omeprazole	1208
+omeprazole	1232
+omeprazole	1049
+omeprazole	1123
+omeprazole	345
+omeprazole	572
+omeprazole	1209
+omeprazole	174
+omeprazole	303
+omeprazole	577
+omeprazole	1151
+omeprazole	649
+omeprazole	592
+omeprazole	493
+omeprazole	315
+omeprazole	515
+omeprazole	1130
+omeprazole	848
+omeprazole	1225
+omeprazole	390
+omeprazole	47
+omeprazole	907
+omeprazole	91
+omeprazole	389
+omeprazole	767
+omeprazole	931
+omeprazole	882
+omeprazole	434
+omeprazole	1032
+omeprazole	529
+omeprazole	668
+omeprazole	1034
+omeprazole	425
+omeprazole	144
+omeprazole	1184
+omeprazole	913
+omeprazole	292
+omeprazole	589
+omeprazole	105
+omeprazole	899
+omeprazole	457
+ezetimibe	901
+ezetimibe	745
+ezetimibe	247
+ezetimibe	757
+ezetimibe	244
+ezetimibe	284
+ezetimibe	779
+ezetimibe	373
+ezetimibe	807
+ezetimibe	626
+ezetimibe	98
+ezetimibe	352
+ezetimibe	182
+ezetimibe	690
+ezetimibe	410
+ezetimibe	1007
+ezetimibe	1048
+ezetimibe	574
+ezetimibe	385
+ezetimibe	6
+ezetimibe	777
+ezetimibe	248
+ezetimibe	1172
+ezetimibe	696
+ezetimibe	1000
+ezetimibe	386
+ezetimibe	930
+ezetimibe	705
+ezetimibe	343
+ezetimibe	1157
+ezetimibe	961
+ezetimibe	72
+ezetimibe	70
+ezetimibe	54
+ezetimibe	974
+ezetimibe	691
+ezetimibe	669
+ezetimibe	67
+ezetimibe	878
+ezetimibe	781
+ezetimibe	496
+ezetimibe	289
+ezetimibe	798
+ezetimibe	295
+ezetimibe	1212
+ezetimibe	205
+ezetimibe	432
+ezetimibe	864
+ezetimibe	842
+ezetimibe	929
+ezetimibe	198
+ezetimibe	872
+ezetimibe	92
+ezetimibe	980
+ezetimibe	814
+ezetimibe	902
+ezetimibe	490
+ezetimibe	1008
+ezetimibe	116
+ezetimibe	211
+ezetimibe	55
+ezetimibe	1018
+ezetimibe	641
+ezetimibe	417
+ezetimibe	424
+ezetimibe	706
+ezetimibe	79
+ezetimibe	1219
+ezetimibe	647
+ezetimibe	744
+ezetimibe	236
+ezetimibe	802
+ezetimibe	448
+ezetimibe	202
+ezetimibe	328
+ezetimibe	402
+ezetimibe	730
+ezetimibe	909
+ezetimibe	235
+ezetimibe	433
+ezetimibe	1047
+ezetimibe	152
+ezetimibe	527
+ezetimibe	935
+ezetimibe	324
+ezetimibe	436
+ezetimibe	206
+ezetimibe	65
+ezetimibe	782
+ezetimibe	881
+ezetimibe	1049
+ezetimibe	1199
+ezetimibe	333
+ezetimibe	1209
+ezetimibe	535
+ezetimibe	303
+ezetimibe	1151
+ezetimibe	216
+ezetimibe	649
+ezetimibe	515
+ezetimibe	1130
+ezetimibe	826
+ezetimibe	208
+ezetimibe	713
+ezetimibe	91
+ezetimibe	619
+ezetimibe	808
+ezetimibe	882
+ezetimibe	533
+ezetimibe	529
+ezetimibe	668
+ezetimibe	309
+ezetimibe	867
+ezetimibe	1184
+ezetimibe	913
+ezetimibe	716
+ezetimibe	1052
+telithromycin	872
+telithromycin	980
+telithromycin	247
+telithromycin	1100
+telithromycin	1129
+telithromycin	1069
+telithromycin	473
+telithromycin	602
+telithromycin	470
+telithromycin	4
+telithromycin	207
+telithromycin	783
+telithromycin	352
+telithromycin	104
+telithromycin	708
+telithromycin	1173
+telithromycin	417
+telithromycin	7
+telithromycin	79
+telithromycin	290
+telithromycin	1219
+telithromycin	236
+telithromycin	802
+telithromycin	385
+telithromycin	328
+telithromycin	6
+telithromycin	148
+telithromycin	527
+telithromycin	454
+telithromycin	443
+telithromycin	453
+telithromycin	1190
+telithromycin	324
+telithromycin	630
+telithromycin	436
+telithromycin	638
+telithromycin	65
+telithromycin	1193
+telithromycin	1085
+telithromycin	386
+telithromycin	705
+telithromycin	343
+telithromycin	407
+telithromycin	345
+telithromycin	72
+telithromycin	70
+telithromycin	1209
+telithromycin	86
+telithromycin	303
+telithromycin	649
+telithromycin	54
+telithromycin	315
+telithromycin	669
+telithromycin	525
+telithromycin	848
+telithromycin	767
+telithromycin	882
+telithromycin	496
+telithromycin	289
+telithromycin	529
+telithromycin	668
+telithromycin	625
+telithromycin	798
+telithromycin	144
+telithromycin	784
+telithromycin	871
+telithromycin	432
+telithromycin	864
+telithromycin	1184
+quinupristin	191
+quinupristin	361
+quinupristin	1165
+quinupristin	247
+quinupristin	910
+quinupristin	1100
+quinupristin	896
+quinupristin	132
+quinupristin	321
+quinupristin	219
+quinupristin	1110
+quinupristin	580
+quinupristin	753
+quinupristin	648
+quinupristin	220
+quinupristin	6
+quinupristin	186
+quinupristin	595
+quinupristin	483
+quinupristin	607
+quinupristin	300
+quinupristin	895
+quinupristin	1157
+quinupristin	608
+quinupristin	139
+quinupristin	70
+quinupristin	1104
+quinupristin	1099
+quinupristin	54
+quinupristin	84
+quinupristin	669
+quinupristin	880
+quinupristin	229
+quinupristin	509
+quinupristin	67
+quinupristin	496
+quinupristin	289
+quinupristin	1005
+quinupristin	798
+quinupristin	871
+quinupristin	864
+quinupristin	87
+quinupristin	29
+quinupristin	479
+quinupristin	198
+quinupristin	872
+quinupristin	980
+quinupristin	814
+quinupristin	687
+quinupristin	66
+quinupristin	981
+quinupristin	176
+quinupristin	602
+quinupristin	919
+quinupristin	348
+quinupristin	783
+quinupristin	514
+quinupristin	873
+quinupristin	641
+quinupristin	1004
+quinupristin	424
+quinupristin	1134
+quinupristin	79
+quinupristin	1219
+quinupristin	236
+quinupristin	328
+quinupristin	728
+quinupristin	957
+quinupristin	1200
+quinupristin	918
+quinupristin	65
+quinupristin	1193
+quinupristin	1085
+quinupristin	782
+quinupristin	345
+quinupristin	333
+quinupristin	613
+quinupristin	86
+quinupristin	303
+quinupristin	368
+quinupristin	649
+quinupristin	1043
+quinupristin	238
+quinupristin	147
+quinupristin	942
+quinupristin	515
+quinupristin	1063
+quinupristin	848
+quinupristin	91
+quinupristin	767
+quinupristin	882
+quinupristin	1021
+quinupristin	529
+quinupristin	668
+quinupristin	598
+quinupristin	1207
+quinupristin	801
+quinupristin	401
+quinupristin	425
+quinupristin	606
+quinupristin	1184
+quinupristin	589
+quinupristin	899
+quinupristin	456
+erythromycin	872
+erythromycin	497
+erythromycin	224
+erythromycin	65
+erythromycin	386
+erythromycin	1208
+erythromycin	1149
+erythromycin	373
+erythromycin	72
+erythromycin	86
+erythromycin	1151
+erythromycin	54
+erythromycin	238
+erythromycin	1110
+erythromycin	525
+erythromycin	708
+erythromycin	997
+erythromycin	384
+erythromycin	289
+erythromycin	1219
+erythromycin	529
+erythromycin	979
+erythromycin	798
+erythromycin	385
+erythromycin	956
+erythromycin	864
+erythromycin	1184
+erythromycin	6
+erythromycin	1103
+glipizide	980
+glipizide	247
+glipizide	1020
+glipizide	687
+glipizide	1100
+glipizide	1069
+glipizide	932
+glipizide	132
+glipizide	470
+glipizide	14
+glipizide	234
+glipizide	98
+glipizide	1041
+glipizide	641
+glipizide	580
+glipizide	1007
+glipizide	1219
+glipizide	79
+glipizide	236
+glipizide	1105
+glipizide	202
+glipizide	328
+glipizide	6
+glipizide	909
+glipizide	553
+glipizide	1012
+glipizide	595
+glipizide	584
+glipizide	528
+glipizide	1172
+glipizide	436
+glipizide	933
+glipizide	782
+glipizide	460
+glipizide	1157
+glipizide	345
+glipizide	780
+glipizide	333
+glipizide	72
+glipizide	809
+glipizide	1209
+glipizide	1104
+glipizide	86
+glipizide	303
+glipizide	577
+glipizide	649
+glipizide	669
+glipizide	229
+glipizide	461
+glipizide	91
+glipizide	763
+glipizide	882
+glipizide	496
+glipizide	289
+glipizide	668
+glipizide	336
+glipizide	798
+glipizide	1126
+glipizide	141
+glipizide	144
+glipizide	432
+glipizide	864
+glipizide	1184
+glipizide	589
+glipizide	698
+glipizide	456
+indomethacin	92
+indomethacin	1165
+indomethacin	302
+indomethacin	224
+indomethacin	611
+indomethacin	1118
+indomethacin	1069
+indomethacin	132
+indomethacin	379
+indomethacin	5
+indomethacin	450
+indomethacin	137
+indomethacin	1166
+indomethacin	964
+indomethacin	175
+indomethacin	946
+indomethacin	417
+indomethacin	1223
+indomethacin	79
+indomethacin	1219
+indomethacin	304
+indomethacin	236
+indomethacin	988
+indomethacin	328
+indomethacin	730
+indomethacin	80
+indomethacin	454
+indomethacin	778
+indomethacin	300
+indomethacin	1085
+indomethacin	501
+indomethacin	72
+indomethacin	809
+indomethacin	1209
+indomethacin	656
+indomethacin	832
+indomethacin	303
+indomethacin	1167
+indomethacin	649
+indomethacin	893
+indomethacin	1019
+indomethacin	669
+indomethacin	229
+indomethacin	389
+indomethacin	983
+indomethacin	496
+indomethacin	289
+indomethacin	529
+indomethacin	798
+indomethacin	432
+indomethacin	864
+indomethacin	456
+cyclosporine	488
+cyclosporine	1165
+cyclosporine	1100
+cyclosporine	1069
+cyclosporine	985
+cyclosporine	244
+cyclosporine	900
+cyclosporine	157
+cyclosporine	473
+cyclosporine	163
+cyclosporine	541
+cyclosporine	992
+cyclosporine	500
+cyclosporine	182
+cyclosporine	260
+cyclosporine	1007
+cyclosporine	15
+cyclosporine	1139
+cyclosporine	476
+cyclosporine	381
+cyclosporine	1178
+cyclosporine	127
+cyclosporine	1141
+cyclosporine	37
+cyclosporine	584
+cyclosporine	820
+cyclosporine	1172
+cyclosporine	233
+cyclosporine	790
+cyclosporine	299
+cyclosporine	564
+cyclosporine	749
+cyclosporine	1157
+cyclosporine	725
+cyclosporine	961
+cyclosporine	70
+cyclosporine	1148
+cyclosporine	439
+cyclosporine	832
+cyclosporine	562
+cyclosporine	54
+cyclosporine	761
+cyclosporine	267
+cyclosporine	1161
+cyclosporine	983
+cyclosporine	336
+cyclosporine	798
+cyclosporine	1212
+cyclosporine	545
+cyclosporine	25
+cyclosporine	198
+cyclosporine	872
+cyclosporine	92
+cyclosporine	582
+cyclosporine	980
+cyclosporine	814
+cyclosporine	294
+cyclosporine	925
+cyclosporine	287
+cyclosporine	487
+cyclosporine	932
+cyclosporine	405
+cyclosporine	902
+cyclosporine	30
+cyclosporine	1008
+cyclosporine	1135
+cyclosporine	1057
+cyclosporine	1214
+cyclosporine	1022
+cyclosporine	1221
+cyclosporine	424
+cyclosporine	717
+cyclosporine	337
+cyclosporine	1108
+cyclosporine	678
+cyclosporine	540
+cyclosporine	328
+cyclosporine	909
+cyclosporine	697
+cyclosporine	433
+cyclosporine	1117
+cyclosporine	1224
+cyclosporine	1047
+cyclosporine	453
+cyclosporine	324
+cyclosporine	436
+cyclosporine	471
+cyclosporine	1163
+cyclosporine	250
+cyclosporine	552
+cyclosporine	345
+cyclosporine	333
+cyclosporine	823
+cyclosporine	586
+cyclosporine	1209
+cyclosporine	86
+cyclosporine	649
+cyclosporine	893
+cyclosporine	200
+cyclosporine	534
+cyclosporine	1179
+cyclosporine	1130
+cyclosporine	1225
+cyclosporine	760
+cyclosporine	882
+cyclosporine	666
+cyclosporine	668
+cyclosporine	1160
+cyclosporine	1171
+cyclosporine	569
+cyclosporine	144
+cyclosporine	733
+cyclosporine	1184
+cyclosporine	589
+cyclosporine	165
+cyclosporine	645
+cyclosporine	247
+cyclosporine	581
+cyclosporine	947
+cyclosporine	132
+cyclosporine	1181
+cyclosporine	283
+cyclosporine	821
+cyclosporine	234
+cyclosporine	560
+cyclosporine	316
+cyclosporine	98
+cyclosporine	219
+cyclosporine	438
+cyclosporine	673
+cyclosporine	175
+cyclosporine	1223
+cyclosporine	558
+cyclosporine	643
+cyclosporine	1152
+cyclosporine	616
+cyclosporine	220
+cyclosporine	544
+cyclosporine	6
+cyclosporine	17
+cyclosporine	995
+cyclosporine	111
+cyclosporine	180
+cyclosporine	620
+cyclosporine	795
+cyclosporine	696
+cyclosporine	638
+cyclosporine	343
+cyclosporine	72
+cyclosporine	809
+cyclosporine	1054
+cyclosporine	1024
+cyclosporine	974
+cyclosporine	1019
+cyclosporine	229
+cyclosporine	1144
+cyclosporine	594
+cyclosporine	959
+cyclosporine	1106
+cyclosporine	509
+cyclosporine	623
+cyclosporine	67
+cyclosporine	699
+cyclosporine	781
+cyclosporine	170
+cyclosporine	496
+cyclosporine	289
+cyclosporine	359
+cyclosporine	640
+cyclosporine	432
+cyclosporine	864
+cyclosporine	21
+cyclosporine	1083
+cyclosporine	255
+cyclosporine	559
+cyclosporine	108
+cyclosporine	1084
+cyclosporine	479
+cyclosporine	1187
+cyclosporine	1211
+cyclosporine	1020
+cyclosporine	687
+cyclosporine	490
+cyclosporine	183
+cyclosporine	22
+cyclosporine	4
+cyclosporine	977
+cyclosporine	55
+cyclosporine	641
+cyclosporine	1081
+cyclosporine	417
+cyclosporine	366
+cyclosporine	384
+cyclosporine	79
+cyclosporine	1219
+cyclosporine	236
+cyclosporine	802
+cyclosporine	3
+cyclosporine	480
+cyclosporine	162
+cyclosporine	730
+cyclosporine	1182
+cyclosporine	454
+cyclosporine	644
+cyclosporine	497
+cyclosporine	353
+cyclosporine	542
+cyclosporine	624
+cyclosporine	383
+cyclosporine	916
+cyclosporine	782
+cyclosporine	1085
+cyclosporine	357
+cyclosporine	329
+cyclosporine	577
+cyclosporine	303
+cyclosporine	93
+cyclosporine	1176
+cyclosporine	238
+cyclosporine	993
+cyclosporine	154
+cyclosporine	315
+cyclosporine	515
+cyclosporine	1063
+cyclosporine	91
+cyclosporine	808
+cyclosporine	1146
+cyclosporine	767
+cyclosporine	763
+cyclosporine	394
+cyclosporine	724
+cyclosporine	1035
+cyclosporine	259
+cyclosporine	698
+cyclosporine	456
+cyclosporine	692
+cyclosporine	457
+norfloxacin	198
+norfloxacin	622
+norfloxacin	1165
+norfloxacin	980
+norfloxacin	247
+norfloxacin	1069
+norfloxacin	639
+norfloxacin	464
+norfloxacin	1181
+norfloxacin	634
+norfloxacin	116
+norfloxacin	626
+norfloxacin	494
+norfloxacin	1214
+norfloxacin	98
+norfloxacin	271
+norfloxacin	326
+norfloxacin	629
+norfloxacin	641
+norfloxacin	424
+norfloxacin	79
+norfloxacin	1219
+norfloxacin	236
+norfloxacin	1139
+norfloxacin	950
+norfloxacin	1065
+norfloxacin	270
+norfloxacin	265
+norfloxacin	1101
+norfloxacin	202
+norfloxacin	328
+norfloxacin	6
+norfloxacin	223
+norfloxacin	2
+norfloxacin	954
+norfloxacin	475
+norfloxacin	478
+norfloxacin	8
+norfloxacin	790
+norfloxacin	624
+norfloxacin	770
+norfloxacin	636
+norfloxacin	984
+norfloxacin	1157
+norfloxacin	345
+norfloxacin	501
+norfloxacin	72
+norfloxacin	303
+norfloxacin	649
+norfloxacin	130
+norfloxacin	561
+norfloxacin	315
+norfloxacin	170
+norfloxacin	496
+norfloxacin	289
+norfloxacin	1032
+norfloxacin	668
+norfloxacin	640
+norfloxacin	798
+norfloxacin	144
+norfloxacin	871
+norfloxacin	432
+norfloxacin	864
+norfloxacin	994
+norfloxacin	793
+sirolimus	488
+sirolimus	785
+sirolimus	1165
+sirolimus	159
+sirolimus	1100
+sirolimus	1069
+sirolimus	516
+sirolimus	481
+sirolimus	244
+sirolimus	759
+sirolimus	231
+sirolimus	541
+sirolimus	245
+sirolimus	1110
+sirolimus	500
+sirolimus	428
+sirolimus	182
+sirolimus	260
+sirolimus	998
+sirolimus	580
+sirolimus	715
+sirolimus	1007
+sirolimus	381
+sirolimus	1178
+sirolimus	595
+sirolimus	248
+sirolimus	1141
+sirolimus	396
+sirolimus	584
+sirolimus	978
+sirolimus	475
+sirolimus	1172
+sirolimus	212
+sirolimus	770
+sirolimus	564
+sirolimus	850
+sirolimus	1157
+sirolimus	725
+sirolimus	70
+sirolimus	1104
+sirolimus	562
+sirolimus	1133
+sirolimus	54
+sirolimus	161
+sirolimus	982
+sirolimus	905
+sirolimus	1161
+sirolimus	339
+sirolimus	336
+sirolimus	798
+sirolimus	871
+sirolimus	969
+sirolimus	545
+sirolimus	806
+sirolimus	25
+sirolimus	29
+sirolimus	557
+sirolimus	1203
+sirolimus	198
+sirolimus	872
+sirolimus	1198
+sirolimus	582
+sirolimus	980
+sirolimus	814
+sirolimus	925
+sirolimus	287
+sirolimus	932
+sirolimus	1051
+sirolimus	556
+sirolimus	30
+sirolimus	602
+sirolimus	1135
+sirolimus	694
+sirolimus	804
+sirolimus	919
+sirolimus	116
+sirolimus	348
+sirolimus	1229
+sirolimus	629
+sirolimus	873
+sirolimus	424
+sirolimus	717
+sirolimus	675
+sirolimus	575
+sirolimus	971
+sirolimus	540
+sirolimus	857
+sirolimus	328
+sirolimus	909
+sirolimus	433
+sirolimus	1224
+sirolimus	1047
+sirolimus	719
+sirolimus	527
+sirolimus	453
+sirolimus	471
+sirolimus	918
+sirolimus	250
+sirolimus	1056
+sirolimus	889
+sirolimus	838
+sirolimus	1123
+sirolimus	345
+sirolimus	333
+sirolimus	823
+sirolimus	1131
+sirolimus	649
+sirolimus	1179
+sirolimus	554
+sirolimus	1130
+sirolimus	848
+sirolimus	1225
+sirolimus	612
+sirolimus	882
+sirolimus	668
+sirolimus	1160
+sirolimus	569
+sirolimus	425
+sirolimus	733
+sirolimus	589
+sirolimus	105
+sirolimus	899
+sirolimus	131
+sirolimus	1
+sirolimus	645
+sirolimus	816
+sirolimus	247
+sirolimus	132
+sirolimus	1181
+sirolimus	637
+sirolimus	283
+sirolimus	234
+sirolimus	560
+sirolimus	1204
+sirolimus	98
+sirolimus	49
+sirolimus	567
+sirolimus	175
+sirolimus	720
+sirolimus	1152
+sirolimus	276
+sirolimus	99
+sirolimus	6
+sirolimus	36
+sirolimus	968
+sirolimus	748
+sirolimus	620
+sirolimus	696
+sirolimus	539
+sirolimus	970
+sirolimus	636
+sirolimus	608
+sirolimus	407
+sirolimus	585
+sirolimus	860
+sirolimus	72
+sirolimus	974
+sirolimus	445
+sirolimus	525
+sirolimus	229
+sirolimus	594
+sirolimus	509
+sirolimus	67
+sirolimus	496
+sirolimus	289
+sirolimus	605
+sirolimus	160
+sirolimus	432
+sirolimus	635
+sirolimus	864
+sirolimus	462
+sirolimus	596
+sirolimus	928
+sirolimus	739
+sirolimus	274
+sirolimus	622
+sirolimus	1029
+sirolimus	275
+sirolimus	1020
+sirolimus	687
+sirolimus	856
+sirolimus	66
+sirolimus	183
+sirolimus	22
+sirolimus	977
+sirolimus	904
+sirolimus	938
+sirolimus	102
+sirolimus	641
+sirolimus	708
+sirolimus	366
+sirolimus	1134
+sirolimus	79
+sirolimus	1219
+sirolimus	858
+sirolimus	236
+sirolimus	802
+sirolimus	1120
+sirolimus	162
+sirolimus	202
+sirolimus	341
+sirolimus	730
+sirolimus	94
+sirolimus	951
+sirolimus	1200
+sirolimus	454
+sirolimus	651
+sirolimus	1058
+sirolimus	542
+sirolimus	624
+sirolimus	383
+sirolimus	1085
+sirolimus	782
+sirolimus	357
+sirolimus	1199
+sirolimus	329
+sirolimus	303
+sirolimus	577
+sirolimus	93
+sirolimus	1176
+sirolimus	592
+sirolimus	1063
+sirolimus	354
+sirolimus	31
+sirolimus	91
+sirolimus	619
+sirolimus	767
+sirolimus	394
+sirolimus	434
+sirolimus	1034
+sirolimus	724
+sirolimus	1136
+sirolimus	1180
+sirolimus	259
+imipenem	816
+imipenem	361
+imipenem	980
+imipenem	146
+imipenem	519
+imipenem	294
+imipenem	224
+imipenem	1069
+imipenem	932
+imipenem	473
+imipenem	602
+imipenem	1127
+imipenem	373
+imipenem	1128
+imipenem	626
+imipenem	98
+imipenem	1147
+imipenem	583
+imipenem	271
+imipenem	1110
+imipenem	78
+imipenem	308
+imipenem	629
+imipenem	873
+imipenem	424
+imipenem	366
+imipenem	721
+imipenem	1223
+imipenem	1219
+imipenem	953
+imipenem	1025
+imipenem	270
+imipenem	385
+imipenem	631
+imipenem	6
+imipenem	595
+imipenem	1141
+imipenem	995
+imipenem	1075
+imipenem	266
+imipenem	454
+imipenem	443
+imipenem	324
+imipenem	940
+imipenem	74
+imipenem	497
+imipenem	254
+imipenem	436
+imipenem	696
+imipenem	624
+imipenem	636
+imipenem	386
+imipenem	705
+imipenem	1157
+imipenem	955
+imipenem	838
+imipenem	345
+imipenem	501
+imipenem	333
+imipenem	70
+imipenem	1209
+imipenem	865
+imipenem	303
+imipenem	1151
+imipenem	35
+imipenem	561
+imipenem	633
+imipenem	936
+imipenem	1062
+imipenem	493
+imipenem	669
+imipenem	927
+imipenem	515
+imipenem	229
+imipenem	1130
+imipenem	47
+imipenem	197
+imipenem	767
+imipenem	67
+imipenem	882
+imipenem	496
+imipenem	289
+imipenem	1032
+imipenem	529
+imipenem	668
+imipenem	798
+imipenem	866
+imipenem	871
+imipenem	956
+imipenem	864
+imipenem	1184
+imipenem	293
+imipenem	793
+simvastatin	901
+simvastatin	745
+simvastatin	247
+simvastatin	757
+simvastatin	244
+simvastatin	284
+simvastatin	779
+simvastatin	373
+simvastatin	807
+simvastatin	626
+simvastatin	98
+simvastatin	352
+simvastatin	182
+simvastatin	690
+simvastatin	410
+simvastatin	1007
+simvastatin	574
+simvastatin	385
+simvastatin	6
+simvastatin	777
+simvastatin	248
+simvastatin	1172
+simvastatin	696
+simvastatin	1000
+simvastatin	386
+simvastatin	930
+simvastatin	705
+simvastatin	343
+simvastatin	1157
+simvastatin	961
+simvastatin	413
+simvastatin	72
+simvastatin	70
+simvastatin	54
+simvastatin	974
+simvastatin	691
+simvastatin	669
+simvastatin	525
+simvastatin	67
+simvastatin	878
+simvastatin	781
+simvastatin	496
+simvastatin	289
+simvastatin	798
+simvastatin	295
+simvastatin	205
+simvastatin	1212
+simvastatin	432
+simvastatin	864
+simvastatin	842
+simvastatin	557
+simvastatin	929
+simvastatin	872
+simvastatin	92
+simvastatin	543
+simvastatin	980
+simvastatin	814
+simvastatin	902
+simvastatin	490
+simvastatin	1008
+simvastatin	116
+simvastatin	211
+simvastatin	55
+simvastatin	1018
+simvastatin	641
+simvastatin	424
+simvastatin	706
+simvastatin	417
+simvastatin	79
+simvastatin	1219
+simvastatin	744
+simvastatin	647
+simvastatin	236
+simvastatin	802
+simvastatin	202
+simvastatin	328
+simvastatin	730
+simvastatin	402
+simvastatin	909
+simvastatin	235
+simvastatin	433
+simvastatin	1047
+simvastatin	152
+simvastatin	527
+simvastatin	935
+simvastatin	324
+simvastatin	436
+simvastatin	206
+simvastatin	65
+simvastatin	782
+simvastatin	881
+simvastatin	1049
+simvastatin	1199
+simvastatin	333
+simvastatin	1209
+simvastatin	535
+simvastatin	303
+simvastatin	1151
+simvastatin	216
+simvastatin	649
+simvastatin	515
+simvastatin	1130
+simvastatin	826
+simvastatin	208
+simvastatin	713
+simvastatin	91
+simvastatin	619
+simvastatin	808
+simvastatin	882
+simvastatin	533
+simvastatin	529
+simvastatin	668
+simvastatin	867
+simvastatin	1184
+simvastatin	913
+simvastatin	716
+simvastatin	1052
+methotrexate	261
+methotrexate	816
+methotrexate	361
+methotrexate	768
+methotrexate	1165
+methotrexate	505
+methotrexate	251
+methotrexate	896
+methotrexate	132
+methotrexate	5
+methotrexate	57
+methotrexate	283
+methotrexate	373
+methotrexate	234
+methotrexate	1059
+methotrexate	1204
+methotrexate	626
+methotrexate	428
+methotrexate	260
+methotrexate	715
+methotrexate	726
+methotrexate	1068
+methotrexate	304
+methotrexate	546
+methotrexate	385
+methotrexate	588
+methotrexate	396
+methotrexate	995
+methotrexate	1213
+methotrexate	320
+methotrexate	696
+methotrexate	300
+methotrexate	386
+methotrexate	833
+methotrexate	705
+methotrexate	749
+methotrexate	822
+methotrexate	895
+methotrexate	725
+methotrexate	72
+methotrexate	257
+methotrexate	258
+methotrexate	1019
+methotrexate	1164
+methotrexate	959
+methotrexate	509
+methotrexate	81
+methotrexate	218
+methotrexate	67
+methotrexate	496
+methotrexate	289
+methotrexate	336
+methotrexate	798
+methotrexate	511
+methotrexate	969
+methotrexate	33
+methotrexate	274
+methotrexate	145
+methotrexate	872
+methotrexate	92
+methotrexate	980
+methotrexate	925
+methotrexate	221
+methotrexate	287
+methotrexate	837
+methotrexate	856
+methotrexate	30
+methotrexate	490
+methotrexate	66
+methotrexate	356
+methotrexate	83
+methotrexate	602
+methotrexate	1135
+methotrexate	653
+methotrexate	804
+methotrexate	348
+methotrexate	55
+methotrexate	873
+methotrexate	641
+methotrexate	424
+methotrexate	417
+methotrexate	717
+methotrexate	1134
+methotrexate	1219
+methotrexate	802
+methotrexate	202
+methotrexate	540
+methotrexate	857
+methotrexate	341
+methotrexate	402
+methotrexate	730
+methotrexate	1154
+methotrexate	909
+methotrexate	844
+methotrexate	951
+methotrexate	446
+methotrexate	1036
+methotrexate	630
+methotrexate	471
+methotrexate	542
+methotrexate	1163
+methotrexate	203
+methotrexate	1085
+methotrexate	782
+methotrexate	881
+methotrexate	1132
+methotrexate	367
+methotrexate	1199
+methotrexate	88
+methotrexate	742
+methotrexate	303
+methotrexate	1151
+methotrexate	1167
+methotrexate	216
+methotrexate	238
+methotrexate	1130
+methotrexate	1014
+methotrexate	115
+methotrexate	47
+methotrexate	713
+methotrexate	91
+methotrexate	619
+methotrexate	1114
+methotrexate	533
+methotrexate	646
+methotrexate	529
+methotrexate	668
+methotrexate	1191
+methotrexate	960
+methotrexate	1034
+methotrexate	1091
+methotrexate	189
+methotrexate	144
+methotrexate	724
+methotrexate	922
+methotrexate	1184
+methotrexate	913
+methotrexate	1162
+methotrexate	695
+methotrexate	917
+rifabutin	198
+rifabutin	816
+rifabutin	980
+rifabutin	799
+rifabutin	424
+rifabutin	496
+rifabutin	383
+rifabutin	289
+rifabutin	1219
+rifabutin	782
+rifabutin	798
+rifabutin	328
+rifabutin	432
+rifabutin	864
+rifabutin	72
+rifabutin	6
+rifabutin	98
+rifabutin	649
+terbinafine	283
+terbinafine	1053
+terbinafine	568
+terbinafine	1138
+terbinafine	237
+terbinafine	1054
+terbinafine	668
+terbinafine	1026
+terbinafine	1137
+voriconazole	488
+voriconazole	191
+voriconazole	361
+voriconazole	1165
+voriconazole	505
+voriconazole	146
+voriconazole	24
+voriconazole	106
+voriconazole	1100
+voriconazole	1069
+voriconazole	244
+voriconazole	188
+voriconazole	1149
+voriconazole	125
+voriconazole	473
+voriconazole	759
+voriconazole	604
+voriconazole	231
+voriconazole	541
+voriconazole	48
+voriconazole	245
+voriconazole	1110
+voriconazole	500
+voriconazole	350
+voriconazole	1053
+voriconazole	484
+voriconazole	260
+voriconazole	998
+voriconazole	580
+voriconazole	1007
+voriconazole	1215
+voriconazole	385
+voriconazole	381
+voriconazole	127
+voriconazole	1012
+voriconazole	777
+voriconazole	595
+voriconazole	248
+voriconazole	1141
+voriconazole	396
+voriconazole	483
+voriconazole	112
+voriconazole	584
+voriconazole	1213
+voriconazole	475
+voriconazole	254
+voriconazole	790
+voriconazole	770
+voriconazole	360
+voriconazole	386
+voriconazole	705
+voriconazole	1157
+voriconazole	404
+voriconazole	520
+voriconazole	70
+voriconazole	1104
+voriconazole	656
+voriconazole	562
+voriconazole	762
+voriconazole	362
+voriconazole	54
+voriconazole	1113
+voriconazole	669
+voriconazole	565
+voriconazole	267
+voriconazole	982
+voriconazole	905
+voriconazole	983
+voriconazole	1161
+voriconazole	786
+voriconazole	339
+voriconazole	854
+voriconazole	336
+voriconazole	798
+voriconazole	431
+voriconazole	866
+voriconazole	1142
+voriconazole	298
+voriconazole	871
+voriconazole	969
+voriconazole	642
+voriconazole	557
+voriconazole	198
+voriconazole	872
+voriconazole	60
+voriconazole	92
+voriconazole	582
+voriconazole	980
+voriconazole	814
+voriconazole	925
+voriconazole	224
+voriconazole	287
+voriconazole	487
+voriconazole	1028
+voriconazole	405
+voriconazole	556
+voriconazole	176
+voriconazole	1008
+voriconazole	602
+voriconazole	704
+voriconazole	450
+voriconazole	859
+voriconazole	919
+voriconazole	116
+voriconazole	1214
+voriconazole	348
+voriconazole	1188
+voriconazole	314
+voriconazole	671
+voriconazole	78
+voriconazole	326
+voriconazole	104
+voriconazole	873
+voriconazole	845
+voriconazole	424
+voriconazole	717
+voriconazole	675
+voriconazole	291
+voriconazole	540
+voriconazole	857
+voriconazole	328
+voriconazole	909
+voriconazole	148
+voriconazole	433
+voriconazole	1047
+voriconazole	446
+voriconazole	134
+voriconazole	288
+voriconazole	400
+voriconazole	324
+voriconazole	630
+voriconazole	471
+voriconazole	918
+voriconazole	77
+voriconazole	250
+voriconazole	830
+voriconazole	889
+voriconazole	838
+voriconazole	345
+voriconazole	333
+voriconazole	62
+voriconazole	1131
+voriconazole	395
+voriconazole	1209
+voriconazole	133
+voriconazole	86
+voriconazole	1090
+voriconazole	1151
+voriconazole	96
+voriconazole	649
+voriconazole	1179
+voriconazole	554
+voriconazole	482
+voriconazole	1098
+voriconazole	1130
+voriconazole	389
+voriconazole	1175
+voriconazole	882
+voriconazole	242
+voriconazole	529
+voriconazole	666
+voriconazole	668
+voriconazole	1160
+voriconazole	1016
+voriconazole	401
+voriconazole	569
+voriconazole	425
+voriconazole	144
+voriconazole	733
+voriconazole	1184
+voriconazole	579
+voriconazole	589
+voriconazole	210
+voriconazole	105
+voriconazole	899
+voriconazole	249
+voriconazole	1
+voriconazole	835
+voriconazole	46
+voriconazole	247
+voriconazole	910
+voriconazole	847
+voriconazole	1125
+voriconazole	277
+voriconazole	132
+voriconazole	1181
+voriconazole	637
+voriconazole	912
+voriconazole	524
+voriconazole	474
+voriconazole	283
+voriconazole	373
+voriconazole	738
+voriconazole	234
+voriconazole	560
+voriconazole	626
+voriconazole	316
+voriconazole	824
+voriconazole	98
+voriconazole	101
+voriconazole	963
+voriconazole	307
+voriconazole	225
+voriconazole	1218
+voriconazole	810
+voriconazole	49
+voriconazole	805
+voriconazole	946
+voriconazole	1076
+voriconazole	718
+voriconazole	290
+voriconazole	643
+voriconazole	648
+voriconazole	1015
+voriconazole	6
+voriconazole	186
+voriconazole	968
+voriconazole	995
+voriconazole	620
+voriconazole	317
+voriconazole	696
+voriconazole	300
+voriconazole	636
+voriconazole	177
+voriconazole	819
+voriconazole	343
+voriconazole	608
+voriconazole	407
+voriconazole	585
+voriconazole	72
+voriconazole	257
+voriconazole	429
+voriconazole	1054
+voriconazole	1099
+voriconazole	35
+voriconazole	974
+voriconazole	536
+voriconazole	525
+voriconazole	229
+voriconazole	594
+voriconazole	959
+voriconazole	509
+voriconazole	949
+voriconazole	67
+voriconazole	496
+voriconazole	1109
+voriconazole	289
+voriconazole	672
+voriconazole	566
+voriconazole	281
+voriconazole	1005
+voriconazole	640
+voriconazole	178
+voriconazole	1192
+voriconazole	518
+voriconazole	205
+voriconazole	956
+voriconazole	319
+voriconazole	432
+voriconazole	864
+voriconazole	237
+voriconazole	596
+voriconazole	1205
+voriconazole	1084
+voriconazole	1187
+voriconazole	622
+voriconazole	1029
+voriconazole	1020
+voriconazole	687
+voriconazole	849
+voriconazole	811
+voriconazole	856
+voriconazole	150
+voriconazole	66
+voriconazole	183
+voriconazole	22
+voriconazole	356
+voriconazole	83
+voriconazole	40
+voriconazole	783
+voriconazole	55
+voriconazole	938
+voriconazole	393
+voriconazole	641
+voriconazole	708
+voriconazole	1004
+voriconazole	135
+voriconazole	366
+voriconazole	384
+voriconazole	1134
+voriconazole	79
+voriconazole	1219
+voriconazole	858
+voriconazole	236
+voriconazole	802
+voriconazole	773
+voriconazole	202
+voriconazole	884
+voriconazole	341
+voriconazole	728
+voriconazole	94
+voriconazole	507
+voriconazole	172
+voriconazole	1200
+voriconazole	454
+voriconazole	644
+voriconazole	658
+voriconazole	273
+voriconazole	377
+voriconazole	497
+voriconazole	206
+voriconazole	624
+voriconazole	803
+voriconazole	1085
+voriconazole	782
+voriconazole	196
+voriconazole	1208
+voriconazole	877
+voriconazole	742
+voriconazole	329
+voriconazole	303
+voriconazole	577
+voriconazole	238
+voriconazole	655
+voriconazole	592
+voriconazole	493
+voriconazole	315
+voriconazole	147
+voriconazole	515
+voriconazole	898
+voriconazole	208
+voriconazole	168
+voriconazole	390
+voriconazole	10
+voriconazole	47
+voriconazole	907
+voriconazole	91
+voriconazole	619
+voriconazole	226
+voriconazole	767
+voriconazole	394
+voriconazole	434
+voriconazole	227
+voriconazole	1093
+voriconazole	774
+voriconazole	1034
+voriconazole	1207
+voriconazole	914
+voriconazole	740
+voriconazole	1136
+voriconazole	913
+voriconazole	1180
+voriconazole	1145
+voriconazole	259
+voriconazole	698
+voriconazole	716
+voriconazole	318
+voriconazole	456
+itraconazole	1077
+itraconazole	816
+itraconazole	1165
+itraconazole	973
+itraconazole	1100
+itraconazole	1069
+itraconazole	1181
+itraconazole	244
+itraconazole	637
+itraconazole	157
+itraconazole	230
+itraconazole	256
+itraconazole	560
+itraconazole	231
+itraconazole	98
+itraconazole	41
+itraconazole	1110
+itraconazole	500
+itraconazole	428
+itraconazole	49
+itraconazole	260
+itraconazole	1007
+itraconazole	1174
+itraconazole	388
+itraconazole	6
+itraconazole	127
+itraconazole	358
+itraconazole	968
+itraconazole	1141
+itraconazole	180
+itraconazole	1172
+itraconazole	638
+itraconazole	636
+itraconazole	705
+itraconazole	749
+itraconazole	1157
+itraconazole	732
+itraconazole	585
+itraconazole	961
+itraconazole	70
+itraconazole	72
+itraconazole	257
+itraconazole	1054
+itraconazole	54
+itraconazole	669
+itraconazole	525
+itraconazole	594
+itraconazole	509
+itraconazole	623
+itraconazole	170
+itraconazole	496
+itraconazole	289
+itraconazole	798
+itraconazole	432
+itraconazole	923
+itraconazole	864
+itraconazole	596
+itraconazole	255
+itraconazole	548
+itraconazole	198
+itraconazole	622
+itraconazole	980
+itraconazole	814
+itraconazole	275
+itraconazole	1020
+itraconazole	925
+itraconazole	902
+itraconazole	490
+itraconazole	851
+itraconazole	1008
+itraconazole	22
+itraconazole	602
+itraconazole	704
+itraconazole	634
+itraconazole	116
+itraconazole	1022
+itraconazole	55
+itraconazole	938
+itraconazole	629
+itraconazole	641
+itraconazole	424
+itraconazole	417
+itraconazole	675
+itraconazole	1219
+itraconazole	79
+itraconazole	236
+itraconazole	540
+itraconazole	328
+itraconazole	730
+itraconazole	909
+itraconazole	1224
+itraconazole	85
+itraconazole	1047
+itraconazole	731
+itraconazole	618
+itraconazole	454
+itraconazole	453
+itraconazole	324
+itraconazole	644
+itraconazole	630
+itraconazole	471
+itraconazole	436
+itraconazole	353
+itraconazole	542
+itraconazole	624
+itraconazole	65
+itraconazole	250
+itraconazole	1085
+itraconazole	782
+itraconazole	552
+itraconazole	1199
+itraconazole	345
+itraconazole	333
+itraconazole	1209
+itraconazole	329
+itraconazole	303
+itraconazole	577
+itraconazole	1167
+itraconazole	649
+itraconazole	993
+itraconazole	592
+itraconazole	390
+itraconazole	619
+itraconazole	389
+itraconazole	808
+itraconazole	767
+itraconazole	434
+itraconazole	529
+itraconazole	668
+itraconazole	309
+itraconazole	922
+itraconazole	1184
+itraconazole	841
+itraconazole	913
+itraconazole	1202
+itraconazole	698
+itraconazole	899
+itraconazole	522
+itraconazole	457
+atazanavir	1165
+atazanavir	46
+atazanavir	502
+atazanavir	530
+atazanavir	106
+atazanavir	1100
+atazanavir	1069
+atazanavir	244
+atazanavir	1181
+atazanavir	316
+atazanavir	98
+atazanavir	963
+atazanavir	164
+atazanavir	870
+atazanavir	245
+atazanavir	702
+atazanavir	82
+atazanavir	998
+atazanavir	531
+atazanavir	831
+atazanavir	59
+atazanavir	544
+atazanavir	6
+atazanavir	1178
+atazanavir	777
+atazanavir	680
+atazanavir	498
+atazanavir	1030
+atazanavir	1141
+atazanavir	995
+atazanavir	584
+atazanavir	776
+atazanavir	770
+atazanavir	749
+atazanavir	343
+atazanavir	28
+atazanavir	608
+atazanavir	72
+atazanavir	70
+atazanavir	809
+atazanavir	1104
+atazanavir	54
+atazanavir	974
+atazanavir	536
+atazanavir	669
+atazanavir	229
+atazanavir	573
+atazanavir	813
+atazanavir	509
+atazanavir	623
+atazanavir	496
+atazanavir	289
+atazanavir	798
+atazanavir	423
+atazanavir	871
+atazanavir	432
+atazanavir	864
+atazanavir	462
+atazanavir	21
+atazanavir	563
+atazanavir	674
+atazanavir	29
+atazanavir	479
+atazanavir	198
+atazanavir	872
+atazanavir	707
+atazanavir	980
+atazanavir	275
+atazanavir	224
+atazanavir	287
+atazanavir	932
+atazanavir	252
+atazanavir	551
+atazanavir	490
+atazanavir	176
+atazanavir	183
+atazanavir	14
+atazanavir	116
+atazanavir	783
+atazanavir	1094
+atazanavir	55
+atazanavir	169
+atazanavir	332
+atazanavir	703
+atazanavir	393
+atazanavir	641
+atazanavir	424
+atazanavir	417
+atazanavir	706
+atazanavir	79
+atazanavir	1219
+atazanavir	858
+atazanavir	236
+atazanavir	792
+atazanavir	328
+atazanavir	341
+atazanavir	730
+atazanavir	1224
+atazanavir	951
+atazanavir	1200
+atazanavir	454
+atazanavir	453
+atazanavir	324
+atazanavir	1210
+atazanavir	1085
+atazanavir	782
+atazanavir	268
+atazanavir	357
+atazanavir	889
+atazanavir	285
+atazanavir	838
+atazanavir	345
+atazanavir	333
+atazanavir	62
+atazanavir	1090
+atazanavir	303
+atazanavir	577
+atazanavir	649
+atazanavir	534
+atazanavir	893
+atazanavir	238
+atazanavir	1095
+atazanavir	1064
+atazanavir	538
+atazanavir	493
+atazanavir	147
+atazanavir	1225
+atazanavir	91
+atazanavir	389
+atazanavir	619
+atazanavir	775
+atazanavir	394
+atazanavir	529
+atazanavir	325
+atazanavir	668
+atazanavir	867
+atazanavir	1184
+atazanavir	913
+atazanavir	698
+atazanavir	899
+atazanavir	1
+atazanavir	457
+ritonavir	766
+ritonavir	13
+ritonavir	517
+ritonavir	361
+ritonavir	1165
+ritonavir	1100
+ritonavir	1069
+ritonavir	244
+ritonavir	188
+ritonavir	204
+ritonavir	157
+ritonavir	604
+ritonavir	1080
+ritonavir	693
+ritonavir	883
+ritonavir	245
+ritonavir	1110
+ritonavir	1053
+ritonavir	414
+ritonavir	736
+ritonavir	998
+ritonavir	715
+ritonavir	580
+ritonavir	831
+ritonavir	1215
+ritonavir	59
+ritonavir	385
+ritonavir	381
+ritonavir	1178
+ritonavir	680
+ritonavir	123
+ritonavir	1141
+ritonavir	396
+ritonavir	153
+ritonavir	483
+ritonavir	584
+ritonavir	788
+ritonavir	475
+ritonavir	790
+ritonavir	770
+ritonavir	386
+ritonavir	1157
+ritonavir	892
+ritonavir	1230
+ritonavir	1104
+ritonavir	555
+ritonavir	54
+ritonavir	1113
+ritonavir	669
+ritonavir	550
+ritonavir	982
+ritonavir	878
+ritonavir	983
+ritonavir	339
+ritonavir	723
+ritonavir	336
+ritonavir	682
+ritonavir	798
+ritonavir	1126
+ritonavir	1142
+ritonavir	871
+ritonavir	1212
+ritonavir	114
+ritonavir	674
+ritonavir	29
+ritonavir	557
+ritonavir	198
+ritonavir	872
+ritonavir	60
+ritonavir	441
+ritonavir	1198
+ritonavir	92
+ritonavir	1197
+ritonavir	707
+ritonavir	980
+ritonavir	814
+ritonavir	519
+ritonavir	925
+ritonavir	224
+ritonavir	287
+ritonavir	932
+ritonavir	405
+ritonavir	902
+ritonavir	30
+ritonavir	602
+ritonavir	1135
+ritonavir	113
+ritonavir	653
+ritonavir	116
+ritonavir	621
+ritonavir	42
+ritonavir	800
+ritonavir	1188
+ritonavir	1177
+ritonavir	591
+ritonavir	997
+ritonavir	424
+ritonavir	717
+ritonavir	675
+ritonavir	328
+ritonavir	909
+ritonavir	148
+ritonavir	433
+ritonavir	1224
+ritonavir	1047
+ritonavir	446
+ritonavir	134
+ritonavir	453
+ritonavir	400
+ritonavir	324
+ritonavir	471
+ritonavir	1163
+ritonavir	1056
+ritonavir	1124
+ritonavir	889
+ritonavir	367
+ritonavir	369
+ritonavir	345
+ritonavir	333
+ritonavir	823
+ritonavir	62
+ritonavir	395
+ritonavir	1209
+ritonavir	1050
+ritonavir	1090
+ritonavir	190
+ritonavir	794
+ritonavir	368
+ritonavir	649
+ritonavir	534
+ritonavir	1130
+ritonavir	1225
+ritonavir	461
+ritonavir	389
+ritonavir	612
+ritonavir	882
+ritonavir	1021
+ritonavir	529
+ritonavir	666
+ritonavir	668
+ritonavir	309
+ritonavir	144
+ritonavir	425
+ritonavir	606
+ritonavir	1184
+ritonavir	841
+ritonavir	899
+ritonavir	105
+ritonavir	1
+ritonavir	816
+ritonavir	46
+ritonavir	247
+ritonavir	910
+ritonavir	418
+ritonavir	132
+ritonavir	1181
+ritonavir	735
+ritonavir	912
+ritonavir	524
+ritonavir	474
+ritonavir	283
+ritonavir	234
+ritonavir	1204
+ritonavir	316
+ritonavir	398
+ritonavir	98
+ritonavir	101
+ritonavir	438
+ritonavir	810
+ritonavir	49
+ritonavir	590
+ritonavir	1223
+ritonavir	290
+ritonavir	643
+ritonavir	415
+ritonavir	99
+ritonavir	903
+ritonavir	544
+ritonavir	1217
+ritonavir	1201
+ritonavir	6
+ritonavir	1030
+ritonavir	748
+ritonavir	968
+ritonavir	995
+ritonavir	80
+ritonavir	58
+ritonavir	180
+ritonavir	620
+ritonavir	795
+ritonavir	776
+ritonavir	696
+ritonavir	409
+ritonavir	787
+ritonavir	311
+ritonavir	636
+ritonavir	906
+ritonavir	343
+ritonavir	407
+ritonavir	860
+ritonavir	72
+ritonavir	257
+ritonavir	809
+ritonavir	1054
+ritonavir	35
+ritonavir	536
+ritonavir	445
+ritonavir	229
+ritonavir	959
+ritonavir	509
+ritonavir	81
+ritonavir	50
+ritonavir	623
+ritonavir	67
+ritonavir	496
+ritonavir	289
+ritonavir	281
+ritonavir	640
+ritonavir	956
+ritonavir	205
+ritonavir	1074
+ritonavir	432
+ritonavir	864
+ritonavir	237
+ritonavir	563
+ritonavir	21
+ritonavir	255
+ritonavir	559
+ritonavir	739
+ritonavir	274
+ritonavir	479
+ritonavir	145
+ritonavir	1211
+ritonavir	275
+ritonavir	1020
+ritonavir	687
+ritonavir	1118
+ritonavir	61
+ritonavir	811
+ritonavir	856
+ritonavir	490
+ritonavir	22
+ritonavir	12
+ritonavir	14
+ritonavir	40
+ritonavir	1166
+ritonavir	783
+ritonavir	662
+ritonavir	904
+ritonavir	55
+ritonavir	938
+ritonavir	393
+ritonavir	641
+ritonavir	508
+ritonavir	366
+ritonavir	706
+ritonavir	1134
+ritonavir	79
+ritonavir	1219
+ritonavir	858
+ritonavir	236
+ritonavir	802
+ritonavir	162
+ritonavir	202
+ritonavir	143
+ritonavir	341
+ritonavir	402
+ritonavir	730
+ritonavir	728
+ritonavir	1102
+ritonavir	16
+ritonavir	1200
+ritonavir	454
+ritonavir	187
+ritonavir	1058
+ritonavir	778
+ritonavir	273
+ritonavir	497
+ritonavir	1210
+ritonavir	624
+ritonavir	383
+ritonavir	603
+ritonavir	1193
+ritonavir	803
+ritonavir	1085
+ritonavir	782
+ritonavir	196
+ritonavir	357
+ritonavir	1199
+ritonavir	742
+ritonavir	20
+ritonavir	329
+ritonavir	303
+ritonavir	577
+ritonavir	93
+ritonavir	1167
+ritonavir	238
+ritonavir	976
+ritonavir	1115
+ritonavir	1064
+ritonavir	538
+ritonavir	493
+ritonavir	315
+ritonavir	147
+ritonavir	171
+ritonavir	898
+ritonavir	208
+ritonavir	1045
+ritonavir	1063
+ritonavir	10
+ritonavir	91
+ritonavir	619
+ritonavir	763
+ritonavir	394
+ritonavir	1032
+ritonavir	227
+ritonavir	1061
+ritonavir	1087
+ritonavir	408
+ritonavir	801
+ritonavir	914
+ritonavir	913
+ritonavir	1180
+ritonavir	1145
+ritonavir	710
+ritonavir	698
+ritonavir	456
+ritonavir	457
+ritonavir	1088
+ibuprofen	191
+ibuprofen	816
+ibuprofen	1165
+ibuprofen	505
+ibuprofen	46
+ibuprofen	247
+ibuprofen	1100
+ibuprofen	1066
+ibuprofen	1069
+ibuprofen	132
+ibuprofen	95
+ibuprofen	244
+ibuprofen	5
+ibuprofen	967
+ibuprofen	473
+ibuprofen	283
+ibuprofen	373
+ibuprofen	137
+ibuprofen	234
+ibuprofen	560
+ibuprofen	626
+ibuprofen	1080
+ibuprofen	98
+ibuprofen	231
+ibuprofen	894
+ibuprofen	1042
+ibuprofen	263
+ibuprofen	245
+ibuprofen	1110
+ibuprofen	500
+ibuprofen	810
+ibuprofen	580
+ibuprofen	442
+ibuprofen	304
+ibuprofen	1215
+ibuprofen	549
+ibuprofen	119
+ibuprofen	385
+ibuprofen	99
+ibuprofen	544
+ibuprofen	6
+ibuprofen	1178
+ibuprofen	2
+ibuprofen	217
+ibuprofen	1141
+ibuprofen	396
+ibuprofen	995
+ibuprofen	58
+ibuprofen	620
+ibuprofen	475
+ibuprofen	317
+ibuprofen	790
+ibuprofen	696
+ibuprofen	300
+ibuprofen	770
+ibuprofen	386
+ibuprofen	705
+ibuprofen	1157
+ibuprofen	72
+ibuprofen	257
+ibuprofen	70
+ibuprofen	809
+ibuprofen	1104
+ibuprofen	35
+ibuprofen	54
+ibuprofen	1019
+ibuprofen	84
+ibuprofen	974
+ibuprofen	669
+ibuprofen	525
+ibuprofen	229
+ibuprofen	509
+ibuprofen	799
+ibuprofen	67
+ibuprofen	983
+ibuprofen	1161
+ibuprofen	496
+ibuprofen	289
+ibuprofen	640
+ibuprofen	336
+ibuprofen	798
+ibuprofen	1126
+ibuprofen	871
+ibuprofen	432
+ibuprofen	864
+ibuprofen	872
+ibuprofen	92
+ibuprofen	980
+ibuprofen	1020
+ibuprofen	925
+ibuprofen	932
+ibuprofen	379
+ibuprofen	1003
+ibuprofen	66
+ibuprofen	22
+ibuprofen	83
+ibuprofen	602
+ibuprofen	996
+ibuprofen	746
+ibuprofen	314
+ibuprofen	55
+ibuprofen	873
+ibuprofen	708
+ibuprofen	641
+ibuprofen	424
+ibuprofen	717
+ibuprofen	384
+ibuprofen	675
+ibuprofen	1219
+ibuprofen	79
+ibuprofen	236
+ibuprofen	652
+ibuprofen	802
+ibuprofen	1073
+ibuprofen	537
+ibuprofen	162
+ibuprofen	328
+ibuprofen	341
+ibuprofen	730
+ibuprofen	909
+ibuprofen	433
+ibuprofen	1224
+ibuprofen	1047
+ibuprofen	951
+ibuprofen	1200
+ibuprofen	527
+ibuprofen	454
+ibuprofen	453
+ibuprofen	630
+ibuprofen	497
+ibuprofen	1163
+ibuprofen	383
+ibuprofen	65
+ibuprofen	803
+ibuprofen	782
+ibuprofen	1085
+ibuprofen	357
+ibuprofen	838
+ibuprofen	435
+ibuprofen	1199
+ibuprofen	501
+ibuprofen	345
+ibuprofen	333
+ibuprofen	742
+ibuprofen	395
+ibuprofen	1209
+ibuprofen	133
+ibuprofen	329
+ibuprofen	86
+ibuprofen	391
+ibuprofen	303
+ibuprofen	1151
+ibuprofen	577
+ibuprofen	649
+ibuprofen	374
+ibuprofen	238
+ibuprofen	1179
+ibuprofen	493
+ibuprofen	315
+ibuprofen	515
+ibuprofen	1130
+ibuprofen	10
+ibuprofen	115
+ibuprofen	91
+ibuprofen	389
+ibuprofen	619
+ibuprofen	226
+ibuprofen	882
+ibuprofen	394
+ibuprofen	227
+ibuprofen	529
+ibuprofen	999
+ibuprofen	668
+ibuprofen	1160
+ibuprofen	1034
+ibuprofen	472
+ibuprofen	144
+ibuprofen	1184
+ibuprofen	913
+ibuprofen	1180
+ibuprofen	698
+ibuprofen	456
+carbamazepine	198
+carbamazepine	282
+carbamazepine	1020
+carbamazepine	1069
+carbamazepine	399
+carbamazepine	1181
+carbamazepine	735
+carbamazepine	1169
+carbamazepine	128
+carbamazepine	62
+carbamazepine	809
+carbamazepine	116
+carbamazepine	98
+carbamazepine	101
+carbamazepine	649
+carbamazepine	1095
+carbamazepine	1094
+carbamazepine	129
+carbamazepine	736
+carbamazepine	641
+carbamazepine	743
+carbamazepine	79
+carbamazepine	1093
+carbamazepine	339
+carbamazepine	668
+carbamazepine	281
+carbamazepine	162
+carbamazepine	328
+carbamazepine	1074
+carbamazepine	909
+carbamazepine	440
+carbamazepine	899
+carbamazepine	1047
+carbamazepine	58
+posaconazole	816
+posaconazole	1100
+posaconazole	1069
+posaconazole	516
+posaconazole	132
+posaconazole	244
+posaconazole	637
+posaconazole	1149
+posaconazole	310
+posaconazole	1156
+posaconazole	117
+posaconazole	560
+posaconazole	98
+posaconazole	41
+posaconazole	541
+posaconazole	219
+posaconazole	1110
+posaconazole	818
+posaconazole	1007
+posaconazole	1223
+posaconazole	1048
+posaconazole	220
+posaconazole	6
+posaconazole	381
+posaconazole	127
+posaconazole	995
+posaconazole	180
+posaconazole	817
+posaconazole	1172
+posaconazole	638
+posaconazole	636
+posaconazole	1157
+posaconazole	585
+posaconazole	961
+posaconazole	72
+posaconazole	547
+posaconazole	688
+posaconazole	35
+posaconazole	54
+posaconazole	974
+posaconazole	772
+posaconazole	536
+posaconazole	669
+posaconazole	525
+posaconazole	594
+posaconazole	218
+posaconazole	67
+posaconazole	781
+posaconazole	496
+posaconazole	289
+posaconazole	798
+posaconazole	1192
+posaconazole	871
+posaconazole	969
+posaconazole	432
+posaconazole	864
+posaconazole	622
+posaconazole	980
+posaconazole	275
+posaconazole	925
+posaconazole	851
+posaconazole	1008
+posaconazole	356
+posaconazole	602
+posaconazole	116
+posaconazole	1022
+posaconazole	641
+posaconazole	708
+posaconazole	424
+posaconazole	417
+posaconazole	79
+posaconazole	1219
+posaconazole	647
+posaconazole	236
+posaconazole	979
+posaconazole	540
+posaconazole	328
+posaconazole	909
+posaconazole	433
+posaconazole	1224
+posaconazole	627
+posaconazole	324
+posaconazole	630
+posaconazole	250
+posaconazole	782
+posaconazole	1049
+posaconazole	140
+posaconazole	345
+posaconazole	333
+posaconazole	780
+posaconazole	1131
+posaconazole	303
+posaconazole	577
+posaconazole	649
+posaconazole	534
+posaconazole	1176
+posaconazole	993
+posaconazole	592
+posaconazole	147
+posaconazole	315
+posaconazole	1130
+posaconazole	907
+posaconazole	91
+posaconazole	808
+posaconazole	767
+posaconazole	529
+posaconazole	668
+posaconazole	144
+posaconazole	1136
+pravastatin	198
+pravastatin	872
+pravastatin	92
+pravastatin	901
+pravastatin	980
+pravastatin	814
+pravastatin	1020
+pravastatin	244
+pravastatin	902
+pravastatin	490
+pravastatin	284
+pravastatin	373
+pravastatin	807
+pravastatin	228
+pravastatin	626
+pravastatin	98
+pravastatin	352
+pravastatin	211
+pravastatin	55
+pravastatin	182
+pravastatin	1018
+pravastatin	690
+pravastatin	410
+pravastatin	424
+pravastatin	417
+pravastatin	706
+pravastatin	79
+pravastatin	1219
+pravastatin	744
+pravastatin	236
+pravastatin	802
+pravastatin	574
+pravastatin	202
+pravastatin	385
+pravastatin	730
+pravastatin	6
+pravastatin	777
+pravastatin	433
+pravastatin	527
+pravastatin	935
+pravastatin	324
+pravastatin	712
+pravastatin	436
+pravastatin	696
+pravastatin	65
+pravastatin	782
+pravastatin	386
+pravastatin	930
+pravastatin	881
+pravastatin	1157
+pravastatin	1199
+pravastatin	501
+pravastatin	333
+pravastatin	72
+pravastatin	70
+pravastatin	1209
+pravastatin	535
+pravastatin	303
+pravastatin	1151
+pravastatin	216
+pravastatin	649
+pravastatin	54
+pravastatin	974
+pravastatin	691
+pravastatin	669
+pravastatin	515
+pravastatin	1130
+pravastatin	826
+pravastatin	208
+pravastatin	713
+pravastatin	91
+pravastatin	619
+pravastatin	67
+pravastatin	878
+pravastatin	882
+pravastatin	496
+pravastatin	289
+pravastatin	529
+pravastatin	668
+pravastatin	798
+pravastatin	295
+pravastatin	432
+pravastatin	864
+pravastatin	1184
+pravastatin	913
+pravastatin	842
+pravastatin	716
+pravastatin	1052
+pravastatin	199
+pravastatin	467
+pravastatin	929
+azithromycin	816
+azithromycin	349
+azithromycin	46
+azithromycin	1143
+azithromycin	1069
+azithromycin	244
+azithromycin	637
+azithromycin	1149
+azithromycin	44
+azithromycin	283
+azithromycin	373
+azithromycin	163
+azithromycin	626
+azithromycin	1080
+azithromycin	98
+azithromycin	883
+azithromycin	118
+azithromycin	1110
+azithromycin	245
+azithromycin	260
+azithromycin	715
+azithromycin	648
+azithromycin	270
+azithromycin	385
+azithromycin	99
+azithromycin	6
+azithromycin	722
+azithromycin	1141
+azithromycin	995
+azithromycin	45
+azithromycin	478
+azithromycin	696
+azithromycin	241
+azithromycin	386
+azithromycin	636
+azithromycin	833
+azithromycin	705
+azithromycin	860
+azithromycin	72
+azithromycin	70
+azithromycin	809
+azithromycin	1104
+azithromycin	35
+azithromycin	772
+azithromycin	888
+azithromycin	669
+azithromycin	445
+azithromycin	525
+azithromycin	496
+azithromycin	289
+azithromycin	336
+azithromycin	798
+azithromycin	866
+azithromycin	477
+azithromycin	871
+azithromycin	956
+azithromycin	432
+azithromycin	864
+azithromycin	563
+azithromycin	198
+azithromycin	872
+azithromycin	622
+azithromycin	980
+azithromycin	275
+azithromycin	1020
+azithromycin	925
+azithromycin	224
+azithromycin	551
+azithromycin	22
+azithromycin	602
+azithromycin	351
+azithromycin	1037
+azithromycin	939
+azithromycin	1177
+azithromycin	629
+azithromycin	664
+azithromycin	641
+azithromycin	417
+azithromycin	424
+azithromycin	194
+azithromycin	79
+azithromycin	1219
+azithromycin	858
+azithromycin	236
+azithromycin	652
+azithromycin	802
+azithromycin	162
+azithromycin	202
+azithromycin	328
+azithromycin	730
+azithromycin	728
+azithromycin	909
+azithromycin	433
+azithromycin	1047
+azithromycin	85
+azithromycin	527
+azithromycin	453
+azithromycin	324
+azithromycin	497
+azithromycin	727
+azithromycin	65
+azithromycin	1193
+azithromycin	803
+azithromycin	1085
+azithromycin	1208
+azithromycin	345
+azithromycin	333
+azithromycin	20
+azithromycin	742
+azithromycin	1209
+azithromycin	86
+azithromycin	865
+azithromycin	303
+azithromycin	1151
+azithromycin	649
+azithromycin	238
+azithromycin	1130
+azithromycin	848
+azithromycin	208
+azithromycin	91
+azithromycin	767
+azithromycin	1146
+azithromycin	882
+azithromycin	529
+azithromycin	668
+azithromycin	309
+azithromycin	1184
+azithromycin	913
+azithromycin	259
+azithromycin	34
+azithromycin	457
+nabumetone	1165
+nabumetone	958
+nabumetone	46
+nabumetone	1100
+nabumetone	1069
+nabumetone	132
+nabumetone	244
+nabumetone	473
+nabumetone	821
+nabumetone	373
+nabumetone	560
+nabumetone	296
+nabumetone	98
+nabumetone	49
+nabumetone	385
+nabumetone	99
+nabumetone	6
+nabumetone	1141
+nabumetone	995
+nabumetone	317
+nabumetone	790
+nabumetone	696
+nabumetone	638
+nabumetone	386
+nabumetone	705
+nabumetone	1157
+nabumetone	72
+nabumetone	70
+nabumetone	809
+nabumetone	1104
+nabumetone	371
+nabumetone	54
+nabumetone	669
+nabumetone	525
+nabumetone	229
+nabumetone	509
+nabumetone	623
+nabumetone	67
+nabumetone	983
+nabumetone	496
+nabumetone	289
+nabumetone	1189
+nabumetone	640
+nabumetone	336
+nabumetone	798
+nabumetone	871
+nabumetone	319
+nabumetone	432
+nabumetone	864
+nabumetone	806
+nabumetone	674
+nabumetone	1084
+nabumetone	872
+nabumetone	582
+nabumetone	980
+nabumetone	925
+nabumetone	69
+nabumetone	30
+nabumetone	66
+nabumetone	22
+nabumetone	419
+nabumetone	653
+nabumetone	55
+nabumetone	424
+nabumetone	417
+nabumetone	384
+nabumetone	1134
+nabumetone	79
+nabumetone	1219
+nabumetone	236
+nabumetone	652
+nabumetone	202
+nabumetone	328
+nabumetone	730
+nabumetone	1224
+nabumetone	454
+nabumetone	52
+nabumetone	453
+nabumetone	471
+nabumetone	206
+nabumetone	383
+nabumetone	65
+nabumetone	803
+nabumetone	1085
+nabumetone	1199
+nabumetone	345
+nabumetone	333
+nabumetone	742
+nabumetone	1209
+nabumetone	329
+nabumetone	86
+nabumetone	303
+nabumetone	577
+nabumetone	1151
+nabumetone	649
+nabumetone	592
+nabumetone	315
+nabumetone	1130
+nabumetone	1225
+nabumetone	115
+nabumetone	47
+nabumetone	619
+nabumetone	882
+nabumetone	668
+nabumetone	1184
+nabumetone	913
+nabumetone	165
+nabumetone	456
+troglitazone	676
+troglitazone	637
+troglitazone	345
+troglitazone	72
+troglitazone	560
+troglitazone	1104
+troglitazone	231
+troglitazone	610
+troglitazone	1229
+troglitazone	669
+troglitazone	500
+troglitazone	525
+troglitazone	1225
+troglitazone	708
+troglitazone	424
+troglitazone	67
+troglitazone	417
+troglitazone	1219
+troglitazone	529
+troglitazone	798
+troglitazone	730
+troglitazone	864
+troglitazone	6
+troglitazone	248
+troglitazone	632
+modafinil	1165
+modafinil	46
+modafinil	247
+modafinil	1100
+modafinil	1069
+modafinil	244
+modafinil	1181
+modafinil	735
+modafinil	796
+modafinil	234
+modafinil	560
+modafinil	228
+modafinil	626
+modafinil	316
+modafinil	98
+modafinil	963
+modafinil	101
+modafinil	541
+modafinil	245
+modafinil	1110
+modafinil	49
+modafinil	580
+modafinil	715
+modafinil	304
+modafinil	99
+modafinil	6
+modafinil	381
+modafinil	576
+modafinil	58
+modafinil	978
+modafinil	770
+modafinil	636
+modafinil	1157
+modafinil	72
+modafinil	1148
+modafinil	257
+modafinil	809
+modafinil	1104
+modafinil	1054
+modafinil	181
+modafinil	54
+modafinil	525
+modafinil	229
+modafinil	959
+modafinil	509
+modafinil	623
+modafinil	67
+modafinil	496
+modafinil	289
+modafinil	339
+modafinil	798
+modafinil	1126
+modafinil	871
+modafinil	1212
+modafinil	432
+modafinil	864
+modafinil	21
+modafinil	563
+modafinil	25
+modafinil	852
+modafinil	198
+modafinil	92
+modafinil	980
+modafinil	1020
+modafinil	687
+modafinil	925
+modafinil	405
+modafinil	176
+modafinil	22
+modafinil	12
+modafinil	602
+modafinil	694
+modafinil	116
+modafinil	800
+modafinil	326
+modafinil	11
+modafinil	641
+modafinil	424
+modafinil	337
+modafinil	79
+modafinil	1219
+modafinil	236
+modafinil	162
+modafinil	202
+modafinil	540
+modafinil	328
+modafinil	341
+modafinil	909
+modafinil	148
+modafinil	433
+modafinil	897
+modafinil	1224
+modafinil	1047
+modafinil	16
+modafinil	1200
+modafinil	454
+modafinil	324
+modafinil	630
+modafinil	471
+modafinil	603
+modafinil	782
+modafinil	357
+modafinil	345
+modafinil	333
+modafinil	62
+modafinil	1209
+modafinil	86
+modafinil	303
+modafinil	577
+modafinil	1220
+modafinil	93
+modafinil	649
+modafinil	1064
+modafinil	315
+modafinil	493
+modafinil	942
+modafinil	1225
+modafinil	47
+modafinil	91
+modafinil	763
+modafinil	882
+modafinil	1021
+modafinil	668
+modafinil	801
+modafinil	401
+modafinil	1180
+modafinil	698
+modafinil	899
+repaglinide	198
+repaglinide	872
+repaglinide	1020
+repaglinide	69
+repaglinide	287
+repaglinide	1181
+repaglinide	828
+repaglinide	66
+repaglinide	765
+repaglinide	230
+repaglinide	791
+repaglinide	560
+repaglinide	116
+repaglinide	231
+repaglinide	55
+repaglinide	500
+repaglinide	11
+repaglinide	641
+repaglinide	1219
+repaglinide	236
+repaglinide	162
+repaglinide	328
+repaglinide	1047
+repaglinide	630
+repaglinide	1172
+repaglinide	790
+repaglinide	696
+repaglinide	460
+repaglinide	345
+repaglinide	1148
+repaglinide	86
+repaglinide	577
+repaglinide	54
+repaglinide	121
+repaglinide	679
+repaglinide	669
+repaglinide	515
+repaglinide	525
+repaglinide	1130
+repaglinide	91
+repaglinide	67
+repaglinide	882
+repaglinide	496
+repaglinide	289
+repaglinide	666
+repaglinide	529
+repaglinide	309
+repaglinide	1160
+repaglinide	468
+repaglinide	640
+repaglinide	798
+repaglinide	90
+repaglinide	243
+repaglinide	871
+repaglinide	864
+repaglinide	589
+repaglinide	899
+repaglinide	469
+clarithromycin	191
+clarithromycin	785
+clarithromycin	1165
+clarithromycin	505
+clarithromycin	416
+clarithromycin	1143
+clarithromycin	1100
+clarithromycin	1069
+clarithromycin	244
+clarithromycin	1149
+clarithromycin	157
+clarithromycin	473
+clarithromycin	604
+clarithromycin	1147
+clarithromycin	207
+clarithromycin	883
+clarithromycin	245
+clarithromycin	1110
+clarithromycin	1107
+clarithromycin	998
+clarithromycin	580
+clarithromycin	1011
+clarithromycin	392
+clarithromycin	1215
+clarithromycin	158
+clarithromycin	476
+clarithromycin	385
+clarithromycin	381
+clarithromycin	127
+clarithromycin	1178
+clarithromycin	264
+clarithromycin	1086
+clarithromycin	1141
+clarithromycin	396
+clarithromycin	153
+clarithromycin	1222
+clarithromycin	584
+clarithromycin	475
+clarithromycin	790
+clarithromycin	770
+clarithromycin	386
+clarithromycin	705
+clarithromycin	564
+clarithromycin	749
+clarithromycin	1157
+clarithromycin	892
+clarithromycin	1104
+clarithromycin	19
+clarithromycin	54
+clarithromycin	1113
+clarithromycin	669
+clarithromycin	982
+clarithromycin	799
+clarithromycin	983
+clarithromycin	512
+clarithromycin	336
+clarithromycin	798
+clarithromycin	1126
+clarithromycin	871
+clarithromycin	674
+clarithromycin	198
+clarithromycin	872
+clarithromycin	92
+clarithromycin	980
+clarithromycin	294
+clarithromycin	925
+clarithromycin	224
+clarithromycin	69
+clarithromycin	287
+clarithromycin	487
+clarithromycin	932
+clarithromycin	1051
+clarithromycin	405
+clarithromycin	30
+clarithromycin	1008
+clarithromycin	602
+clarithromycin	116
+clarithromycin	800
+clarithromycin	314
+clarithromycin	271
+clarithromycin	514
+clarithromycin	629
+clarithromycin	326
+clarithromycin	873
+clarithromycin	424
+clarithromycin	717
+clarithromycin	337
+clarithromycin	868
+clarithromycin	652
+clarithromycin	328
+clarithromycin	909
+clarithromycin	148
+clarithromycin	124
+clarithromycin	697
+clarithromycin	433
+clarithromycin	1047
+clarithromycin	954
+clarithromycin	453
+clarithromycin	324
+clarithromycin	630
+clarithromycin	918
+clarithromycin	1163
+clarithromycin	65
+clarithromycin	250
+clarithromycin	815
+clarithromycin	889
+clarithromycin	452
+clarithromycin	367
+clarithromycin	345
+clarithromycin	333
+clarithromycin	780
+clarithromycin	62
+clarithromycin	1131
+clarithromycin	1209
+clarithromycin	613
+clarithromycin	86
+clarithromycin	1151
+clarithromycin	794
+clarithromycin	649
+clarithromycin	1043
+clarithromycin	1039
+clarithromycin	633
+clarithromycin	1130
+clarithromycin	848
+clarithromycin	1225
+clarithromycin	389
+clarithromycin	931
+clarithromycin	882
+clarithromycin	1021
+clarithromycin	529
+clarithromycin	668
+clarithromycin	492
+clarithromycin	144
+clarithromycin	1184
+clarithromycin	589
+clarithromycin	899
+clarithromycin	1
+clarithromycin	816
+clarithromycin	46
+clarithromycin	247
+clarithromycin	132
+clarithromycin	735
+clarithromycin	1181
+clarithromycin	637
+clarithromycin	912
+clarithromycin	283
+clarithromycin	821
+clarithromycin	373
+clarithromycin	560
+clarithromycin	234
+clarithromycin	626
+clarithromycin	316
+clarithromycin	98
+clarithromycin	963
+clarithromycin	18
+clarithromycin	49
+clarithromycin	175
+clarithromycin	683
+clarithromycin	290
+clarithromycin	1025
+clarithromycin	648
+clarithromycin	99
+clarithromycin	544
+clarithromycin	6
+clarithromycin	748
+clarithromycin	80
+clarithromycin	1190
+clarithromycin	795
+clarithromycin	74
+clarithromycin	696
+clarithromycin	179
+clarithromycin	636
+clarithromycin	860
+clarithromycin	72
+clarithromycin	809
+clarithromycin	1054
+clarithromycin	974
+clarithromycin	525
+clarithromycin	229
+clarithromycin	1144
+clarithromycin	509
+clarithromycin	949
+clarithromycin	623
+clarithromycin	67
+clarithromycin	496
+clarithromycin	297
+clarithromycin	289
+clarithromycin	444
+clarithromycin	281
+clarithromycin	495
+clarithromycin	640
+clarithromycin	518
+clarithromycin	956
+clarithromycin	432
+clarithromycin	1074
+clarithromycin	864
+clarithromycin	237
+clarithromycin	21
+clarithromycin	563
+clarithromycin	479
+clarithromycin	145
+clarithromycin	622
+clarithromycin	430
+clarithromycin	275
+clarithromycin	1020
+clarithromycin	687
+clarithromycin	1118
+clarithromycin	551
+clarithromycin	490
+clarithromycin	66
+clarithromycin	83
+clarithromycin	22
+clarithromycin	634
+clarithromycin	1166
+clarithromycin	783
+clarithromycin	55
+clarithromycin	1183
+clarithromycin	393
+clarithromycin	641
+clarithromycin	708
+clarithromycin	366
+clarithromycin	384
+clarithromycin	79
+clarithromycin	1219
+clarithromycin	953
+clarithromycin	858
+clarithromycin	236
+clarithromycin	491
+clarithromycin	1120
+clarithromycin	162
+clarithromycin	202
+clarithromycin	730
+clarithromycin	728
+clarithromycin	1200
+clarithromycin	1182
+clarithromycin	454
+clarithromycin	187
+clarithromycin	497
+clarithromycin	206
+clarithromycin	624
+clarithromycin	383
+clarithromycin	1193
+clarithromycin	803
+clarithromycin	1085
+clarithromycin	782
+clarithromycin	1208
+clarithromycin	357
+clarithromycin	455
+clarithromycin	742
+clarithromycin	20
+clarithromycin	329
+clarithromycin	303
+clarithromycin	577
+clarithromycin	93
+clarithromycin	1167
+clarithromycin	238
+clarithromycin	1115
+clarithromycin	1064
+clarithromycin	493
+clarithromycin	315
+clarithromycin	515
+clarithromycin	826
+clarithromycin	10
+clarithromycin	47
+clarithromycin	91
+clarithromycin	619
+clarithromycin	767
+clarithromycin	763
+clarithromycin	394
+clarithromycin	801
+clarithromycin	1136
+clarithromycin	292
+clarithromycin	259
+clarithromycin	1180
+clarithromycin	698
+clarithromycin	456
+clarithromycin	457
+ethotoin	198
+ethotoin	489
+ethotoin	980
+ethotoin	300
+ethotoin	830
+ethotoin	991
+ethotoin	989
+ethotoin	303
+ethotoin	101
+ethotoin	649
+ethotoin	1229
+ethotoin	424
+ethotoin	417
+ethotoin	717
+ethotoin	366
+ethotoin	496
+ethotoin	1109
+ethotoin	290
+ethotoin	289
+ethotoin	1219
+ethotoin	798
+ethotoin	1228
+ethotoin	724
+ethotoin	864
+ethotoin	716
+ethotoin	829
+metoclopramide	816
+metoclopramide	46
+metoclopramide	980
+metoclopramide	422
+metoclopramide	490
+metoclopramide	769
+metoclopramide	602
+metoclopramide	382
+metoclopramide	163
+metoclopramide	110
+metoclopramide	1214
+metoclopramide	231
+metoclopramide	734
+metoclopramide	48
+metoclopramide	1110
+metoclopramide	500
+metoclopramide	485
+metoclopramide	843
+metoclopramide	578
+metoclopramide	1122
+metoclopramide	417
+metoclopramide	304
+metoclopramide	59
+metoclopramide	99
+metoclopramide	447
+metoclopramide	148
+metoclopramide	1178
+metoclopramide	1086
+metoclopramide	335
+metoclopramide	16
+metoclopramide	112
+metoclopramide	620
+metoclopramide	149
+metoclopramide	659
+metoclopramide	696
+metoclopramide	933
+metoclopramide	1157
+metoclopramide	435
+metoclopramide	345
+metoclopramide	333
+metoclopramide	70
+metoclopramide	240
+metoclopramide	303
+metoclopramide	577
+metoclopramide	1150
+metoclopramide	649
+metoclopramide	1099
+metoclopramide	1158
+metoclopramide	54
+metoclopramide	1096
+metoclopramide	685
+metoclopramide	669
+metoclopramide	229
+metoclopramide	222
+metoclopramide	47
+metoclopramide	619
+metoclopramide	1112
+metoclopramide	496
+metoclopramide	1021
+metoclopramide	289
+metoclopramide	1032
+metoclopramide	1093
+metoclopramide	686
+metoclopramide	571
+metoclopramide	682
+metoclopramide	798
+metoclopramide	812
+metoclopramide	1184
+metoclopramide	758
+metoclopramide	660
+metoclopramide	835
 \.
 
 
@@ -6298,242 +12123,242 @@ BIO-CORNEUM HC Advanced Scar Supervision Anti-Itch	hydrocortisone
 --
 
 COPY public.related_condition (trial_id, condition_id) FROM stdin;
-41	77
-41	10
-41	20
-41	3
-5	99
-5	19
-30	156
-30	1
-30	157
-30	57
-125	96
-125	95
-125	97
-90	94
-90	14
-90	177
-90	119
-70	86
-70	8
-70	152
-132	162
-132	69
-132	119
-132	93
-54	162
-88	121
-63	135
-63	84
-16	42
-6	146
-122	5
-84	58
-26	166
-124	162
-124	137
-91	102
-83	75
-83	107
-80	98
-46	68
-98	79
-98	71
-67	66
-100	167
-100	104
-131	125
-92	75
-92	168
-39	154
-39	153
-39	166
-29	44
-31	173
-61	18
-61	141
-61	90
-61	178
-47	85
-50	55
-2	52
-2	76
-2	132
-14	165
-106	101
-34	75
-34	7
-34	41
-81	21
-86	129
-86	129
-86	174
-86	174
-86	116
-86	116
-44	170
-44	172
-44	78
-3	122
-28	103
-15	12
-102	87
-102	149
-89	15
-89	14
-95	105
-95	105
-113	147
-119	39
-119	33
-119	27
-51	169
-25	105
-128	78
-36	53
-71	105
-71	105
-33	16
-33	123
-127	89
-127	140
-68	134
-121	67
-121	34
-45	46
-45	78
-12	109
-24	99
-43	67
-82	164
-110	177
-110	78
-17	83
-17	176
-17	13
-17	50
-21	91
-79	128
-22	102
-18	139
-18	88
-37	124
-107	117
-107	63
-107	113
-107	105
-107	106
-107	118
-107	32
-107	99
-13	37
-13	17
-4	22
-64	75
-64	73
-75	59
-75	59
-19	143
-19	100
-108	40
-108	65
-123	45
-123	38
-123	133
-123	24
-48	129
-48	140
-58	11
-114	145
-85	144
-117	160
-117	127
-117	161
-117	126
-60	54
-62	13
-115	64
-115	63
-77	61
-77	61
-53	23
-49	147
-49	122
-49	105
-49	26
-49	175
-49	99
-55	130
-55	131
-20	12
-101	31
-101	60
-73	47
-8	112
-8	112
-8	82
-8	82
-94	13
+34	1
+30	2
+73	3
+41	4
+103	5
+122	6
+103	7
+69	8
 94	9
-97	45
-97	30
-27	74
-40	62
-69	149
-69	148
-112	83
-112	75
-112	13
-112	158
-112	24
-112	72
-52	142
-104	163
-11	28
-66	110
-74	2
-56	29
-126	150
-126	113
-126	105
-126	118
-126	99
-126	138
-93	115
-93	48
-93	114
-23	35
-32	155
+41	10
+58	11
+116	12
+20	12
+15	12
 35	13
-130	92
-129	63
-129	159
+111	13
+94	13
+62	13
+16	13
 118	14
-1	81
-103	6
-103	136
+89	14
+90	14
+89	15
+33	16
+4	17
+61	18
+8	19
+41	20
+81	21
+7	22
+17	23
+54	24
+111	25
+123	25
+38	26
+49	27
+119	28
+2	29
+57	30
+97	31
+101	32
+108	33
+119	34
+121	35
+23	36
+45	37
+4	38
+123	39
+119	40
+107	41
+34	42
 103	43
-103	4
+29	44
+97	45
+123	45
+44	46
+74	47
+93	48
+99	49
+16	50
+120	51
+5	52
+36	53
+60	54
+50	55
+99	56
+30	57
+84	58
+115	59
+75	60
+75	60
+101	61
+77	62
+77	62
+40	63
+129	64
+115	64
+108	64
+5	65
+111	66
+27	67
+53	68
+111	68
+64	68
+34	68
+92	68
+83	68
+64	69
+107	70
+67	71
+42	72
+121	72
+46	73
+131	74
+110	75
+100	76
+41	77
+112	78
+44	78
+128	78
+43	78
+100	79
 103	80
-7	151
+1	81
+12	82
+12	82
+111	83
+16	83
+63	84
+48	85
+69	86
+102	87
+18	88
+127	89
+61	90
+21	91
+130	92
+131	93
+90	94
+125	95
+125	96
+125	97
+80	98
+126	99
+49	99
+108	99
+24	99
+8	99
+19	100
+106	101
+109	102
+59	102
+22	102
+91	102
+28	103
+98	104
+126	105
+49	105
+108	105
+71	105
+71	105
+25	105
+95	105
+95	105
+108	106
+83	107
+38	108
+104	108
+3	109
+66	110
 65	111
 65	112
-57	75
-105	108
+12	112
+12	112
+126	113
+108	113
+93	114
+93	115
+86	116
+86	116
+126	117
+108	117
+108	118
+131	119
+90	119
 10	120
-38	25
+88	121
+49	122
+6	122
+33	123
+37	124
+132	125
+117	126
+117	127
+79	128
+47	129
+86	129
+86	129
+56	130
+56	131
+5	132
+123	133
+68	134
+63	135
+124	136
+103	137
+18	138
+126	139
+47	140
+127	140
+61	141
+52	142
+19	143
+85	144
+114	145
+9	146
+49	147
+113	147
+70	148
+70	149
+102	149
+126	150
+11	151
+69	152
+39	153
+39	154
+32	155
+30	156
+30	157
+111	158
+129	159
+117	160
+117	161
 38	162
+124	162
+55	162
+131	162
+105	163
+82	164
+14	165
+39	166
+26	166
+98	167
+92	168
+51	169
+43	170
 38	171
-38	108
-99	49
-99	56
-59	102
-120	51
-109	102
-42	36
-111	70
-116	12
+43	172
+31	173
+86	174
+86	174
+49	175
+16	176
+112	177
+90	177
+61	178
 \.
 
 
@@ -6544,130 +12369,130 @@ COPY public.related_condition (trial_id, condition_id) FROM stdin;
 COPY public.researcher (researcher_id, researcher_name, institution_name) FROM stdin;
 1	Aaron Chen	Johns Hopkins University
 2	Afshin Dowlati, MD	Case Comprehensive Cancer Center
-3	alaa eldeen mahmoud ismail	Woman's Health University Hospital, Egypt
-4	Anindya Niyogi	Chelsea and Westminster NHS Foundation Trust
-5	Arun Rajan, M.D.	National Institutes of Health Clinical Center (CC)
-6	Babafemi Taiwo	Northwestern University
-7	Beatriz Arismendi Gómez	Hospital Central Dr. Luis Ortega
-8	Behnam Baghianimoghadam	Shahid Sadoughi University of Medical Sciences and Health Services
-9	Benjamin Friedman	Montefiore Medical Center
-10	Brandy Frost	NorthShore University HealthSystem Research Institute
+3	Anindya Niyogi	Chelsea and Westminster NHS Foundation Trust
+4	Arun Rajan, M.D.	National Institutes of Health Clinical Center (CC)
+5	Babafemi Taiwo	Northwestern University
+6	Beatriz Arismendi Gómez	Hospital Central Dr. Luis Ortega
+7	Behnam Baghianimoghadam	Shahid Sadoughi University of Medical Sciences and Health Services
+8	Benjamin Friedman	Montefiore Medical Center
+9	Brandy Frost	NorthShore University HealthSystem Research Institute
+10	CLAUDIA ALESSANDRA ECKLEY	Faculdade de Ciências Médicas da Santa Casa de São Paulo
 11	Cal Cohen	Community Research Initiative of New England
 12	Carol Wallace	Seattle Children's Hospital
 13	Chi Chiu Mok	Tuen Mun Hospital
 14	Christoph W. Kopp	Medical University of Vienna
-15	CLAUDIA ALESSANDRA ECKLEY	Faculdade de Ciências Médicas da Santa Casa de São Paulo
-16	Colin Sieff	Children's Hospital Boston
-17	Daniel Benjamin	Duke University Medical Center
-18	David Boulware	University of Minnesota - Clinical and Translational Science Institute
-19	David Hasan	University of Iowa
-20	Djillali Annane	University of Versailles
-21	Dr. Peter Selby	Centre for Addiction and Mental Health
+15	Colin Sieff	Children's Hospital Boston
+16	Daniel Benjamin	Duke University Medical Center
+17	David Boulware	University of Minnesota - Clinical and Translational Science Institute
+18	David Hasan	University of Iowa
+19	Djillali Annane	University of Versailles
+20	Dr. Peter Selby	Centre for Addiction and Mental Health
+21	E. Steve Woodle	University of Cincinnati
 22	Edward Ball	University of California, San Diego
 23	Elliot Israel, MD	Brigham and Women's Hospital
 24	Eloise Lemon	Akron Children's Hospital
 25	Ercan OK	Ege University
 26	Eric Strain, MD	Johns Hopkins University
-27	E. Steve Woodle	University of Cincinnati
-28	Fran Aweeka	University of California, San Francisco
-29	Franck Carbonnel	Centre Hospitalier Universitaire de Besancon
-30	Frederic T Billings IV	Vanderbilt University
-31	Gagan Joshi, MD	Massachusetts General Hospital
-32	Gantt Galloway, PharmD	California Pacific Medical Center Research Institute
-33	Gary Morrow	University of Rochester
-33	Gary Morrow	University of Rochester
-35	Gerald M Reaven	Stanford University
-36	Ghada Bourjeily	Women and Infants Hospital of Rhode Island
-37	Han Yaling, MD	Shenyang Northern Hospital
-38	Hisashi Kai	Kurume University
-39	Huub Gelderblom MD, PhD, MPH	Emory University
-40	Jamie M. Zeitzer, Ph.D.	VA Palo Alto Health Care System
+27	Fran Aweeka	University of California, San Francisco
+28	Franck Carbonnel	Centre Hospitalier Universitaire de Besancon
+29	Frederic T Billings IV	Vanderbilt University
+30	Gagan Joshi, MD	Massachusetts General Hospital
+31	Gantt Galloway, PharmD	California Pacific Medical Center Research Institute
+32	Gary Morrow	University of Rochester
+32	Gary Morrow	University of Rochester
+34	Gerald M Reaven	Stanford University
+35	Ghada Bourjeily	Women and Infants Hospital of Rhode Island
+36	Han Yaling, MD	Shenyang Northern Hospital
+37	Hisashi Kai	Kurume University
+38	Huub Gelderblom MD, PhD, MPH	Emory University
+39	Jamie M. Zeitzer, Ph.D.	VA Palo Alto Health Care System
+40	Jan W.K. van den Berg	Isala Klinieken
 41	Jane Armitage	University of Oxford
 42	Janet Novotny	USDA Beltsville Human Nutrition Research Center
-43	Jan W.K. van den Berg	Isala Klinieken
-44	Javier Maquirriain	Argentine Tennis Association
-45	Jay B. Higgs, MD	Wilford Hall Medical Center
-46	Jeffrey Zonder	Barbara Ann Karmanos Cancer Institute
+43	Javier Maquirriain	Argentine Tennis Association
+44	Jay B. Higgs, MD	Wilford Hall Medical Center
+45	Jeffrey Zonder	Barbara Ann Karmanos Cancer Institute
+46	Ji-youn Han	National Cancer Center, Korea
 47	JiFei Tang	Wenzhou Medical University
 48	Jim McAuley	The Ohio State University
-49	Ji-youn Han	National Cancer Center, Korea
-50	Joan	Manhattan Eye, Ear & Throat Hospital
-51	Johanna Savilampi	University Hospital Orebro
-52	John K. DiBaise	Mayo Clinic
-53	Joshua A. Beckman, MD	Brigham and Women's Hospital
-54	Joy Schmitz	The University of Texas Health Science Center, Houston
-55	Julie M Vose, MD	University of Nebraska
-55	Julie M Vose, MD	University of Nebraska
-57	Karl Winkler	University Hospital Freiburg
-58	Karsten Overgaard	Herlev Hospital
-59	Kathleen Colleran	University of New Mexico
-60	Kittipong Maneechotesuwan	Mahidol University
-61	Kristin A. Jones	Mercy Facial Plastic Surgery Center
-62	Kristin Baird, M.D.	National Institutes of Health Clinical Center (CC)
-63	Kwang Kon Koh	Gachon University Gil Medical Center
-64	Laura R. Ment	Yale University
-65	Lawrence Lum	Barbara Ann Karmanos Cancer Institute
-66	Lewis B. Silverman, M.D.	Dana-Farber Cancer Institute
-67	Linda Ward	Oxford University Hospitals NHS Trust
-68	Mark Metersky	University of Connecticut Health Center
-69	Mark W. Kieran, MD, PhD	Dana-Farber Cancer Institute
-70	Marney A. White	Yale University
-71	Martin Schrappe	University of Schleswig-Holstein
-72	Matthias Schwab	University Hospital Tuebingen
-72	Matthias Schwab	Dr. Margarete Fischer-Bosch-Institut für Klinische Pharmakologie (IKP) am Robert-Bosch-Krankenhaus (RBK)
-74	Mehmet Sofuoglu	Yale University
-75	Michael Hoelscher	Ludwig-Maximilians - University of Munich
-76	Michael Miller	University of Maryland
-77	Michael Minzenberg, MD	University of California, Davis
-78	Mr PJ Kirkpatrick	Cambridge University Hospitals NHS Foundation Trust
-79	Muneer Abidi	Barbara Ann Karmanos Cancer Institute
-80	Naoki Inui	Hamamatsu University
-81	Nikolaos Kadoglou	Aristotle University Of Thessaloniki
-82	Oliver Cornely, MD	University of Cologne
-83	özgür yağan	T.C. ORDU ÜNİVERSİTESİ
-84	Paul Bolin	East Carolina University
-85	Peter C. Donovan	Maine Medical Center
-86	Peter Gariti	University of Pennsylvania
-87	Phillip Brian Smith	Duke University Medical Center
-88	Prof.  Daniel Seidman	Sheba Medical Center
-89	Randie Black-Schaffer MD	Spaulding Rehabilitation Hospital
-90	R. Brian Stevens, MD	University of Nebraska Medical Center
-91	Rita Alloway	University of Cincinnati
-92	Robert Lowsky	Stanford University
-93	Robert W. Buchanan, M.D.	University of Maryland
-94	Ronald Go	Gundersen Lutheran Health System
-95	Ronnie Guillet	University of Rochester
-96	Roseli Shavitt	University of Sao Paulo
-97	Sam Schulman	McMaster University
-98	Sandeep Soni, M.D.	Nationwide Children's Hospital
-99	Sara Varea	Fundació Clínic per la Recerca Biomèdica
-100	Sasso Ferdinando Carlo	Second University of Naples
-101	Shahriar Zehtabchi	State University of New York - Downstate Medical Center
-102	Shinichi Oka, M.D.	International Medical Center of Japan
-103	Shunichi Homma	Columbia University
-104	Srividya Kidambi, MD	Medical College of Wisconsin
-105	Stepani Bendel	Kuopio University Hospital
-106	Steven K. Grinspoon, MD	Massachusetts General Hospital
-107	Sung-Han Kim	Asan Medical Center
-108	Susan Smyth	University of Kentucky
-109	Tamara Horwich	University of California, Los Angeles
-110	Ted Bader, MD	Bader, Ted, M.D.
-111	Tessa Madden, MD	Washington University School of Medicine
-112	Titta Joutsiniemi	Turku University Hospital
-113	Tom Schepens, MD	University Hospital, Antwerp
-114	Valeria Cavalcanti Rolla	Oswaldo Cruz Foundation
-115	Vernon M. Chinchilli, PhD	Milton S. Hershey Medical Center
-116	Vincent T. Ho, MD	Dana-Farber Cancer Institute
-117	Voravit Ratanatharathorn	Barbara Ann Karmanos Cancer Institute
-118	V. Ram Peddi	California Pacific Medical Center Research Institute
-119	Walter Ageno	Università degli Studi dell'Insubria
-120	Werner J. Heinz	Wuerzburg University Hospital
-121	Wilhelm Grander, M.D.	University Teaching Hospital Hall in Tirol
-122	Wu Jun	Nanjing Medical University
-123	Xinfeng Liu	Jinling Hospital, China
-124	Xue Qing Yu	Sun Yat-sen University
-125	Zaid Al-Kadhimi	Barbara Ann Karmanos Cancer Institute
-126	Zeruesenay Desta	Indiana University
+49	Joan	Manhattan Eye, Ear & Throat Hospital
+50	Johanna Savilampi	University Hospital Orebro
+51	John K. DiBaise	Mayo Clinic
+52	Joshua A. Beckman, MD	Brigham and Women's Hospital
+53	Joy Schmitz	The University of Texas Health Science Center, Houston
+54	Julie M Vose, MD	University of Nebraska
+54	Julie M Vose, MD	University of Nebraska
+56	Karl Winkler	University Hospital Freiburg
+57	Karsten Overgaard	Herlev Hospital
+58	Kathleen Colleran	University of New Mexico
+59	Kittipong Maneechotesuwan	Mahidol University
+60	Kristin A. Jones	Mercy Facial Plastic Surgery Center
+61	Kristin Baird, M.D.	National Institutes of Health Clinical Center (CC)
+62	Kwang Kon Koh	Gachon University Gil Medical Center
+63	Laura R. Ment	Yale University
+64	Lawrence Lum	Barbara Ann Karmanos Cancer Institute
+65	Lewis B. Silverman, M.D.	Dana-Farber Cancer Institute
+66	Linda Ward	Oxford University Hospitals NHS Trust
+67	Mark Metersky	University of Connecticut Health Center
+68	Mark W. Kieran, MD, PhD	Dana-Farber Cancer Institute
+69	Marney A. White	Yale University
+70	Martin Schrappe	University of Schleswig-Holstein
+71	Matthias Schwab	University Hospital Tuebingen
+71	Matthias Schwab	Dr. Margarete Fischer-Bosch-Institut für Klinische Pharmakologie (IKP) am Robert-Bosch-Krankenhaus (RBK)
+73	Mehmet Sofuoglu	Yale University
+74	Michael Hoelscher	Ludwig-Maximilians - University of Munich
+75	Michael Miller	University of Maryland
+76	Michael Minzenberg, MD	University of California, Davis
+77	Mr PJ Kirkpatrick	Cambridge University Hospitals NHS Foundation Trust
+78	Muneer Abidi	Barbara Ann Karmanos Cancer Institute
+79	Naoki Inui	Hamamatsu University
+80	Nikolaos Kadoglou	Aristotle University Of Thessaloniki
+81	Oliver Cornely, MD	University of Cologne
+82	Paul Bolin	East Carolina University
+83	Peter C. Donovan	Maine Medical Center
+84	Peter Gariti	University of Pennsylvania
+85	Phillip Brian Smith	Duke University Medical Center
+86	Prof.  Daniel Seidman	Sheba Medical Center
+87	R. Brian Stevens, MD	University of Nebraska Medical Center
+88	Randie Black-Schaffer MD	Spaulding Rehabilitation Hospital
+89	Rita Alloway	University of Cincinnati
+90	Robert Lowsky	Stanford University
+91	Robert W. Buchanan, M.D.	University of Maryland
+92	Ronald Go	Gundersen Lutheran Health System
+93	Ronnie Guillet	University of Rochester
+94	Roseli Shavitt	University of Sao Paulo
+95	Sam Schulman	McMaster University
+96	Sandeep Soni, M.D.	Nationwide Children's Hospital
+97	Sara Varea	Fundació Clínic per la Recerca Biomèdica
+98	Sasso Ferdinando Carlo	Second University of Naples
+99	Shahriar Zehtabchi	State University of New York - Downstate Medical Center
+100	Shinichi Oka, M.D.	International Medical Center of Japan
+101	Shunichi Homma	Columbia University
+102	Srividya Kidambi, MD	Medical College of Wisconsin
+103	Stepani Bendel	Kuopio University Hospital
+104	Steven K. Grinspoon, MD	Massachusetts General Hospital
+105	Sung-Han Kim	Asan Medical Center
+106	Susan Smyth	University of Kentucky
+107	Tamara Horwich	University of California, Los Angeles
+108	Ted Bader, MD	Bader, Ted, M.D.
+109	Tessa Madden, MD	Washington University School of Medicine
+110	Titta Joutsiniemi	Turku University Hospital
+111	Tom Schepens, MD	University Hospital, Antwerp
+112	V. Ram Peddi	California Pacific Medical Center Research Institute
+113	Valeria Cavalcanti Rolla	Oswaldo Cruz Foundation
+114	Vernon M. Chinchilli, PhD	Milton S. Hershey Medical Center
+115	Vincent T. Ho, MD	Dana-Farber Cancer Institute
+116	Voravit Ratanatharathorn	Barbara Ann Karmanos Cancer Institute
+117	Walter Ageno	Università degli Studi dell'Insubria
+118	Werner J. Heinz	Wuerzburg University Hospital
+119	Wilhelm Grander, M.D.	University Teaching Hospital Hall in Tirol
+120	Wu Jun	Nanjing Medical University
+121	Xinfeng Liu	Jinling Hospital, China
+122	Xue Qing Yu	Sun Yat-sen University
+123	Zaid Al-Kadhimi	Barbara Ann Karmanos Cancer Institute
+124	Zeruesenay Desta	Indiana University
+125	alaa eldeen mahmoud ismail	Woman's Health University Hospital, Egypt
+126	özgür yağan	T.C. ORDU ÜNİVERSİTESİ
 \.
 
 
@@ -6691,15 +12516,15 @@ COPY public.side_effect (side_effect_id, side_effect_name) FROM stdin;
 13	abnormal electroretinogram
 14	abnormal gait
 15	abnormal heart sounds
-16	abnormality of accommodation
-17	abnormal movements
-18	abnormal pigmentation
-19	abnormal platelets
-20	abnormal rbc
-21	abnormal stools
-22	abnormal urine
-23	abnormal vision
-24	abnormal withdrawal bleeding
+16	abnormal movements
+17	abnormal pigmentation
+18	abnormal platelets
+19	abnormal rbc
+20	abnormal stools
+21	abnormal urine
+22	abnormal vision
+23	abnormal withdrawal bleeding
+24	abnormality of accommodation
 25	abscess
 26	abuse
 27	ache
@@ -6988,8 +12813,8 @@ COPY public.side_effect (side_effect_id, side_effect_name) FROM stdin;
 310	drug level altered
 311	drug level increased
 312	drunk
-313	dry eyes
-314	dry eye syndrome
+313	dry eye syndrome
+314	dry eyes
 315	dry mouth
 316	dry skin
 317	duodenal ulcer
@@ -7090,9 +12915,9 @@ COPY public.side_effect (side_effect_id, side_effect_name) FROM stdin;
 412	falling down
 413	familial hypercholesterolemia
 414	fasting
-415	fatal outcome
-416	fatigue
-417	fat redistribution
+415	fat redistribution
+416	fatal outcome
+417	fatigue
 418	fecal incontinence
 419	fecal occult blood positive
 420	feeling abnormal
@@ -7174,15 +12999,15 @@ COPY public.side_effect (side_effect_id, side_effect_name) FROM stdin;
 496	headache
 497	hearing loss
 498	heart block
-499	heartburn
-500	heart disorder
-501	heart failure
+499	heart disorder
+500	heart failure
+501	heartburn
 502	heat intolerance
 503	heat rash
 504	hemangioma
 505	hematemesis
-506	hematological malignancy
-507	hematologic disorders
+506	hematologic disorders
+507	hematological malignancy
 508	hematoma
 509	hematuria
 510	hemianopia
@@ -7483,8 +13308,8 @@ COPY public.side_effect (side_effect_id, side_effect_name) FROM stdin;
 805	nephrosis
 806	nephrotic syndrome
 807	nerve paralysis
-808	nervousness
-809	nervous system disorders
+808	nervous system disorders
+809	nervousness
 810	neuralgia
 811	neuritis
 812	neuroleptic malignant
@@ -7495,8 +13320,8 @@ COPY public.side_effect (side_effect_id, side_effect_name) FROM stdin;
 817	neutropenia aggravated
 818	neutropenic fever
 819	night blindness
-820	nightmares
-821	night sweats
+820	night sweats
+821	nightmares
 822	nocardiosis
 823	nocturia
 824	nodal arrhythmia
@@ -8518,138 +14343,138 @@ edrophonium	Blood group
 --
 
 COPY public.trial (trial_id, title, start_date, completion_date, participants, status, institution_name, main_researcher_id) FROM stdin;
-1	A Controlled Study of Uric Acid on the Progression of IgA Nephropathy	2007-07-01	2009-06-01	40	Completed	Sun Yat-sen University	124
-2	Aizthromycin or Clarithromycin in H-pylori Eradication Regimen	2011-03-01	2012-03-01	78	Completed	Shahid Sadoughi University of Medical Sciences and Health Services	8
-3	Allogeneic Hematopoietic Stem Cell Transplantation for Relapsed or Refractory High-Risk NBL.	2008-09-01	2012-06-01	2	Terminated	Nationwide Children's Hospital	98
-4	Allogeneic Stem Cell Transplant After ATG, High-Dose Melphalan, and Fludarabine for Patients With Metastatic Breast Cancer	2003-07-01	2008-03-01	5	Terminated	University of California, San Diego	22
-5	Allogeneic Transplantation Using TL1 & ATG for Older Patients With Hematologic Malignancies	2003-03-01	2015-01-01	299	Completed	Stanford University	92
-6	Anesthetics in Rhytidoplasty - A Comparison Study	2013-09-01	2014-06-01	30	Completed	Mercy Facial Plastic Surgery Center	61
-7	Antibiotic Prophylaxis for Simple Hand Lacerations	2010-02-01	2012-02-01	73	Terminated	State University of New York - Downstate Medical Center	101
-8	Antibiotic Therapy in Preventing Early Infection in Patients With Multiple Myeloma Who Are Receiving Chemotherapy	1997-03-01	2012-01-01	212	Completed	University of Rochester	33
-8	Antibiotic Therapy in Preventing Early Infection in Patients With Multiple Myeloma Who Are Receiving Chemotherapy	1997-03-01	2012-01-01	212	Completed	University of Rochester	33
-10	Anti-inflammatory Treatment at the Onset of Necrotizing Enterocolitis (NEC) in Preterm Infants	2009-09-01	2012-11-01	2	Terminated	NorthShore University HealthSystem Research Institute	10
-11	A Pilot Study of the Treatment of Central Serous Chorioretinopathy With Ketoconazole	2005-05-01	2008-04-01	5	Completed	Manhattan Eye, Ear & Throat Hospital	50
-12	A Pilot Trial of Modafinil for Treatment of Methamphetamine Dependence	2008-01-01	2011-06-01	20	Completed	California Pacific Medical Center Research Institute	32
-13	A Randomized Controlled Trial of Oral Naproxen and Transdermal Estradiol for Bleeding in LNG-IUC	2008-11-01	2011-01-01	129	Completed	Washington University School of Medicine	111
-14	Aspirin Attenuates Inflammation in Human Cerebral Aneurysms	2011-08-01	2014-08-01	11	Completed	University of Iowa	19
-15	Asthma Clinical Research Network (ACRN) Trial - Macrolides in Asthma (MIA)	2006-06-01	2009-04-01	92	Completed	Milton S. Hershey Medical Center	115
-16	Atorvastatin for Preventing Occlusion and Restenosis After Intracranial Artery Stenting	2011-01-01	2014-12-01	100	Active, not recruiting	Jinling Hospital, China	123
-17	Atorvastatin Treatment to Attenuate the Progression of Cardiovascular Disease in Hemodialysis Patients	2006-11-01	2008-12-01	446	Completed	Ege University	25
-18	Beneficial Effect of Salicylates: Insulin Action, Secretion or Clearance?	2010-07-01	2013-11-01	41	Completed	Stanford University	35
-19	Bortezomib, Melphalan, and Dexamethasone in Treating Patients With Primary Amyloidosis or Light Chain Deposition Disease	2007-09-01	2010-10-01	35	Completed	Barbara Ann Karmanos Cancer Institute	46
-20	Bosentan for Poorly Controlled Asthma	2008-12-01	2010-09-01	11	Terminated	University of Connecticut Health Center	68
-21	Caspofungin Maximum Tolerated Dose in Patients With Invasive Aspergillosis	2006-10-01	2009-10-01	46	Completed	University of Cologne	82
-22	Cisplatin, Etoposide, and Cyclophosphamide in Treating Patients With Extensive-Stage Small Cell Lung Cancer	2003-06-01	2010-05-01	8	Completed	Gundersen Lutheran Health System	94
-23	Cocaine Withdrawal and Pharmacotherapy Response	2007-09-01	2013-01-01	77	Completed	Yale University	74
-24	Combination Chemotherapy Based on Risk of Relapse in Treating Young Patients With Acute Lymphoblastic Leukemia	2000-07-01	2012-01-01	4559	Completed	University of Schleswig-Holstein	71
-25	Combination Chemotherapy Followed By Autologous Stem Cell Transplant, and White Blood Cell Infusions in Treating Patients With Non-Hodgkin's Lymphoma	2004-03-01	2013-03-01	15	Completed	Barbara Ann Karmanos Cancer Institute	65
-26	Comparing Smoking Treatment Programs for Lighter Smokers - 1	2003-09-01	2009-06-01	260	Completed	University of Pennsylvania	86
-27	Comparing the Effectiveness Between Ritonavir Boosted Atazanavir and Efavirenz for the First HIV Treatment	2005-09-01	2009-09-01	71	Completed	International Medical Center of Japan	102
+1	A Controlled Study of Uric Acid on the Progression of IgA Nephropathy	2007-07-01	2009-06-01	40	Completed	Sun Yat-sen University	122
+2	A Pilot Study of the Treatment of Central Serous Chorioretinopathy With Ketoconazole	2005-05-01	2008-04-01	5	Completed	Manhattan Eye, Ear & Throat Hospital	49
+3	A Pilot Trial of Modafinil for Treatment of Methamphetamine Dependence	2008-01-01	2011-06-01	20	Completed	California Pacific Medical Center Research Institute	31
+4	A Randomized Controlled Trial of Oral Naproxen and Transdermal Estradiol for Bleeding in LNG-IUC	2008-11-01	2011-01-01	129	Completed	Washington University School of Medicine	109
+5	Aizthromycin or Clarithromycin in H-pylori Eradication Regimen	2011-03-01	2012-03-01	78	Completed	Shahid Sadoughi University of Medical Sciences and Health Services	7
+6	Allogeneic Hematopoietic Stem Cell Transplantation for Relapsed or Refractory High-Risk NBL.	2008-09-01	2012-06-01	2	Terminated	Nationwide Children's Hospital	96
+7	Allogeneic Stem Cell Transplant After ATG, High-Dose Melphalan, and Fludarabine for Patients With Metastatic Breast Cancer	2003-07-01	2008-03-01	5	Terminated	University of California, San Diego	22
+8	Allogeneic Transplantation Using TL1 & ATG for Older Patients With Hematologic Malignancies	2003-03-01	2015-01-01	299	Completed	Stanford University	90
+9	Anesthetics in Rhytidoplasty - A Comparison Study	2013-09-01	2014-06-01	30	Completed	Mercy Facial Plastic Surgery Center	60
+10	Anti-inflammatory Treatment at the Onset of Necrotizing Enterocolitis (NEC) in Preterm Infants	2009-09-01	2012-11-01	2	Terminated	NorthShore University HealthSystem Research Institute	9
+11	Antibiotic Prophylaxis for Simple Hand Lacerations	2010-02-01	2012-02-01	73	Terminated	State University of New York - Downstate Medical Center	99
+12	Antibiotic Therapy in Preventing Early Infection in Patients With Multiple Myeloma Who Are Receiving Chemotherapy	1997-03-01	2012-01-01	212	Completed	University of Rochester	32
+12	Antibiotic Therapy in Preventing Early Infection in Patients With Multiple Myeloma Who Are Receiving Chemotherapy	1997-03-01	2012-01-01	212	Completed	University of Rochester	32
+14	Aspirin Attenuates Inflammation in Human Cerebral Aneurysms	2011-08-01	2014-08-01	11	Completed	University of Iowa	18
+15	Asthma Clinical Research Network (ACRN) Trial - Macrolides in Asthma (MIA)	2006-06-01	2009-04-01	92	Completed	Milton S. Hershey Medical Center	114
+16	Atorvastatin Treatment to Attenuate the Progression of Cardiovascular Disease in Hemodialysis Patients	2006-11-01	2008-12-01	446	Completed	Ege University	25
+17	Atorvastatin for Preventing Occlusion and Restenosis After Intracranial Artery Stenting	2011-01-01	2014-12-01	100	Active, not recruiting	Jinling Hospital, China	121
+18	Beneficial Effect of Salicylates: Insulin Action, Secretion or Clearance?	2010-07-01	2013-11-01	41	Completed	Stanford University	34
+19	Bortezomib, Melphalan, and Dexamethasone in Treating Patients With Primary Amyloidosis or Light Chain Deposition Disease	2007-09-01	2010-10-01	35	Completed	Barbara Ann Karmanos Cancer Institute	45
+20	Bosentan for Poorly Controlled Asthma	2008-12-01	2010-09-01	11	Terminated	University of Connecticut Health Center	67
+21	Caspofungin Maximum Tolerated Dose in Patients With Invasive Aspergillosis	2006-10-01	2009-10-01	46	Completed	University of Cologne	81
+22	Cisplatin, Etoposide, and Cyclophosphamide in Treating Patients With Extensive-Stage Small Cell Lung Cancer	2003-06-01	2010-05-01	8	Completed	Gundersen Lutheran Health System	92
+23	Cocaine Withdrawal and Pharmacotherapy Response	2007-09-01	2013-01-01	77	Completed	Yale University	73
+24	Combination Chemotherapy Based on Risk of Relapse in Treating Young Patients With Acute Lymphoblastic Leukemia	2000-07-01	2012-01-01	4559	Completed	University of Schleswig-Holstein	70
+25	Combination Chemotherapy Followed By Autologous Stem Cell Transplant, and White Blood Cell Infusions in Treating Patients With Non-Hodgkin's Lymphoma	2004-03-01	2013-03-01	15	Completed	Barbara Ann Karmanos Cancer Institute	64
+26	Comparing Smoking Treatment Programs for Lighter Smokers - 1	2003-09-01	2009-06-01	260	Completed	University of Pennsylvania	84
+27	Comparing the Effectiveness Between Ritonavir Boosted Atazanavir and Efavirenz for the First HIV Treatment	2005-09-01	2009-09-01	71	Completed	International Medical Center of Japan	100
 28	Comparing the Efficacy of Tacrolimus and Mycophenolate Mofetil for the Initial Therapy of Active Lupus Nephritis	2005-09-01	2014-06-01	150	Completed	Tuen Mun Hospital	13
-29	Comparison of Blood Pressure Medications on Metabolism	2004-01-01	2008-07-01	21	Completed	University of New Mexico	59
+29	Comparison of Blood Pressure Medications on Metabolism	2004-01-01	2008-07-01	21	Completed	University of New Mexico	58
 30	Comparison of Cephalexin Versus Clindamycin for Suspected CA-MRSA Skin Infections	2006-09-01	2009-08-01	200	Completed	Johns Hopkins University	1
-31	Comparison of Methotrexate vs Placebo in Corticosteroid-dependent Ulcerative Colitis	2007-09-01	2014-06-01	110	Completed	Centre Hospitalier Universitaire de Besancon	29
+31	Comparison of Methotrexate vs Placebo in Corticosteroid-dependent Ulcerative Colitis	2007-09-01	2014-06-01	110	Completed	Centre Hospitalier Universitaire de Besancon	28
 32	Comparison of the Efficacy of Topical Ibuprofen to Oral Ibuprofen in Adolescent Athletes	2006-05-01	2009-04-01	60	Terminated	Akron Children's Hospital	24
-33	Craving, Binge Eating and Obesity	2005-12-01	2011-03-01	61	Completed	Yale University	70
-34	Cryptococcal Optimal ART Timing Trial	2010-11-01	2013-03-01	177	Completed	University of Minnesota - Clinical and Translational Science Institute	18
-35	Detection of Plaque Inflammation by Positron Emission Tomography (PET)-Effects of Simvastatin on Plaque Inflammation	2004-09-01	2009-04-01	43	Completed	Kurume University	38
-36	Determine the Effects of Gene Differences and Voriconazole on Enzyme CYP2B6 Activity in the Liver in Healthy Volunteers	2010-03-01	2013-04-01	61	Completed	Indiana University	126
-37	Developing Adaptive Treatment Strategies for Children and Adolescents With Obsessive-compulsive Disorder.	2010-08-01	2013-12-01	144	Completed	University of Sao Paulo	96
-38	Diagnosis and Therapy of Vulnerable Atherosclerotic Plaque	2005-09-01	2009-01-01	300	Completed	Aristotle University Of Thessaloniki	81
-39	Distribution of Bupropion and Varenicline to Increase Smoking Cessation Attempts	2010-04-01	2011-12-01	923	Completed	Centre for Addiction and Mental Health	21
-40	Does Allopurinol Prolong a Treated, Acute Gout Flare?	2007-12-01	2013-06-01	35	Completed	Wilford Hall Medical Center	45
-41	Early Use of Rosuvastatin in Acute Coronary Syndromes: Targeting Platelet-Leukocyte Interactions	2011-06-01	2014-02-01	54	Completed	University of Kentucky	108
-42	Effectiveness of Modafinil and D-amphetamine in Treating Cocaine Dependent Individuals	2006-03-01	2012-01-01	73	Completed	The University of Texas Health Science Center, Houston	54
-43	Effect of Daily Low Dose Aspirin on Exhaled Inflammatory Mediators in Normal Subjects	2009-05-01	2009-08-01	4	Completed	Brigham and Women's Hospital	23
-44	Effect of Diabetes Mellitus on Cholesterol Metabolism	2008-08-01	2013-07-01	52	Completed	Medical College of Wisconsin	104
-45	Effect of Ezetimibe or Simvastatin or Both on Low Densitiy Lipoprotein -Subfractions in Patients With Type 2 Diabetes	2007-11-01	2010-06-01	41	Completed	University Hospital Freiburg	57
-46	Effects of Statins on the Pharmacokinetics for Midazolam in Healthy Volunteers	2006-06-01	2008-08-01	11	Completed	Hamamatsu University	80
-47	Efficacy of Intravenous Dexketoprofen and Tenoxicam on Propofol Associated Injection Pain	2014-11-01	2015-04-01	118	Completed	T.C. ORDU ÜNİVERSİTESİ	83
-48	Efficacy Study of Prophylactic Ibuprofen Versus Placebo on Pain Relief and Success Rates of Medical Abortion	2009-10-01	2010-10-01	61	Completed	Sheba Medical Center	88
-49	Etoposide, Cyclophosphamide, Thalidomide, Celecoxib, and Fenofibrate in Relapsed or Progressive Cancer	2005-01-01	2013-12-01	101	Completed	Dana-Farber Cancer Institute	69
+33	Craving, Binge Eating and Obesity	2005-12-01	2011-03-01	61	Completed	Yale University	69
+34	Cryptococcal Optimal ART Timing Trial	2010-11-01	2013-03-01	177	Completed	University of Minnesota - Clinical and Translational Science Institute	17
+35	Detection of Plaque Inflammation by Positron Emission Tomography (PET)-Effects of Simvastatin on Plaque Inflammation	2004-09-01	2009-04-01	43	Completed	Kurume University	37
+36	Determine the Effects of Gene Differences and Voriconazole on Enzyme CYP2B6 Activity in the Liver in Healthy Volunteers	2010-03-01	2013-04-01	61	Completed	Indiana University	124
+37	Developing Adaptive Treatment Strategies for Children and Adolescents With Obsessive-compulsive Disorder.	2010-08-01	2013-12-01	144	Completed	University of Sao Paulo	94
+38	Diagnosis and Therapy of Vulnerable Atherosclerotic Plaque	2005-09-01	2009-01-01	300	Completed	Aristotle University Of Thessaloniki	80
+39	Distribution of Bupropion and Varenicline to Increase Smoking Cessation Attempts	2010-04-01	2011-12-01	923	Completed	Centre for Addiction and Mental Health	20
+40	Does Allopurinol Prolong a Treated, Acute Gout Flare?	2007-12-01	2013-06-01	35	Completed	Wilford Hall Medical Center	44
+41	Early Use of Rosuvastatin in Acute Coronary Syndromes: Targeting Platelet-Leukocyte Interactions	2011-06-01	2014-02-01	54	Completed	University of Kentucky	106
+42	Effect of Daily Low Dose Aspirin on Exhaled Inflammatory Mediators in Normal Subjects	2009-05-01	2009-08-01	4	Completed	Brigham and Women's Hospital	23
+43	Effect of Diabetes Mellitus on Cholesterol Metabolism	2008-08-01	2013-07-01	52	Completed	Medical College of Wisconsin	102
+44	Effect of Ezetimibe or Simvastatin or Both on Low Densitiy Lipoprotein -Subfractions in Patients With Type 2 Diabetes	2007-11-01	2010-06-01	41	Completed	University Hospital Freiburg	56
+45	Effectiveness of Modafinil and D-amphetamine in Treating Cocaine Dependent Individuals	2006-03-01	2012-01-01	73	Completed	The University of Texas Health Science Center, Houston	53
+46	Effects of Statins on the Pharmacokinetics for Midazolam in Healthy Volunteers	2006-06-01	2008-08-01	11	Completed	Hamamatsu University	79
+47	Efficacy Study of Prophylactic Ibuprofen Versus Placebo on Pain Relief and Success Rates of Medical Abortion	2009-10-01	2010-10-01	61	Completed	Sheba Medical Center	86
+48	Efficacy of Intravenous Dexketoprofen and Tenoxicam on Propofol Associated Injection Pain	2014-11-01	2015-04-01	118	Completed	T.C. ORDU ÜNİVERSİTESİ	126
+49	Etoposide, Cyclophosphamide, Thalidomide, Celecoxib, and Fenofibrate in Relapsed or Progressive Cancer	2005-01-01	2013-12-01	101	Completed	Dana-Farber Cancer Institute	68
 50	Evaluating the Transporter Protein Inhibitor Probenecid In Patients With Epilepsy	2006-03-01	2011-06-01	8	Terminated	The Ohio State University	48
-51	Evaluation of SQ109, High-dose Rifampicin, and Moxifloxacin in Adults With Smear-positive Pulmonary TB in a MAMS Design	2013-04-01	2014-12-01	365	Active, not recruiting	Ludwig-Maximilians - University of Munich	75
-52	Evaluation of the Use of Indomethacin as Co-treatment in Women With Preterm Labor and High Risk of Intraamniotic Inflammation	2012-04-01	2014-09-01	16	Completed	Fundació Clínic per la Recerca Biomèdica	99
-53	Fluconazole Prophylaxis for the Prevention of Candidiasis in Infants Less Than 750 Grams Birthweight	2008-11-01	2013-04-01	362	Completed	Duke University Medical Center	17
-54	Fluoxetine for Motor, Aphasia, and Neglect Recovery After Ischemic Stroke	2013-04-01	2015-12-01	0	Withdrawn	Spaulding Rehabilitation Hospital	89
-55	Fluoxetine for Obsessive-Compulsive Disorder in Children and Adolescents With Bipolar Disorder	2005-12-01	2010-09-01	13	Terminated	Massachusetts General Hospital	31
-56	Fluvastatin, Rosuvastatin Added to Pegylated Interferon and Ribavirin	2007-06-01	2010-10-01	40	Completed	Bader, Ted, M.D.	110
-57	FOTO: Five Consecutive Days on Treatment With Efavirenz, Tenofovir, and Emtricitabine Followed by Two Days Off Treatment Versus Continuous Treatment	2006-08-01	2009-12-01	60	Completed	Community Research Initiative of New England	11
+51	Evaluation of SQ109, High-dose Rifampicin, and Moxifloxacin in Adults With Smear-positive Pulmonary TB in a MAMS Design	2013-04-01	2014-12-01	365	Active, not recruiting	Ludwig-Maximilians - University of Munich	74
+52	Evaluation of the Use of Indomethacin as Co-treatment in Women With Preterm Labor and High Risk of Intraamniotic Inflammation	2012-04-01	2014-09-01	16	Completed	Fundació Clínic per la Recerca Biomèdica	97
+53	FOTO: Five Consecutive Days on Treatment With Efavirenz, Tenofovir, and Emtricitabine Followed by Two Days Off Treatment Versus Continuous Treatment	2006-08-01	2009-12-01	60	Completed	Community Research Initiative of New England	11
+54	Fluconazole Prophylaxis for the Prevention of Candidiasis in Infants Less Than 750 Grams Birthweight	2008-11-01	2013-04-01	362	Completed	Duke University Medical Center	16
+55	Fluoxetine for Motor, Aphasia, and Neglect Recovery After Ischemic Stroke	2013-04-01	2015-12-01	0	Withdrawn	Spaulding Rehabilitation Hospital	88
+56	Fluoxetine for Obsessive-Compulsive Disorder in Children and Adolescents With Bipolar Disorder	2005-12-01	2010-09-01	13	Terminated	Massachusetts General Hospital	30
+57	Fluvastatin, Rosuvastatin Added to Pegylated Interferon and Ribavirin	2007-06-01	2010-10-01	40	Completed	Bader, Ted, M.D.	108
 58	Gastric pH and Anthocyanin Absorption	2010-05-01	2010-12-01	13	Completed	USDA Beltsville Human Nutrition Research Center	42
-59	Gefitinib With or Without Simvastatin in Non-Small Cell Lung Cancer (NSCLC)	2006-05-01	2011-03-01	110	Completed	National Cancer Center, Korea	49
-60	Improved Induction and Maintenance Immunosuppression in Kidney Transplantation	2004-04-01	2011-06-01	180	Completed	University of Nebraska Medical Center	90
-61	Indomethacin Germinal Matrix Hemorrhage/Intraventricular Hemorrhage (GMH/IVH) Prevention Trial	1989-09-01	2012-03-01	630	Completed	Yale University	64
-62	Inflammation and Vascular Function in Atherosclerosis	2005-08-01	2011-02-01	44	Completed	Brigham and Women's Hospital	53
-63	Low Doses Corticosteroids as Adjuvant Therapy for the Treatment of Severe H1N1 Flu	2010-03-01	2011-12-01	40	Terminated	University of Versailles	20
-64	Maraviroc Plus Darunavir/Ritonavir for Treatment-Naïve Patients Infected With R5-tropic HIV-1	2010-05-01	2013-04-01	25	Completed	Northwestern University	6
-65	Melphalan and Palifermin in Treating Patients Undergoing An Autologous Peripheral Stem Cell Transplant for Stage II or III Multiple Myeloma	2007-06-01	2012-09-01	38	Completed	Barbara Ann Karmanos Cancer Institute	79
-66	Metoclopramide for Migraine: A Dose Finding Study	2008-04-01	2010-03-01	349	Completed	Montefiore Medical Center	9
-67	MgSO4 vs Metoclopramide for Headache in Pregnant Women	2008-08-01	2010-03-01	0	Withdrawn	Women and Infants Hospital of Rhode Island	36
-68	Mild Versus Potent Corticosteroids as Treatment for Phimosis in Children	2009-08-01	2009-09-01	0	Withdrawn	Chelsea and Westminster NHS Foundation Trust	4
-69	Modafinil for Treatment of Cognitive Dysfunction in Schizophrenia	2005-09-01	2012-12-01	38	Completed	University of California, Davis	77
-70	Modafinil Treatment for Sleep/Wake Disturbances in Older Adults	2008-02-01	2012-10-01	2	Terminated	VA Palo Alto Health Care System	40
-71	Monoclonal Antibody Therapy, Combination Chemotherapy, and Peripheral Stem Cell Transplant in Treating Patients With Relapsed or Refractory Non-Hodgkin's Lymphoma	2000-04-01	2014-12-01	50	Completed	University of Nebraska	55
-71	Monoclonal Antibody Therapy, Combination Chemotherapy, and Peripheral Stem Cell Transplant in Treating Patients With Relapsed or Refractory Non-Hodgkin's Lymphoma	2000-04-01	2014-12-01	50	Completed	University of Nebraska	55
-73	Nephropathy In Type 2 Diabetes and Cardio-renal Events	2003-03-01	2012-09-01	850	Active, not recruiting	Second University of Naples	100
-74	NSAIDs in Acute Achilles Tendinopathy: Effect on Pain Control, Leg Stiffness and Functional Recovery in Athletes	2009-08-01	2012-02-01	56	Completed	Argentine Tennis Association	44
-75	Omeprazole and Reflux Disease - Improvement of Clinical Outcome by Genotype-adjusted Dosing	2007-04-01	2010-12-01	68	Terminated	Dr. Margarete Fischer-Bosch-Institut für Klinische Pharmakologie (IKP) am Robert-Bosch-Krankenhaus (RBK)	72
-75	Omeprazole and Reflux Disease - Improvement of Clinical Outcome by Genotype-adjusted Dosing	2007-04-01	2010-12-01	68	Terminated	Dr. Margarete Fischer-Bosch-Institut für Klinische Pharmakologie (IKP) am Robert-Bosch-Krankenhaus (RBK)	72
-77	Open Label Study for the Functional Characterization of Drug Metabolism and Transport	2012-01-01	2015-05-01	144	Completed	University Hospital Tuebingen	72
-77	Open Label Study for the Functional Characterization of Drug Metabolism and Transport	2012-01-01	2015-05-01	144	Completed	University Hospital Tuebingen	72
-79	Opioid Effects on Swallowing and Esophageal Sphincter Pressure	2010-10-01	2010-11-01	14	Completed	University Hospital Orebro	51
-80	Optima: Optimizing Prograf Therapy in Maintenance Allografts II	2003-08-01	2008-07-01	63	Completed	East Carolina University	84
-81	Organ Donation and Hydrocortisone Treatment	2008-05-01	2011-12-01	38	Terminated	Kuopio University Hospital	105
-82	Oxycodone Extended-release in the Treatment of Perioperative Pain in Patients Undergoing Orthopaedic Surgery	2012-03-01	2012-09-01	40	Completed	Hospital Central Dr. Luis Ortega	7
-83	Pharmacokinetic Interactions Between Antiretroviral Agents and Antimalarial Drug Combinations	2005-07-01	2010-12-01	38	Completed	University of California, San Francisco	28
-84	Pharmacokinetic, Safety and Efficacy of Intermittent Application of Caspofungin for Antifungal Prophylaxis	2011-04-01	2013-10-01	25	Completed	Wuerzburg University Hospital	120
-85	Pilot Study for HLA Identical Living Donor Renal Transplant Recipients	2002-06-01	2007-12-01	20	Completed	University of Cincinnati	91
-86	Prevention of Pegfilgrastim-Induced Bone Pain (PIBP)	2008-06-01	2012-03-01	510	Completed	University of Rochester	33
-86	Prevention of Pegfilgrastim-Induced Bone Pain (PIBP)	2008-06-01	2012-03-01	510	Completed	University of Rochester	33
-88	Prophylactic Phenobarbital After Neonatal Seizures	2010-09-01	2014-11-01	13	Terminated	University of Rochester	95
-89	Prophylaxis to Reduce Postoperative Atrial Fibrillation in Cardiac Surgery	2009-08-01	2012-02-01	304	Completed	Maine Medical Center	85
-90	Prothrombin Times Outside the Therapeutic Range in Otherwise Stable Patients	2006-07-01	2009-04-01	160	Completed	McMaster University	97
-91	Radical Lung Radiotherapy Plus Nelfinavir	2012-02-01	2012-10-01	0	Withdrawn	Oxford University Hospitals NHS Trust	67
-92	Randomized Clinical Trial to Assess the Efficacy and Safety of Concomitant Use of Rifampicin and Efavirenz 600 X 800mg	2007-01-01	2012-10-01	130	Terminated	Oswaldo Cruz Foundation	114
-93	Recovery of Diaphragmatic Function After Neuromuscular Blockade and Sugammadex	2013-10-01	2014-12-01	75	Completed	University Hospital, Antwerp	113
+59	Gefitinib With or Without Simvastatin in Non-Small Cell Lung Cancer (NSCLC)	2006-05-01	2011-03-01	110	Completed	National Cancer Center, Korea	46
+60	Improved Induction and Maintenance Immunosuppression in Kidney Transplantation	2004-04-01	2011-06-01	180	Completed	University of Nebraska Medical Center	87
+61	Indomethacin Germinal Matrix Hemorrhage/Intraventricular Hemorrhage (GMH/IVH) Prevention Trial	1989-09-01	2012-03-01	630	Completed	Yale University	63
+62	Inflammation and Vascular Function in Atherosclerosis	2005-08-01	2011-02-01	44	Completed	Brigham and Women's Hospital	52
+63	Low Doses Corticosteroids as Adjuvant Therapy for the Treatment of Severe H1N1 Flu	2010-03-01	2011-12-01	40	Terminated	University of Versailles	19
+64	Maraviroc Plus Darunavir/Ritonavir for Treatment-Naïve Patients Infected With R5-tropic HIV-1	2010-05-01	2013-04-01	25	Completed	Northwestern University	5
+65	Melphalan and Palifermin in Treating Patients Undergoing An Autologous Peripheral Stem Cell Transplant for Stage II or III Multiple Myeloma	2007-06-01	2012-09-01	38	Completed	Barbara Ann Karmanos Cancer Institute	78
+66	Metoclopramide for Migraine: A Dose Finding Study	2008-04-01	2010-03-01	349	Completed	Montefiore Medical Center	8
+67	MgSO4 vs Metoclopramide for Headache in Pregnant Women	2008-08-01	2010-03-01	0	Withdrawn	Women and Infants Hospital of Rhode Island	35
+68	Mild Versus Potent Corticosteroids as Treatment for Phimosis in Children	2009-08-01	2009-09-01	0	Withdrawn	Chelsea and Westminster NHS Foundation Trust	3
+69	Modafinil Treatment for Sleep/Wake Disturbances in Older Adults	2008-02-01	2012-10-01	2	Terminated	VA Palo Alto Health Care System	39
+70	Modafinil for Treatment of Cognitive Dysfunction in Schizophrenia	2005-09-01	2012-12-01	38	Completed	University of California, Davis	76
+71	Monoclonal Antibody Therapy, Combination Chemotherapy, and Peripheral Stem Cell Transplant in Treating Patients With Relapsed or Refractory Non-Hodgkin's Lymphoma	2000-04-01	2014-12-01	50	Completed	University of Nebraska	54
+71	Monoclonal Antibody Therapy, Combination Chemotherapy, and Peripheral Stem Cell Transplant in Treating Patients With Relapsed or Refractory Non-Hodgkin's Lymphoma	2000-04-01	2014-12-01	50	Completed	University of Nebraska	54
+73	NSAIDs in Acute Achilles Tendinopathy: Effect on Pain Control, Leg Stiffness and Functional Recovery in Athletes	2009-08-01	2012-02-01	56	Completed	Argentine Tennis Association	43
+74	Nephropathy In Type 2 Diabetes and Cardio-renal Events	2003-03-01	2012-09-01	850	Active, not recruiting	Second University of Naples	98
+75	Omeprazole and Reflux Disease - Improvement of Clinical Outcome by Genotype-adjusted Dosing	2007-04-01	2010-12-01	68	Terminated	Dr. Margarete Fischer-Bosch-Institut für Klinische Pharmakologie (IKP) am Robert-Bosch-Krankenhaus (RBK)	71
+75	Omeprazole and Reflux Disease - Improvement of Clinical Outcome by Genotype-adjusted Dosing	2007-04-01	2010-12-01	68	Terminated	Dr. Margarete Fischer-Bosch-Institut für Klinische Pharmakologie (IKP) am Robert-Bosch-Krankenhaus (RBK)	71
+77	Open Label Study for the Functional Characterization of Drug Metabolism and Transport	2012-01-01	2015-05-01	144	Completed	University Hospital Tuebingen	71
+77	Open Label Study for the Functional Characterization of Drug Metabolism and Transport	2012-01-01	2015-05-01	144	Completed	University Hospital Tuebingen	71
+79	Opioid Effects on Swallowing and Esophageal Sphincter Pressure	2010-10-01	2010-11-01	14	Completed	University Hospital Orebro	50
+80	Optima: Optimizing Prograf Therapy in Maintenance Allografts II	2003-08-01	2008-07-01	63	Completed	East Carolina University	82
+81	Organ Donation and Hydrocortisone Treatment	2008-05-01	2011-12-01	38	Terminated	Kuopio University Hospital	103
+82	Oxycodone Extended-release in the Treatment of Perioperative Pain in Patients Undergoing Orthopaedic Surgery	2012-03-01	2012-09-01	40	Completed	Hospital Central Dr. Luis Ortega	6
+83	Pharmacokinetic Interactions Between Antiretroviral Agents and Antimalarial Drug Combinations	2005-07-01	2010-12-01	38	Completed	University of California, San Francisco	27
+84	Pharmacokinetic, Safety and Efficacy of Intermittent Application of Caspofungin for Antifungal Prophylaxis	2011-04-01	2013-10-01	25	Completed	Wuerzburg University Hospital	118
+85	Pilot Study for HLA Identical Living Donor Renal Transplant Recipients	2002-06-01	2007-12-01	20	Completed	University of Cincinnati	89
+86	Prevention of Pegfilgrastim-Induced Bone Pain (PIBP)	2008-06-01	2012-03-01	510	Completed	University of Rochester	32
+86	Prevention of Pegfilgrastim-Induced Bone Pain (PIBP)	2008-06-01	2012-03-01	510	Completed	University of Rochester	32
+88	Prophylactic Phenobarbital After Neonatal Seizures	2010-09-01	2014-11-01	13	Terminated	University of Rochester	93
+89	Prophylaxis to Reduce Postoperative Atrial Fibrillation in Cardiac Surgery	2009-08-01	2012-02-01	304	Completed	Maine Medical Center	83
+90	Prothrombin Times Outside the Therapeutic Range in Otherwise Stable Patients	2006-07-01	2009-04-01	160	Completed	McMaster University	95
+91	Radical Lung Radiotherapy Plus Nelfinavir	2012-02-01	2012-10-01	0	Withdrawn	Oxford University Hospitals NHS Trust	66
+92	Randomized Clinical Trial to Assess the Efficacy and Safety of Concomitant Use of Rifampicin and Efavirenz 600 X 800mg	2007-01-01	2012-10-01	130	Terminated	Oswaldo Cruz Foundation	113
+93	Recovery of Diaphragmatic Function After Neuromuscular Blockade and Sugammadex	2013-10-01	2014-12-01	75	Completed	University Hospital, Antwerp	111
 94	Resistance to Antithrombotic Therapy	2008-05-01	2012-05-01	46	Completed	Medical University of Vienna	14
-95	Rituximab and Combination Chemotherapy Followed by Bone Marrow or Peripheral Stem Cell Transplantation in Treating Patients With Relapsed or Refractory Non-Hodgkin's Lymphoma	2000-09-01	2011-01-01	44	Completed	University of Nebraska	55
-95	Rituximab and Combination Chemotherapy Followed by Bone Marrow or Peripheral Stem Cell Transplantation in Treating Patients With Relapsed or Refractory Non-Hodgkin's Lymphoma	2000-09-01	2011-01-01	44	Completed	University of Nebraska	55
-97	Rosuvastatin Prevent Contrast Induced Acute Kidney Injury in Patients With Diabetes	2008-12-01	2011-11-01	2998	Completed	Shenyang Northern Hospital	37
-98	Safety and Efficacy of Bosentan in Patients With Diastolic Heart Failure and Secondary Pulmonary Hypertension	2009-01-01	2014-06-01	20	Completed	University Teaching Hospital Hall in Tirol	121
-99	Safety and Efficacy Trial of Danazol in Patients With Fanconi Anemia or Dyskeratosis Congenita	2009-11-01	2014-05-01	5	Terminated	Children's Hospital Boston	16
-100	Safety Study of Combined Azithromycin, Ivermectin and Albendazole for Trachoma and Lymphatic Filariasis	2014-02-01	2014-07-01	0	Withdrawn	Emory University	39
-101	Salivary Epidermal Growth Factor (EGF) Concentration Before and After Treatment of Reflux Laryngitis	2009-01-01	2011-07-01	36	Completed	Faculdade de Ciências Médicas da Santa Casa de São Paulo	15
-102	Salsalate for Insulin Resistance in Schizophrenia	2010-08-01	2011-12-01	13	Completed	University of Maryland	93
-103	Short-term Atorvastatin's Effect on Acute Kidney Injury Following Cardiac Surgery	2009-07-01	2015-12-01	653	Active, not recruiting	Vanderbilt University	30
-104	Simvastatin in Aneurysmal Subarachnoid Haemorrhage (STASH) a Multicentre Randomised Controlled Clinical Trial	2007-01-01	2014-02-01	803	Completed	Cambridge University Hospitals NHS Foundation Trust	78
-105	Simvastatin With or Without Ezetimibe and Atherothrombotic Biomarker Assessment	2009-01-01	2011-11-01	15	Completed	University of Maryland	76
-106	Single Center Pilot Study of Corticosteroid Discontinuation in Liver Transplant Recipients	2002-10-01	2008-01-01	40	Completed	University of Cincinnati	27
-107	Sirolimus, Tacrolimus, Thymoglobulin and Rituximab as Graft-versus-Host-Disease Prophylaxis in Patients Undergoing Haploidentical and HLA Partially Matched Donor Hematopoietic Cell Transplantation	2010-08-01	2013-06-01	1	Terminated	Barbara Ann Karmanos Cancer Institute	125
-108	Sirolimus to Treat Cowden Syndrome and Other PTEN Hamartomatous Tumor Syndromes	2008-07-01	2012-10-01	18	Completed	National Institutes of Health Clinical Center (CC)	5
+95	Rituximab and Combination Chemotherapy Followed by Bone Marrow or Peripheral Stem Cell Transplantation in Treating Patients With Relapsed or Refractory Non-Hodgkin's Lymphoma	2000-09-01	2011-01-01	44	Completed	University of Nebraska	54
+95	Rituximab and Combination Chemotherapy Followed by Bone Marrow or Peripheral Stem Cell Transplantation in Treating Patients With Relapsed or Refractory Non-Hodgkin's Lymphoma	2000-09-01	2011-01-01	44	Completed	University of Nebraska	54
+97	Rosuvastatin Prevent Contrast Induced Acute Kidney Injury in Patients With Diabetes	2008-12-01	2011-11-01	2998	Completed	Shenyang Northern Hospital	36
+98	Safety Study of Combined Azithromycin, Ivermectin and Albendazole for Trachoma and Lymphatic Filariasis	2014-02-01	2014-07-01	0	Withdrawn	Emory University	38
+99	Safety and Efficacy Trial of Danazol in Patients With Fanconi Anemia or Dyskeratosis Congenita	2009-11-01	2014-05-01	5	Terminated	Children's Hospital Boston	15
+100	Safety and Efficacy of Bosentan in Patients With Diastolic Heart Failure and Secondary Pulmonary Hypertension	2009-01-01	2014-06-01	20	Completed	University Teaching Hospital Hall in Tirol	119
+101	Salivary Epidermal Growth Factor (EGF) Concentration Before and After Treatment of Reflux Laryngitis	2009-01-01	2011-07-01	36	Completed	Faculdade de Ciências Médicas da Santa Casa de São Paulo	10
+102	Salsalate for Insulin Resistance in Schizophrenia	2010-08-01	2011-12-01	13	Completed	University of Maryland	91
+103	Short-term Atorvastatin's Effect on Acute Kidney Injury Following Cardiac Surgery	2009-07-01	2015-12-01	653	Active, not recruiting	Vanderbilt University	29
+104	Simvastatin With or Without Ezetimibe and Atherothrombotic Biomarker Assessment	2009-01-01	2011-11-01	15	Completed	University of Maryland	75
+105	Simvastatin in Aneurysmal Subarachnoid Haemorrhage (STASH) a Multicentre Randomised Controlled Clinical Trial	2007-01-01	2014-02-01	803	Completed	Cambridge University Hospitals NHS Foundation Trust	77
+106	Single Center Pilot Study of Corticosteroid Discontinuation in Liver Transplant Recipients	2002-10-01	2008-01-01	40	Completed	University of Cincinnati	21
+107	Sirolimus to Treat Cowden Syndrome and Other PTEN Hamartomatous Tumor Syndromes	2008-07-01	2012-10-01	18	Completed	National Institutes of Health Clinical Center (CC)	4
+108	Sirolimus, Tacrolimus, Thymoglobulin and Rituximab as Graft-versus-Host-Disease Prophylaxis in Patients Undergoing Haploidentical and HLA Partially Matched Donor Hematopoietic Cell Transplantation	2010-08-01	2013-06-01	1	Terminated	Barbara Ann Karmanos Cancer Institute	123
 109	Sorafenib, Cisplatin, and Etoposide in Treating Patients With Extensive-Stage Small Cell Lung Cancer	2008-07-01	2012-07-01	18	Terminated	Case Comprehensive Cancer Center	2
-110	Statins to Reduce D-dimer Levels in Patients With Venous Thrombosis	2007-05-01	2011-05-01	10	Terminated	Università degli Studi dell'Insubria	119
-111	Statin Therapy in Heart Failure: Potential Mechanisms of Benefit	2005-08-01	2009-02-01	27	Completed	University of California, Los Angeles	109
-112	Statin Therapy to Improve Atherosclerosis in HIV Patients	2009-09-01	2014-01-01	40	Completed	Massachusetts General Hospital	106
-113	Stem Cell Transplantation in Patients With High-Risk and Recurrent Pediatric Sarcomas	2002-08-01	2012-04-01	60	Completed	National Institutes of Health Clinical Center (CC)	62
-114	Study Evaluating Conversion From Tacrolimus to Sirolimus in Stable Kidney Transplant Recipients Receiving Myfortic	2007-05-01	2010-11-01	13	Completed	California Pacific Medical Center Research Institute	118
-115	Tacrolimus and Sirolimus as Prophylaxis After Allogenic Non-myeloablative Peripheral Blood Stem Cell Transplantation	2006-01-01	2009-07-01	31	Completed	Dana-Farber Cancer Institute	116
-116	The Additive Anti-inflammatory Effect of Simvastatin in Combination With Inhaled Corticosteroids in Asthma	2008-12-01	2009-09-01	53	Completed	Mahidol University	60
+110	Statin Therapy in Heart Failure: Potential Mechanisms of Benefit	2005-08-01	2009-02-01	27	Completed	University of California, Los Angeles	107
+111	Statin Therapy to Improve Atherosclerosis in HIV Patients	2009-09-01	2014-01-01	40	Completed	Massachusetts General Hospital	104
+112	Statins to Reduce D-dimer Levels in Patients With Venous Thrombosis	2007-05-01	2011-05-01	10	Terminated	Università degli Studi dell'Insubria	117
+113	Stem Cell Transplantation in Patients With High-Risk and Recurrent Pediatric Sarcomas	2002-08-01	2012-04-01	60	Completed	National Institutes of Health Clinical Center (CC)	61
+114	Study Evaluating Conversion From Tacrolimus to Sirolimus in Stable Kidney Transplant Recipients Receiving Myfortic	2007-05-01	2010-11-01	13	Completed	California Pacific Medical Center Research Institute	112
+115	Tacrolimus and Sirolimus as Prophylaxis After Allogenic Non-myeloablative Peripheral Blood Stem Cell Transplantation	2006-01-01	2009-07-01	31	Completed	Dana-Farber Cancer Institute	115
+116	The Additive Anti-inflammatory Effect of Simvastatin in Combination With Inhaled Corticosteroids in Asthma	2008-12-01	2009-09-01	53	Completed	Mahidol University	59
 117	The Discriminative Effects of Tramadol in Humans	2007-11-01	2011-08-01	12	Completed	Johns Hopkins University	26
-118	The Effect and Safety of Different Intensity Anticoagulation Therapy in Elderly Patients With Non-valvular Atrial Fibrillation	2010-01-01	2012-04-01	260	Completed	Nanjing Medical University	122
-119	The Effect of Azithromycin in Patients With Chronic Obstructive Pulmonary Disease (COPD) and Chronic Productive Cough	2009-09-01	2012-02-01	84	Completed	Isala Klinieken	43
+118	The Effect and Safety of Different Intensity Anticoagulation Therapy in Elderly Patients With Non-valvular Atrial Fibrillation	2010-01-01	2012-04-01	260	Completed	Nanjing Medical University	120
+119	The Effect of Azithromycin in Patients With Chronic Obstructive Pulmonary Disease (COPD) and Chronic Productive Cough	2009-09-01	2012-02-01	84	Completed	Isala Klinieken	40
 120	The Effect of XueZhiKang on Fatigue：Comparing With Simvastatin	2012-08-01	2013-09-01	60	Completed	Wenzhou Medical University	47
-121	The Impact of Proton Pump Inhibitors on the Fecal Microbiome	2013-03-01	2013-12-01	15	Completed	Mayo Clinic	52
-122	Treatment of Acute Lymphoblastic Leukemia in Children	2000-09-01	2011-05-01	498	Completed	Dana-Farber Cancer Institute	66
+121	The Impact of Proton Pump Inhibitors on the Fecal Microbiome	2013-03-01	2013-12-01	15	Completed	Mayo Clinic	51
+122	Treatment of Acute Lymphoblastic Leukemia in Children	2000-09-01	2011-05-01	498	Completed	Dana-Farber Cancer Institute	65
 123	Treatment of HDL to Reduce the Incidence of Vascular Events HPS2-THRIVE	2007-01-01	2012-10-01	25673	Completed	University of Oxford	41
-124	Treatment of Post Stroke Fatigue With a Wakefulness Promoting Agent	2012-10-01	2015-03-01	41	Terminated	Herlev Hospital	58
+124	Treatment of Post Stroke Fatigue With a Wakefulness Promoting Agent	2012-10-01	2015-03-01	41	Terminated	Herlev Hospital	57
 125	Trial of Early Aggressive Drug Therapy in Juvenile Idiopathic Arthritis	2007-05-01	2010-10-01	85	Completed	Seattle Children's Hospital	12
-126	Umbilical Cord Blood Stem Cell Transplant in Treating Patients With Hematologic Cancer or Other Disease	2007-01-01	2015-01-01	2	Completed	Barbara Ann Karmanos Cancer Institute	117
-127	Ursodeoxycholic Acid in the Treatment of Intrahepatic Cholestasis of Pregnancy	1998-01-01	1998-12-01	20	Completed	Turku University Hospital	112
-128	Vascular and Metabolic Effects of Vytorin vs Simvastatin	2011-11-01	2012-11-01	204	Completed	Gachon University Gil Medical Center	63
-129	Voriconazole Pharmacokinetics in Children With Gastrointestinal Graft Versus Host Disease	2008-12-01	2012-07-01	5	Completed	Duke University Medical Center	87
-130	Voriconazole Trough Plasma Levels : Genetic Polymorphism, Efficacy, Safety in Patients With Hematologic Malignancy	2010-08-01	2014-04-01	10	Terminated	Asan Medical Center	107
-131	Warfarine in Unexplained Oligohydramnios	2009-01-01	2011-07-01	200	Completed	Woman's Health University Hospital, Egypt	3
-132	Warfarin Versus Aspirin in Reduced Cardiac Ejection Fraction (WARCEF) Trial	2002-10-01	2014-07-01	2305	Completed	Columbia University	103
+126	Umbilical Cord Blood Stem Cell Transplant in Treating Patients With Hematologic Cancer or Other Disease	2007-01-01	2015-01-01	2	Completed	Barbara Ann Karmanos Cancer Institute	116
+127	Ursodeoxycholic Acid in the Treatment of Intrahepatic Cholestasis of Pregnancy	1998-01-01	1998-12-01	20	Completed	Turku University Hospital	110
+128	Vascular and Metabolic Effects of Vytorin vs Simvastatin	2011-11-01	2012-11-01	204	Completed	Gachon University Gil Medical Center	62
+129	Voriconazole Pharmacokinetics in Children With Gastrointestinal Graft Versus Host Disease	2008-12-01	2012-07-01	5	Completed	Duke University Medical Center	85
+130	Voriconazole Trough Plasma Levels : Genetic Polymorphism, Efficacy, Safety in Patients With Hematologic Malignancy	2010-08-01	2014-04-01	10	Terminated	Asan Medical Center	105
+131	Warfarin Versus Aspirin in Reduced Cardiac Ejection Fraction (WARCEF) Trial	2002-10-01	2014-07-01	2305	Completed	Columbia University	101
+132	Warfarine in Unexplained Oligohydramnios	2009-01-01	2011-07-01	200	Completed	Woman's Health University Hospital, Egypt	125
 \.
 
 
@@ -8658,1131 +14483,1131 @@ COPY public.trial (trial_id, title, start_date, completion_date, participants, s
 --
 
 COPY public.trial_drug_disease (trial_id, drug_name, disease_name) FROM stdin;
-111	atorvastatin	Dementia, vascular, susceptibility to
-38	atorvastatin	Dementia, vascular, susceptibility to
-103	atorvastatin	Dementia, vascular, susceptibility to
-112	atorvastatin	Dementia, vascular, susceptibility to
-17	atorvastatin	Dementia, vascular, susceptibility to
-110	atorvastatin	Dementia, vascular, susceptibility to
-46	atorvastatin	Dementia, vascular, susceptibility to
-16	atorvastatin	Dementia, vascular, susceptibility to
-111	atorvastatin	Lipodystrophy
-38	atorvastatin	Lipodystrophy
-103	atorvastatin	Lipodystrophy
-112	atorvastatin	Lipodystrophy
-17	atorvastatin	Lipodystrophy
-110	atorvastatin	Lipodystrophy
-46	atorvastatin	Lipodystrophy
-16	atorvastatin	Lipodystrophy
-111	atorvastatin	Malaria
-38	atorvastatin	Malaria
-103	atorvastatin	Malaria
-112	atorvastatin	Malaria
-17	atorvastatin	Malaria
-110	atorvastatin	Malaria
-46	atorvastatin	Malaria
-16	atorvastatin	Malaria
-111	atorvastatin	Coronary artery spasm, susceptibility to
-38	atorvastatin	Coronary artery spasm, susceptibility to
-103	atorvastatin	Coronary artery spasm, susceptibility to
-112	atorvastatin	Coronary artery spasm, susceptibility to
-17	atorvastatin	Coronary artery spasm, susceptibility to
-110	atorvastatin	Coronary artery spasm, susceptibility to
-46	atorvastatin	Coronary artery spasm, susceptibility to
-16	atorvastatin	Coronary artery spasm, susceptibility to
-111	atorvastatin	Preeclampsia
-38	atorvastatin	Preeclampsia
-103	atorvastatin	Preeclampsia
-112	atorvastatin	Preeclampsia
-17	atorvastatin	Preeclampsia
-110	atorvastatin	Preeclampsia
-46	atorvastatin	Preeclampsia
-16	atorvastatin	Preeclampsia
-111	atorvastatin	Sepsis
-38	atorvastatin	Sepsis
-103	atorvastatin	Sepsis
-112	atorvastatin	Sepsis
-17	atorvastatin	Sepsis
-110	atorvastatin	Sepsis
-46	atorvastatin	Sepsis
-16	atorvastatin	Sepsis
-111	atorvastatin	Septic shock, susceptibility to
-38	atorvastatin	Septic shock, susceptibility to
-103	atorvastatin	Septic shock, susceptibility to
-112	atorvastatin	Septic shock, susceptibility to
-17	atorvastatin	Septic shock, susceptibility to
-110	atorvastatin	Septic shock, susceptibility to
-46	atorvastatin	Septic shock, susceptibility to
-16	atorvastatin	Septic shock, susceptibility to
-111	atorvastatin	Coronary artery disease, susceptibility to
-38	atorvastatin	Coronary artery disease, susceptibility to
-103	atorvastatin	Coronary artery disease, susceptibility to
-112	atorvastatin	Coronary artery disease, susceptibility to
-17	atorvastatin	Coronary artery disease, susceptibility to
-110	atorvastatin	Coronary artery disease, susceptibility to
-46	atorvastatin	Coronary artery disease, susceptibility to
-16	atorvastatin	Coronary artery disease, susceptibility to
-111	atorvastatin	Lipodystrophy, familial partial, 151660
-38	atorvastatin	Lipodystrophy, familial partial, 151660
-103	atorvastatin	Lipodystrophy, familial partial, 151660
-112	atorvastatin	Lipodystrophy, familial partial, 151660
-17	atorvastatin	Lipodystrophy, familial partial, 151660
-110	atorvastatin	Lipodystrophy, familial partial, 151660
-46	atorvastatin	Lipodystrophy, familial partial, 151660
-16	atorvastatin	Lipodystrophy, familial partial, 151660
-111	atorvastatin	Asthma
-38	atorvastatin	Asthma
-103	atorvastatin	Asthma
-112	atorvastatin	Asthma
-17	atorvastatin	Asthma
-110	atorvastatin	Asthma
-46	atorvastatin	Asthma
-16	atorvastatin	Asthma
-111	atorvastatin	Insulin resistance
-38	atorvastatin	Insulin resistance
-103	atorvastatin	Insulin resistance
-112	atorvastatin	Insulin resistance
-17	atorvastatin	Insulin resistance
-110	atorvastatin	Insulin resistance
-46	atorvastatin	Insulin resistance
-16	atorvastatin	Insulin resistance
-111	atorvastatin	Hypertension, essential, susceptibility to, 145500
-38	atorvastatin	Hypertension, essential, susceptibility to, 145500
-103	atorvastatin	Hypertension, essential, susceptibility to, 145500
-112	atorvastatin	Hypertension, essential, susceptibility to, 145500
-17	atorvastatin	Hypertension, essential, susceptibility to, 145500
-110	atorvastatin	Hypertension, essential, susceptibility to, 145500
-46	atorvastatin	Hypertension, essential, susceptibility to, 145500
-16	atorvastatin	Hypertension, essential, susceptibility to, 145500
-111	atorvastatin	Abetalipoproteinemia
-38	atorvastatin	Abetalipoproteinemia
-103	atorvastatin	Abetalipoproteinemia
-112	atorvastatin	Abetalipoproteinemia
-17	atorvastatin	Abetalipoproteinemia
-110	atorvastatin	Abetalipoproteinemia
-46	atorvastatin	Abetalipoproteinemia
-16	atorvastatin	Abetalipoproteinemia
-111	atorvastatin	Hypolactasia, adult type
-38	atorvastatin	Hypolactasia, adult type
-103	atorvastatin	Hypolactasia, adult type
-112	atorvastatin	Hypolactasia, adult type
-17	atorvastatin	Hypolactasia, adult type
-110	atorvastatin	Hypolactasia, adult type
-46	atorvastatin	Hypolactasia, adult type
-16	atorvastatin	Hypolactasia, adult type
-111	atorvastatin	Statins
-38	atorvastatin	Statins
-103	atorvastatin	Statins
-112	atorvastatin	Statins
-17	atorvastatin	Statins
-110	atorvastatin	Statins
-46	atorvastatin	Statins
-16	atorvastatin	Statins
-111	atorvastatin	Diabetes mellitus
-38	atorvastatin	Diabetes mellitus
-103	atorvastatin	Diabetes mellitus
-112	atorvastatin	Diabetes mellitus
-17	atorvastatin	Diabetes mellitus
-110	atorvastatin	Diabetes mellitus
-46	atorvastatin	Diabetes mellitus
-16	atorvastatin	Diabetes mellitus
-111	atorvastatin	Glioblastoma, susceptibility to, 137800
-38	atorvastatin	Glioblastoma, susceptibility to, 137800
-103	atorvastatin	Glioblastoma, susceptibility to, 137800
-112	atorvastatin	Glioblastoma, susceptibility to, 137800
-17	atorvastatin	Glioblastoma, susceptibility to, 137800
-110	atorvastatin	Glioblastoma, susceptibility to, 137800
-46	atorvastatin	Glioblastoma, susceptibility to, 137800
-16	atorvastatin	Glioblastoma, susceptibility to, 137800
-111	atorvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
-38	atorvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
-103	atorvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
-112	atorvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
-17	atorvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
-110	atorvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
-46	atorvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
-16	atorvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
-111	atorvastatin	Renal tubular dysgenesis
-38	atorvastatin	Renal tubular dysgenesis
-103	atorvastatin	Renal tubular dysgenesis
-112	atorvastatin	Renal tubular dysgenesis
-17	atorvastatin	Renal tubular dysgenesis
-110	atorvastatin	Renal tubular dysgenesis
-46	atorvastatin	Renal tubular dysgenesis
-16	atorvastatin	Renal tubular dysgenesis
-111	atorvastatin	Migraine without aura, susceptibility to, 157300
-38	atorvastatin	Migraine without aura, susceptibility to, 157300
-103	atorvastatin	Migraine without aura, susceptibility to, 157300
-112	atorvastatin	Migraine without aura, susceptibility to, 157300
-17	atorvastatin	Migraine without aura, susceptibility to, 157300
-110	atorvastatin	Migraine without aura, susceptibility to, 157300
-46	atorvastatin	Migraine without aura, susceptibility to, 157300
-16	atorvastatin	Migraine without aura, susceptibility to, 157300
-111	atorvastatin	Preeclampsia, susceptibility to
-38	atorvastatin	Preeclampsia, susceptibility to
-103	atorvastatin	Preeclampsia, susceptibility to
-112	atorvastatin	Preeclampsia, susceptibility to
-17	atorvastatin	Preeclampsia, susceptibility to
-110	atorvastatin	Preeclampsia, susceptibility to
-46	atorvastatin	Preeclampsia, susceptibility to
-16	atorvastatin	Preeclampsia, susceptibility to
-111	atorvastatin	Asthma, susceptibility to, 600807
-38	atorvastatin	Asthma, susceptibility to, 600807
-103	atorvastatin	Asthma, susceptibility to, 600807
-112	atorvastatin	Asthma, susceptibility to, 600807
-17	atorvastatin	Asthma, susceptibility to, 600807
-110	atorvastatin	Asthma, susceptibility to, 600807
-46	atorvastatin	Asthma, susceptibility to, 600807
-16	atorvastatin	Asthma, susceptibility to, 600807
-111	atorvastatin	Coronary artery disease
-38	atorvastatin	Coronary artery disease
-103	atorvastatin	Coronary artery disease
-112	atorvastatin	Coronary artery disease
-17	atorvastatin	Coronary artery disease
-110	atorvastatin	Coronary artery disease
-46	atorvastatin	Coronary artery disease
-16	atorvastatin	Coronary artery disease
-111	atorvastatin	Diabetes mellitus, insulin-resistant, with acanthosis nigricans and hypertension, 604367
-38	atorvastatin	Diabetes mellitus, insulin-resistant, with acanthosis nigricans and hypertension, 604367
-103	atorvastatin	Diabetes mellitus, insulin-resistant, with acanthosis nigricans and hypertension, 604367
-112	atorvastatin	Diabetes mellitus, insulin-resistant, with acanthosis nigricans and hypertension, 604367
-17	atorvastatin	Diabetes mellitus, insulin-resistant, with acanthosis nigricans and hypertension, 604367
-110	atorvastatin	Diabetes mellitus, insulin-resistant, with acanthosis nigricans and hypertension, 604367
-46	atorvastatin	Diabetes mellitus, insulin-resistant, with acanthosis nigricans and hypertension, 604367
-16	atorvastatin	Diabetes mellitus, insulin-resistant, with acanthosis nigricans and hypertension, 604367
-111	atorvastatin	Migraine
-38	atorvastatin	Migraine
-103	atorvastatin	Migraine
-112	atorvastatin	Migraine
-17	atorvastatin	Migraine
-110	atorvastatin	Migraine
-46	atorvastatin	Migraine
-16	atorvastatin	Migraine
-111	atorvastatin	Obesity, severe, 601665
-38	atorvastatin	Obesity, severe, 601665
-103	atorvastatin	Obesity, severe, 601665
-112	atorvastatin	Obesity, severe, 601665
-17	atorvastatin	Obesity, severe, 601665
-110	atorvastatin	Obesity, severe, 601665
-46	atorvastatin	Obesity, severe, 601665
-16	atorvastatin	Obesity, severe, 601665
-111	atorvastatin	Obesity
-38	atorvastatin	Obesity
-103	atorvastatin	Obesity
-112	atorvastatin	Obesity
-17	atorvastatin	Obesity
-110	atorvastatin	Obesity
-46	atorvastatin	Obesity
-16	atorvastatin	Obesity
-111	atorvastatin	Dementia
-38	atorvastatin	Dementia
-103	atorvastatin	Dementia
-112	atorvastatin	Dementia
-17	atorvastatin	Dementia
-110	atorvastatin	Dementia
-46	atorvastatin	Dementia
-16	atorvastatin	Dementia
-111	atorvastatin	Hypertension
-38	atorvastatin	Hypertension
-103	atorvastatin	Hypertension
-112	atorvastatin	Hypertension
-17	atorvastatin	Hypertension
-110	atorvastatin	Hypertension
-46	atorvastatin	Hypertension
-16	atorvastatin	Hypertension
-111	atorvastatin	Hypercholesterolemia, due to ligand-defective apo B, 144010
-38	atorvastatin	Hypercholesterolemia, due to ligand-defective apo B, 144010
-103	atorvastatin	Hypercholesterolemia, due to ligand-defective apo B, 144010
-112	atorvastatin	Hypercholesterolemia, due to ligand-defective apo B, 144010
-17	atorvastatin	Hypercholesterolemia, due to ligand-defective apo B, 144010
-110	atorvastatin	Hypercholesterolemia, due to ligand-defective apo B, 144010
-46	atorvastatin	Hypercholesterolemia, due to ligand-defective apo B, 144010
-16	atorvastatin	Hypercholesterolemia, due to ligand-defective apo B, 144010
-111	atorvastatin	Insulin resistance, severe, digenic, 604367
-38	atorvastatin	Insulin resistance, severe, digenic, 604367
-103	atorvastatin	Insulin resistance, severe, digenic, 604367
-112	atorvastatin	Insulin resistance, severe, digenic, 604367
-17	atorvastatin	Insulin resistance, severe, digenic, 604367
-110	atorvastatin	Insulin resistance, severe, digenic, 604367
-46	atorvastatin	Insulin resistance, severe, digenic, 604367
-16	atorvastatin	Insulin resistance, severe, digenic, 604367
-111	atorvastatin	Malaria, cerebral, susceptibility to
-38	atorvastatin	Malaria, cerebral, susceptibility to
-103	atorvastatin	Malaria, cerebral, susceptibility to
-112	atorvastatin	Malaria, cerebral, susceptibility to
-17	atorvastatin	Malaria, cerebral, susceptibility to
-110	atorvastatin	Malaria, cerebral, susceptibility to
-46	atorvastatin	Malaria, cerebral, susceptibility to
-16	atorvastatin	Malaria, cerebral, susceptibility to
-111	atorvastatin	Hyperapobetalipoproteinemia, susceptibility to
-38	atorvastatin	Hyperapobetalipoproteinemia, susceptibility to
-103	atorvastatin	Hyperapobetalipoproteinemia, susceptibility to
-112	atorvastatin	Hyperapobetalipoproteinemia, susceptibility to
-17	atorvastatin	Hyperapobetalipoproteinemia, susceptibility to
-110	atorvastatin	Hyperapobetalipoproteinemia, susceptibility to
-46	atorvastatin	Hyperapobetalipoproteinemia, susceptibility to
-16	atorvastatin	Hyperapobetalipoproteinemia, susceptibility to
-111	atorvastatin	Glioblastoma
-38	atorvastatin	Glioblastoma
-103	atorvastatin	Glioblastoma
-112	atorvastatin	Glioblastoma
-17	atorvastatin	Glioblastoma
-110	atorvastatin	Glioblastoma
-46	atorvastatin	Glioblastoma
-16	atorvastatin	Glioblastoma
-111	atorvastatin	Statins, attenuated cholesterol lowering by
-38	atorvastatin	Statins, attenuated cholesterol lowering by
-103	atorvastatin	Statins, attenuated cholesterol lowering by
-112	atorvastatin	Statins, attenuated cholesterol lowering by
-17	atorvastatin	Statins, attenuated cholesterol lowering by
-110	atorvastatin	Statins, attenuated cholesterol lowering by
-46	atorvastatin	Statins, attenuated cholesterol lowering by
-16	atorvastatin	Statins, attenuated cholesterol lowering by
-111	atorvastatin	Immunodeficiency, X-linked, with hyper-IgM, 308230
-38	atorvastatin	Immunodeficiency, X-linked, with hyper-IgM, 308230
-103	atorvastatin	Immunodeficiency, X-linked, with hyper-IgM, 308230
-112	atorvastatin	Immunodeficiency, X-linked, with hyper-IgM, 308230
-17	atorvastatin	Immunodeficiency, X-linked, with hyper-IgM, 308230
-110	atorvastatin	Immunodeficiency, X-linked, with hyper-IgM, 308230
-46	atorvastatin	Immunodeficiency, X-linked, with hyper-IgM, 308230
-16	atorvastatin	Immunodeficiency, X-linked, with hyper-IgM, 308230
-111	atorvastatin	Hypobetalipoproteinemia
-38	atorvastatin	Hypobetalipoproteinemia
-103	atorvastatin	Hypobetalipoproteinemia
-112	atorvastatin	Hypobetalipoproteinemia
-17	atorvastatin	Hypobetalipoproteinemia
-110	atorvastatin	Hypobetalipoproteinemia
-46	atorvastatin	Hypobetalipoproteinemia
-16	atorvastatin	Hypobetalipoproteinemia
-111	atorvastatin	Hyperapobetalipoproteinemia
-38	atorvastatin	Hyperapobetalipoproteinemia
-103	atorvastatin	Hyperapobetalipoproteinemia
-112	atorvastatin	Hyperapobetalipoproteinemia
-17	atorvastatin	Hyperapobetalipoproteinemia
-110	atorvastatin	Hyperapobetalipoproteinemia
-46	atorvastatin	Hyperapobetalipoproteinemia
-16	atorvastatin	Hyperapobetalipoproteinemia
-111	atorvastatin	Renal tubular dysgenesis, 267430
-38	atorvastatin	Renal tubular dysgenesis, 267430
-103	atorvastatin	Renal tubular dysgenesis, 267430
-112	atorvastatin	Renal tubular dysgenesis, 267430
-17	atorvastatin	Renal tubular dysgenesis, 267430
-110	atorvastatin	Renal tubular dysgenesis, 267430
-46	atorvastatin	Renal tubular dysgenesis, 267430
-16	atorvastatin	Renal tubular dysgenesis, 267430
-111	atorvastatin	Immunodeficiency
-38	atorvastatin	Immunodeficiency
-103	atorvastatin	Immunodeficiency
-112	atorvastatin	Immunodeficiency
-17	atorvastatin	Immunodeficiency
-110	atorvastatin	Immunodeficiency
-46	atorvastatin	Immunodeficiency
-16	atorvastatin	Immunodeficiency
-111	atorvastatin	Hypolactasia, adult type, 223100
-38	atorvastatin	Hypolactasia, adult type, 223100
-103	atorvastatin	Hypolactasia, adult type, 223100
-112	atorvastatin	Hypolactasia, adult type, 223100
-17	atorvastatin	Hypolactasia, adult type, 223100
-110	atorvastatin	Hypolactasia, adult type, 223100
-46	atorvastatin	Hypolactasia, adult type, 223100
-16	atorvastatin	Hypolactasia, adult type, 223100
-111	atorvastatin	Obesity, resistance to
-38	atorvastatin	Obesity, resistance to
-103	atorvastatin	Obesity, resistance to
-112	atorvastatin	Obesity, resistance to
-17	atorvastatin	Obesity, resistance to
-110	atorvastatin	Obesity, resistance to
-46	atorvastatin	Obesity, resistance to
-16	atorvastatin	Obesity, resistance to
-111	atorvastatin	Hypercholesterolemia
-38	atorvastatin	Hypercholesterolemia
-103	atorvastatin	Hypercholesterolemia
-112	atorvastatin	Hypercholesterolemia
-17	atorvastatin	Hypercholesterolemia
-110	atorvastatin	Hypercholesterolemia
-46	atorvastatin	Hypercholesterolemia
-16	atorvastatin	Hypercholesterolemia
-111	atorvastatin	Tall stature, susceptibility to
-38	atorvastatin	Tall stature, susceptibility to
-103	atorvastatin	Tall stature, susceptibility to
-112	atorvastatin	Tall stature, susceptibility to
-17	atorvastatin	Tall stature, susceptibility to
-110	atorvastatin	Tall stature, susceptibility to
-46	atorvastatin	Tall stature, susceptibility to
-16	atorvastatin	Tall stature, susceptibility to
-111	atorvastatin	Tall stature
-38	atorvastatin	Tall stature
-103	atorvastatin	Tall stature
-112	atorvastatin	Tall stature
-17	atorvastatin	Tall stature
-110	atorvastatin	Tall stature
-46	atorvastatin	Tall stature
-16	atorvastatin	Tall stature
-20	bosentan	Cholestasis
-98	bosentan	Cholestasis
-20	bosentan	ABCD syndrome
-98	bosentan	ABCD syndrome
-20	bosentan	Cholestasis, progressive familial intrahepatic 2, 601847
-98	bosentan	Cholestasis, progressive familial intrahepatic 2, 601847
-20	bosentan	Hirschsprung disease
-98	bosentan	Hirschsprung disease
-20	bosentan	ABCD syndrome, 600501
-98	bosentan	ABCD syndrome, 600501
-20	bosentan	Waardenburg-Shah syndrome
-98	bosentan	Waardenburg-Shah syndrome
-20	bosentan	Migraine, resistance to, 157300
-98	bosentan	Migraine, resistance to, 157300
-20	bosentan	Waardenburg-Shah syndrome, 277580
-98	bosentan	Waardenburg-Shah syndrome, 277580
-20	bosentan	Hirschsprung disease-2, 600155
-98	bosentan	Hirschsprung disease-2, 600155
-20	bosentan	Migraine
-98	bosentan	Migraine
-82	ketoprofen	Dysalbuminemic hyperthyroxinemia
-82	ketoprofen	Analbuminemia
-8	ciprofloxacin	DNA topoisomerase
-8	ciprofloxacin	DNA topoisomerase
-8	ciprofloxacin	DNA topoisomerase II, resistance to inhibition of, by amsacrine
-8	ciprofloxacin	DNA topoisomerase II, resistance to inhibition of, by amsacrine
-8	ciprofloxacin	Dysalbuminemic hyperthyroxinemia
-8	ciprofloxacin	Dysalbuminemic hyperthyroxinemia
-8	ciprofloxacin	Analbuminemia
-8	ciprofloxacin	Analbuminemia
-74	diclofenac	Amyloid neuropathy, familial, several allelic types
-74	diclofenac	Carpal tunnel syndrome, familial
-74	diclofenac	Amyloidosis
-74	diclofenac	Dystransthyretinemic hyperthyroxinemia(3)
-74	diclofenac	Amyloid neuropathy
-74	diclofenac	Amyloidosis, senile systemic
-74	diclofenac	Dystransthyretinemic hyperthyroxinemia
-4	cyclosporine	Colchicine resistance
-113	cyclosporine	Colchicine resistance
-3	cyclosporine	Colchicine resistance
-80	cyclosporine	Colchicine resistance
-5	cyclosporine	Colchicine resistance
-109	etoposide	DNA topoisomerase
-49	etoposide	DNA topoisomerase
-22	etoposide	DNA topoisomerase
-24	etoposide	DNA topoisomerase
-71	etoposide	DNA topoisomerase
-71	etoposide	DNA topoisomerase
-25	etoposide	DNA topoisomerase
-113	etoposide	DNA topoisomerase
-95	etoposide	DNA topoisomerase
-95	etoposide	DNA topoisomerase
-109	etoposide	DNA topoisomerase II, resistance to inhibition of, by amsacrine
-49	etoposide	DNA topoisomerase II, resistance to inhibition of, by amsacrine
-22	etoposide	DNA topoisomerase II, resistance to inhibition of, by amsacrine
-24	etoposide	DNA topoisomerase II, resistance to inhibition of, by amsacrine
-71	etoposide	DNA topoisomerase II, resistance to inhibition of, by amsacrine
-71	etoposide	DNA topoisomerase II, resistance to inhibition of, by amsacrine
-25	etoposide	DNA topoisomerase II, resistance to inhibition of, by amsacrine
-113	etoposide	DNA topoisomerase II, resistance to inhibition of, by amsacrine
-95	etoposide	DNA topoisomerase II, resistance to inhibition of, by amsacrine
-95	etoposide	DNA topoisomerase II, resistance to inhibition of, by amsacrine
-4	methotrexate	Dysalbuminemic hyperthyroxinemia
-24	methotrexate	Dysalbuminemic hyperthyroxinemia
-31	methotrexate	Dysalbuminemic hyperthyroxinemia
-122	methotrexate	Dysalbuminemic hyperthyroxinemia
-125	methotrexate	Dysalbuminemic hyperthyroxinemia
-4	methotrexate	Analbuminemia
-24	methotrexate	Analbuminemia
-31	methotrexate	Analbuminemia
-122	methotrexate	Analbuminemia
-125	methotrexate	Analbuminemia
-88	phenobarbital	Epilepsy
-88	phenobarbital	Epilepsy, juvenile myoclonic, 606904
-93	neostigmine	Blood group, Yt system, 112100
-93	neostigmine	Blood group
-131	warfarin	Hypoprothrombinemia
-90	warfarin	Hypoprothrombinemia
-131	warfarin	Vitamin K-dependent clotting factors, combined deficiency of, 2, 607473
-90	warfarin	Vitamin K-dependent clotting factors, combined deficiency of, 2, 607473
-131	warfarin	Vitamin K-dependent coagulation defect
-90	warfarin	Vitamin K-dependent coagulation defect
-131	warfarin	Warfarin resistance/sensitivity
-90	warfarin	Warfarin resistance/sensitivity
-131	warfarin	Hyperprothrombinemia
-90	warfarin	Hyperprothrombinemia
-131	warfarin	Dysprothrombinemia
-90	warfarin	Dysprothrombinemia
-131	warfarin	Warfarin resistance, 122700
-90	warfarin	Warfarin resistance, 122700
-99	danazol	HDL cholesterol level QTL
-99	danazol	Fertile eunuch syndrome
-99	danazol	Migraine, susceptibility to, 157300
-99	danazol	HDL response to hormone replacement, augmented
-99	danazol	Estrogen resistance
-99	danazol	Fertile eunuch syndrome, 228300
-99	danazol	Migraine
-99	danazol	Hypogonadotropic hypogonadism
-77	pravastatin	Dubin-Johnson syndrome
-77	pravastatin	Dubin-Johnson syndrome
-77	pravastatin	Dubin-Johnson syndrome, 237500
-77	pravastatin	Dubin-Johnson syndrome, 237500
-77	pravastatin	Statins, attenuated cholesterol lowering by
-77	pravastatin	Statins, attenuated cholesterol lowering by
-77	pravastatin	Statins
-77	pravastatin	Statins
-89	amiodarone	Acquired long QT syndrome
-89	amiodarone	Congestive heart failure
-89	amiodarone	Resting heart rate
-89	amiodarone	Acquired long QT syndrome, susceptibility to
-89	amiodarone	Congestive heart failure, susceptibility to
-89	amiodarone	Long QT syndrome-2
-89	amiodarone	Long QT syndrome
-89	amiodarone	Resting heart rate, 607276
-97	rosuvastatin	Hypertension, pregnancy-induced, 189800
-41	rosuvastatin	Hypertension, pregnancy-induced, 189800
-97	rosuvastatin	Alzheimer disease
-41	rosuvastatin	Alzheimer disease
-97	rosuvastatin	Hypertension
-41	rosuvastatin	Hypertension
-97	rosuvastatin	Coronary spasms, susceptibility to
-41	rosuvastatin	Coronary spasms, susceptibility to
-97	rosuvastatin	Coronary spasms
-41	rosuvastatin	Coronary spasms
-97	rosuvastatin	Hypertension, susceptibility to, 145500
-41	rosuvastatin	Hypertension, susceptibility to, 145500
-97	rosuvastatin	Placental abruption
-41	rosuvastatin	Placental abruption
-97	rosuvastatin	Alzheimer disease, late-onset, susceptibility to, 104300
-41	rosuvastatin	Alzheimer disease, late-onset, susceptibility to, 104300
-97	rosuvastatin	Statins, attenuated cholesterol lowering by
-41	rosuvastatin	Statins, attenuated cholesterol lowering by
-97	rosuvastatin	Statins
-41	rosuvastatin	Statins
-117	methylphenidate	Orthostatic intolerance, 604715
-117	methylphenidate	Orthostatic intolerance
-117	methylphenidate	Obsessive-compulsive disorder
-117	methylphenidate	Obsessive-compulsive disorder 1, 164230
-117	methylphenidate	Anxiety-related personality traits
-66	metoclopramide	Dystonia
-79	metoclopramide	Dystonia
-67	metoclopramide	Dystonia
-6	metoclopramide	Dystonia
-66	metoclopramide	Dystonia, myoclonic, 159900
-79	metoclopramide	Dystonia, myoclonic, 159900
-67	metoclopramide	Dystonia, myoclonic, 159900
-6	metoclopramide	Dystonia, myoclonic, 159900
-10	hydrocortisone	Obesity
-68	hydrocortisone	Obesity
-81	hydrocortisone	Obesity
-63	hydrocortisone	Obesity
-10	hydrocortisone	Atherosclerosis
-68	hydrocortisone	Atherosclerosis
-81	hydrocortisone	Atherosclerosis
-63	hydrocortisone	Atherosclerosis
-10	hydrocortisone	Malaria
-68	hydrocortisone	Malaria
-81	hydrocortisone	Malaria
-63	hydrocortisone	Malaria
-10	hydrocortisone	Asthma, dimished response to antileukotriene treatment in, 600807
-68	hydrocortisone	Asthma, dimished response to antileukotriene treatment in, 600807
-81	hydrocortisone	Asthma, dimished response to antileukotriene treatment in, 600807
-63	hydrocortisone	Asthma, dimished response to antileukotriene treatment in, 600807
-10	hydrocortisone	Atherosclerosis, susceptibility to
-68	hydrocortisone	Atherosclerosis, susceptibility to
-81	hydrocortisone	Atherosclerosis, susceptibility to
-63	hydrocortisone	Atherosclerosis, susceptibility to
-10	hydrocortisone	Obesity, adrenal insufficiency, and red hair
-68	hydrocortisone	Obesity, adrenal insufficiency, and red hair
-81	hydrocortisone	Obesity, adrenal insufficiency, and red hair
-63	hydrocortisone	Obesity, adrenal insufficiency, and red hair
-10	hydrocortisone	Cortisol resistance
-68	hydrocortisone	Cortisol resistance
-81	hydrocortisone	Cortisol resistance
-63	hydrocortisone	Cortisol resistance
-10	hydrocortisone	Malaria, resistance to, 248310
-68	hydrocortisone	Malaria, resistance to, 248310
-81	hydrocortisone	Malaria, resistance to, 248310
-63	hydrocortisone	Malaria, resistance to, 248310
-10	hydrocortisone	Asthma
-68	hydrocortisone	Asthma
-81	hydrocortisone	Asthma
-63	hydrocortisone	Asthma
-23	carvedilol	Acquired long QT syndrome
-29	carvedilol	Acquired long QT syndrome
-23	carvedilol	Obesity
-29	carvedilol	Obesity
-23	carvedilol	Congestive heart failure
-29	carvedilol	Congestive heart failure
-23	carvedilol	Oculodentodigital dysplasia
-29	carvedilol	Oculodentodigital dysplasia
-23	carvedilol	Resting heart rate
-29	carvedilol	Resting heart rate
-23	carvedilol	Hypoplastic left heart syndrome, 241550
-29	carvedilol	Hypoplastic left heart syndrome, 241550
-23	carvedilol	Asthma, nocturnal, susceptibility to
-29	carvedilol	Asthma, nocturnal, susceptibility to
-23	carvedilol	Syndactyly
-29	carvedilol	Syndactyly
-23	carvedilol	Asthma
-29	carvedilol	Asthma
-23	carvedilol	Atrioventricular block
-29	carvedilol	Atrioventricular block
-23	carvedilol	Acquired long QT syndrome, susceptibility to
-29	carvedilol	Acquired long QT syndrome, susceptibility to
-23	carvedilol	Long QT syndrome-2
-29	carvedilol	Long QT syndrome-2
-23	carvedilol	Long QT syndrome
-29	carvedilol	Long QT syndrome
-23	carvedilol	Hypoplastic left heart syndrome
-29	carvedilol	Hypoplastic left heart syndrome
-23	carvedilol	Syndactyly, type III, 186100
-29	carvedilol	Syndactyly, type III, 186100
-23	carvedilol	Diabetes mellitus
-29	carvedilol	Diabetes mellitus
-23	carvedilol	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
-29	carvedilol	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
-23	carvedilol	Oculodentodigital dysplasia, 164200
-29	carvedilol	Oculodentodigital dysplasia, 164200
-23	carvedilol	Obesity, susceptibility to, 601665
-29	carvedilol	Obesity, susceptibility to, 601665
-23	carvedilol	Colchicine resistance
-29	carvedilol	Colchicine resistance
-23	carvedilol	Congestive heart failure, susceptibility to
-29	carvedilol	Congestive heart failure, susceptibility to
-23	carvedilol	Beta-2-adrenoreceptor agonist, reduced response to
-29	carvedilol	Beta-2-adrenoreceptor agonist, reduced response to
-23	carvedilol	Atrioventricular septal defect, 600309
-29	carvedilol	Atrioventricular septal defect, 600309
-23	carvedilol	Resting heart rate, 607276
-29	carvedilol	Resting heart rate, 607276
-50	phenytoin	Heart block, progressive, type I, 113900
-50	phenytoin	Sick sinus syndrome, 608567
-50	phenytoin	Epilepsy, severe myoclonic, of infancy, 607208
-50	phenytoin	Heart block
-50	phenytoin	Ventricular fibrillation, idiopathic, 603829
-50	phenytoin	Long QT syndrome
-50	phenytoin	Ventricular fibrillation, idiopathic
-50	phenytoin	Heart block, nonprogressive, 113900
-50	phenytoin	Epilepsy, generalized, with febrile seizures plus, type 2, 604233
-50	phenytoin	Long QT syndrome-3, 603830
-50	phenytoin	Epilepsy
-50	phenytoin	Brugada syndrome
-50	phenytoin	Sick sinus syndrome
-50	phenytoin	Brugada syndrome, 601144
-55	fluoxetine	Obsessive-compulsive disorder
-37	fluoxetine	Obsessive-compulsive disorder
-54	fluoxetine	Obsessive-compulsive disorder
-55	fluoxetine	Obsessive-compulsive disorder 1, 164230
-37	fluoxetine	Obsessive-compulsive disorder 1, 164230
-54	fluoxetine	Obsessive-compulsive disorder 1, 164230
-55	fluoxetine	Anxiety-related personality traits
-37	fluoxetine	Anxiety-related personality traits
-54	fluoxetine	Anxiety-related personality traits
-56	fluvastatin	Statins, attenuated cholesterol lowering by
-56	fluvastatin	Statins
-127	ursodeoxycholic acid	Obesity
-127	ursodeoxycholic acid	Obesity, hyperphagia, and developmental delay
-1	allopurinol	Xanthinuria, type I
-40	allopurinol	Xanthinuria, type I
 1	allopurinol	Xanthinuria, type I, 278300
-40	allopurinol	Xanthinuria, type I, 278300
-45	ezetimibe	Ezetimibe, nonresponse to
-33	bupropion	Orthostatic intolerance, 604715
-39	bupropion	Orthostatic intolerance, 604715
-26	bupropion	Orthostatic intolerance, 604715
-33	bupropion	Orthostatic intolerance
-39	bupropion	Orthostatic intolerance
+1	allopurinol	Xanthinuria, type I
+6	cyclosporine	Colchicine resistance
+7	methotrexate	Analbuminemia
+7	methotrexate	Dysalbuminemic hyperthyroxinemia
+7	cyclosporine	Colchicine resistance
+8	cyclosporine	Colchicine resistance
+9	metoclopramide	Dystonia, myoclonic, 159900
+9	metoclopramide	Dystonia
+10	hydrocortisone	Asthma
+10	hydrocortisone	Malaria, resistance to, 248310
+10	hydrocortisone	Cortisol resistance
+10	hydrocortisone	Obesity, adrenal insufficiency, and red hair
+10	hydrocortisone	Atherosclerosis, susceptibility to
+10	hydrocortisone	Asthma, dimished response to antileukotriene treatment in, 600807
+10	hydrocortisone	Malaria
+10	hydrocortisone	Atherosclerosis
+10	hydrocortisone	Obesity
+12	ciprofloxacin	Analbuminemia
+12	ciprofloxacin	Dysalbuminemic hyperthyroxinemia
+12	ciprofloxacin	DNA topoisomerase II, resistance to inhibition of, by amsacrine
+12	ciprofloxacin	DNA topoisomerase
+12	ciprofloxacin	Analbuminemia
+12	ciprofloxacin	Dysalbuminemic hyperthyroxinemia
+12	ciprofloxacin	DNA topoisomerase II, resistance to inhibition of, by amsacrine
+12	ciprofloxacin	DNA topoisomerase
+16	atorvastatin	Tall stature
+16	atorvastatin	Tall stature, susceptibility to
+16	atorvastatin	Hypercholesterolemia
+16	atorvastatin	Obesity, resistance to
+16	atorvastatin	Hypolactasia, adult type, 223100
+16	atorvastatin	Immunodeficiency
+16	atorvastatin	Renal tubular dysgenesis, 267430
+16	atorvastatin	Hyperapobetalipoproteinemia
+16	atorvastatin	Hypobetalipoproteinemia
+16	atorvastatin	Immunodeficiency, X-linked, with hyper-IgM, 308230
+16	atorvastatin	Statins, attenuated cholesterol lowering by
+16	atorvastatin	Glioblastoma
+16	atorvastatin	Hyperapobetalipoproteinemia, susceptibility to
+16	atorvastatin	Malaria, cerebral, susceptibility to
+16	atorvastatin	Insulin resistance, severe, digenic, 604367
+16	atorvastatin	Hypercholesterolemia, due to ligand-defective apo B, 144010
+16	atorvastatin	Hypertension
+16	atorvastatin	Dementia
+16	atorvastatin	Obesity
+16	atorvastatin	Obesity, severe, 601665
+16	atorvastatin	Migraine
+16	atorvastatin	Diabetes mellitus, insulin-resistant, with acanthosis nigricans and hypertension, 604367
+16	atorvastatin	Coronary artery disease
+16	atorvastatin	Asthma, susceptibility to, 600807
+16	atorvastatin	Preeclampsia, susceptibility to
+16	atorvastatin	Migraine without aura, susceptibility to, 157300
+16	atorvastatin	Renal tubular dysgenesis
+16	atorvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
+16	atorvastatin	Glioblastoma, susceptibility to, 137800
+16	atorvastatin	Diabetes mellitus
+16	atorvastatin	Statins
+16	atorvastatin	Hypolactasia, adult type
+16	atorvastatin	Abetalipoproteinemia
+16	atorvastatin	Hypertension, essential, susceptibility to, 145500
+16	atorvastatin	Insulin resistance
+16	atorvastatin	Asthma
+16	atorvastatin	Lipodystrophy, familial partial, 151660
+16	atorvastatin	Coronary artery disease, susceptibility to
+16	atorvastatin	Septic shock, susceptibility to
+16	atorvastatin	Sepsis
+16	atorvastatin	Preeclampsia
+16	atorvastatin	Coronary artery spasm, susceptibility to
+16	atorvastatin	Malaria
+16	atorvastatin	Lipodystrophy
+16	atorvastatin	Dementia, vascular, susceptibility to
+17	atorvastatin	Tall stature
+17	atorvastatin	Tall stature, susceptibility to
+17	atorvastatin	Hypercholesterolemia
+17	atorvastatin	Obesity, resistance to
+17	atorvastatin	Hypolactasia, adult type, 223100
+17	atorvastatin	Immunodeficiency
+17	atorvastatin	Renal tubular dysgenesis, 267430
+17	atorvastatin	Hyperapobetalipoproteinemia
+17	atorvastatin	Hypobetalipoproteinemia
+17	atorvastatin	Immunodeficiency, X-linked, with hyper-IgM, 308230
+17	atorvastatin	Statins, attenuated cholesterol lowering by
+17	atorvastatin	Glioblastoma
+17	atorvastatin	Hyperapobetalipoproteinemia, susceptibility to
+17	atorvastatin	Malaria, cerebral, susceptibility to
+17	atorvastatin	Insulin resistance, severe, digenic, 604367
+17	atorvastatin	Hypercholesterolemia, due to ligand-defective apo B, 144010
+17	atorvastatin	Hypertension
+17	atorvastatin	Dementia
+17	atorvastatin	Obesity
+17	atorvastatin	Obesity, severe, 601665
+17	atorvastatin	Migraine
+17	atorvastatin	Diabetes mellitus, insulin-resistant, with acanthosis nigricans and hypertension, 604367
+17	atorvastatin	Coronary artery disease
+17	atorvastatin	Asthma, susceptibility to, 600807
+17	atorvastatin	Preeclampsia, susceptibility to
+17	atorvastatin	Migraine without aura, susceptibility to, 157300
+17	atorvastatin	Renal tubular dysgenesis
+17	atorvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
+17	atorvastatin	Glioblastoma, susceptibility to, 137800
+17	atorvastatin	Diabetes mellitus
+17	atorvastatin	Statins
+17	atorvastatin	Hypolactasia, adult type
+17	atorvastatin	Abetalipoproteinemia
+17	atorvastatin	Hypertension, essential, susceptibility to, 145500
+17	atorvastatin	Insulin resistance
+17	atorvastatin	Asthma
+17	atorvastatin	Lipodystrophy, familial partial, 151660
+17	atorvastatin	Coronary artery disease, susceptibility to
+17	atorvastatin	Septic shock, susceptibility to
+17	atorvastatin	Sepsis
+17	atorvastatin	Preeclampsia
+17	atorvastatin	Coronary artery spasm, susceptibility to
+17	atorvastatin	Malaria
+17	atorvastatin	Lipodystrophy
+17	atorvastatin	Dementia, vascular, susceptibility to
+20	bosentan	Migraine
+20	bosentan	Hirschsprung disease-2, 600155
+20	bosentan	Waardenburg-Shah syndrome, 277580
+20	bosentan	Migraine, resistance to, 157300
+20	bosentan	Waardenburg-Shah syndrome
+20	bosentan	ABCD syndrome, 600501
+20	bosentan	Hirschsprung disease
+20	bosentan	Cholestasis, progressive familial intrahepatic 2, 601847
+20	bosentan	ABCD syndrome
+20	bosentan	Cholestasis
+22	etoposide	DNA topoisomerase II, resistance to inhibition of, by amsacrine
+22	etoposide	DNA topoisomerase
+23	carvedilol	Resting heart rate, 607276
+23	carvedilol	Atrioventricular septal defect, 600309
+23	carvedilol	Beta-2-adrenoreceptor agonist, reduced response to
+23	carvedilol	Congestive heart failure, susceptibility to
+23	carvedilol	Colchicine resistance
+23	carvedilol	Obesity, susceptibility to, 601665
+23	carvedilol	Oculodentodigital dysplasia, 164200
+23	carvedilol	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
+23	carvedilol	Diabetes mellitus
+23	carvedilol	Syndactyly, type III, 186100
+23	carvedilol	Hypoplastic left heart syndrome
+23	carvedilol	Long QT syndrome
+23	carvedilol	Long QT syndrome-2
+23	carvedilol	Acquired long QT syndrome, susceptibility to
+23	carvedilol	Atrioventricular block
+23	carvedilol	Asthma
+23	carvedilol	Syndactyly
+23	carvedilol	Asthma, nocturnal, susceptibility to
+23	carvedilol	Hypoplastic left heart syndrome, 241550
+23	carvedilol	Resting heart rate
+23	carvedilol	Oculodentodigital dysplasia
+23	carvedilol	Congestive heart failure
+23	carvedilol	Obesity
+23	carvedilol	Acquired long QT syndrome
+24	methotrexate	Analbuminemia
+24	methotrexate	Dysalbuminemic hyperthyroxinemia
+24	etoposide	DNA topoisomerase II, resistance to inhibition of, by amsacrine
+24	etoposide	DNA topoisomerase
+25	etoposide	DNA topoisomerase II, resistance to inhibition of, by amsacrine
+25	etoposide	DNA topoisomerase
 26	bupropion	Orthostatic intolerance
-116	simvastatin	Dementia, vascular, susceptibility to
-120	simvastatin	Dementia, vascular, susceptibility to
-59	simvastatin	Dementia, vascular, susceptibility to
-105	simvastatin	Dementia, vascular, susceptibility to
-35	simvastatin	Dementia, vascular, susceptibility to
-104	simvastatin	Dementia, vascular, susceptibility to
-73	simvastatin	Dementia, vascular, susceptibility to
-123	simvastatin	Dementia, vascular, susceptibility to
-45	simvastatin	Dementia, vascular, susceptibility to
-128	simvastatin	Dementia, vascular, susceptibility to
-44	simvastatin	Dementia, vascular, susceptibility to
-46	simvastatin	Dementia, vascular, susceptibility to
-116	simvastatin	Malaria
-120	simvastatin	Malaria
-59	simvastatin	Malaria
-105	simvastatin	Malaria
-35	simvastatin	Malaria
-104	simvastatin	Malaria
-73	simvastatin	Malaria
-123	simvastatin	Malaria
-45	simvastatin	Malaria
-128	simvastatin	Malaria
-44	simvastatin	Malaria
-46	simvastatin	Malaria
-116	simvastatin	Preeclampsia
-120	simvastatin	Preeclampsia
-59	simvastatin	Preeclampsia
-105	simvastatin	Preeclampsia
-35	simvastatin	Preeclampsia
-104	simvastatin	Preeclampsia
-73	simvastatin	Preeclampsia
-123	simvastatin	Preeclampsia
-45	simvastatin	Preeclampsia
-128	simvastatin	Preeclampsia
-44	simvastatin	Preeclampsia
-46	simvastatin	Preeclampsia
-116	simvastatin	Sepsis
-120	simvastatin	Sepsis
-59	simvastatin	Sepsis
-105	simvastatin	Sepsis
-35	simvastatin	Sepsis
-104	simvastatin	Sepsis
-73	simvastatin	Sepsis
-123	simvastatin	Sepsis
-45	simvastatin	Sepsis
-128	simvastatin	Sepsis
-44	simvastatin	Sepsis
-46	simvastatin	Sepsis
-116	simvastatin	Septic shock, susceptibility to
-120	simvastatin	Septic shock, susceptibility to
-59	simvastatin	Septic shock, susceptibility to
-105	simvastatin	Septic shock, susceptibility to
-35	simvastatin	Septic shock, susceptibility to
-104	simvastatin	Septic shock, susceptibility to
-73	simvastatin	Septic shock, susceptibility to
-123	simvastatin	Septic shock, susceptibility to
-45	simvastatin	Septic shock, susceptibility to
-128	simvastatin	Septic shock, susceptibility to
-44	simvastatin	Septic shock, susceptibility to
-46	simvastatin	Septic shock, susceptibility to
-116	simvastatin	Asthma
-120	simvastatin	Asthma
-59	simvastatin	Asthma
-105	simvastatin	Asthma
-35	simvastatin	Asthma
-104	simvastatin	Asthma
-73	simvastatin	Asthma
-123	simvastatin	Asthma
-45	simvastatin	Asthma
-128	simvastatin	Asthma
-44	simvastatin	Asthma
-46	simvastatin	Asthma
-116	simvastatin	Tuberculosis
-120	simvastatin	Tuberculosis
-59	simvastatin	Tuberculosis
-105	simvastatin	Tuberculosis
-35	simvastatin	Tuberculosis
-104	simvastatin	Tuberculosis
-73	simvastatin	Tuberculosis
-123	simvastatin	Tuberculosis
-45	simvastatin	Tuberculosis
-128	simvastatin	Tuberculosis
-44	simvastatin	Tuberculosis
-46	simvastatin	Tuberculosis
-116	simvastatin	Hypertension, essential, susceptibility to, 145500
-120	simvastatin	Hypertension, essential, susceptibility to, 145500
-59	simvastatin	Hypertension, essential, susceptibility to, 145500
-105	simvastatin	Hypertension, essential, susceptibility to, 145500
-35	simvastatin	Hypertension, essential, susceptibility to, 145500
-104	simvastatin	Hypertension, essential, susceptibility to, 145500
-73	simvastatin	Hypertension, essential, susceptibility to, 145500
-123	simvastatin	Hypertension, essential, susceptibility to, 145500
-45	simvastatin	Hypertension, essential, susceptibility to, 145500
-128	simvastatin	Hypertension, essential, susceptibility to, 145500
-44	simvastatin	Hypertension, essential, susceptibility to, 145500
-46	simvastatin	Hypertension, essential, susceptibility to, 145500
-116	simvastatin	TSC2 angiomyolipomas, renal, modifier of, 191100
-120	simvastatin	TSC2 angiomyolipomas, renal, modifier of, 191100
-59	simvastatin	TSC2 angiomyolipomas, renal, modifier of, 191100
-105	simvastatin	TSC2 angiomyolipomas, renal, modifier of, 191100
-35	simvastatin	TSC2 angiomyolipomas, renal, modifier of, 191100
-104	simvastatin	TSC2 angiomyolipomas, renal, modifier of, 191100
-73	simvastatin	TSC2 angiomyolipomas, renal, modifier of, 191100
-123	simvastatin	TSC2 angiomyolipomas, renal, modifier of, 191100
-45	simvastatin	TSC2 angiomyolipomas, renal, modifier of, 191100
-128	simvastatin	TSC2 angiomyolipomas, renal, modifier of, 191100
-44	simvastatin	TSC2 angiomyolipomas, renal, modifier of, 191100
-46	simvastatin	TSC2 angiomyolipomas, renal, modifier of, 191100
-116	simvastatin	Statins
-120	simvastatin	Statins
-59	simvastatin	Statins
-105	simvastatin	Statins
-35	simvastatin	Statins
-104	simvastatin	Statins
-73	simvastatin	Statins
-123	simvastatin	Statins
-45	simvastatin	Statins
-128	simvastatin	Statins
-44	simvastatin	Statins
-46	simvastatin	Statins
-116	simvastatin	Immunodeficiency with hyper-IgM, type 3, 606843
-120	simvastatin	Immunodeficiency with hyper-IgM, type 3, 606843
-59	simvastatin	Immunodeficiency with hyper-IgM, type 3, 606843
-105	simvastatin	Immunodeficiency with hyper-IgM, type 3, 606843
-35	simvastatin	Immunodeficiency with hyper-IgM, type 3, 606843
-104	simvastatin	Immunodeficiency with hyper-IgM, type 3, 606843
-73	simvastatin	Immunodeficiency with hyper-IgM, type 3, 606843
-123	simvastatin	Immunodeficiency with hyper-IgM, type 3, 606843
-45	simvastatin	Immunodeficiency with hyper-IgM, type 3, 606843
-128	simvastatin	Immunodeficiency with hyper-IgM, type 3, 606843
-44	simvastatin	Immunodeficiency with hyper-IgM, type 3, 606843
-46	simvastatin	Immunodeficiency with hyper-IgM, type 3, 606843
-116	simvastatin	AIDS
-120	simvastatin	AIDS
-59	simvastatin	AIDS
-105	simvastatin	AIDS
-35	simvastatin	AIDS
-104	simvastatin	AIDS
-73	simvastatin	AIDS
-123	simvastatin	AIDS
-45	simvastatin	AIDS
-128	simvastatin	AIDS
-44	simvastatin	AIDS
-46	simvastatin	AIDS
-116	simvastatin	Diabetes mellitus
-120	simvastatin	Diabetes mellitus
-59	simvastatin	Diabetes mellitus
-105	simvastatin	Diabetes mellitus
-35	simvastatin	Diabetes mellitus
-104	simvastatin	Diabetes mellitus
-73	simvastatin	Diabetes mellitus
-123	simvastatin	Diabetes mellitus
-45	simvastatin	Diabetes mellitus
-128	simvastatin	Diabetes mellitus
-44	simvastatin	Diabetes mellitus
-46	simvastatin	Diabetes mellitus
-116	simvastatin	Coronary heart disease, susceptibility to
-120	simvastatin	Coronary heart disease, susceptibility to
-59	simvastatin	Coronary heart disease, susceptibility to
-105	simvastatin	Coronary heart disease, susceptibility to
-35	simvastatin	Coronary heart disease, susceptibility to
-104	simvastatin	Coronary heart disease, susceptibility to
-73	simvastatin	Coronary heart disease, susceptibility to
-123	simvastatin	Coronary heart disease, susceptibility to
-45	simvastatin	Coronary heart disease, susceptibility to
-128	simvastatin	Coronary heart disease, susceptibility to
-44	simvastatin	Coronary heart disease, susceptibility to
-46	simvastatin	Coronary heart disease, susceptibility to
-116	simvastatin	Kaposi sarcoma
-120	simvastatin	Kaposi sarcoma
-59	simvastatin	Kaposi sarcoma
-105	simvastatin	Kaposi sarcoma
-35	simvastatin	Kaposi sarcoma
-104	simvastatin	Kaposi sarcoma
-73	simvastatin	Kaposi sarcoma
-123	simvastatin	Kaposi sarcoma
-45	simvastatin	Kaposi sarcoma
-128	simvastatin	Kaposi sarcoma
-44	simvastatin	Kaposi sarcoma
-46	simvastatin	Kaposi sarcoma
-116	simvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
-120	simvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
-59	simvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
-105	simvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
-35	simvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
-104	simvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
-73	simvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
-123	simvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
-45	simvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
-128	simvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
-44	simvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
-46	simvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
-116	simvastatin	Leukocyte adhesion deficiency
-120	simvastatin	Leukocyte adhesion deficiency
-59	simvastatin	Leukocyte adhesion deficiency
-105	simvastatin	Leukocyte adhesion deficiency
-35	simvastatin	Leukocyte adhesion deficiency
-104	simvastatin	Leukocyte adhesion deficiency
-73	simvastatin	Leukocyte adhesion deficiency
-123	simvastatin	Leukocyte adhesion deficiency
-45	simvastatin	Leukocyte adhesion deficiency
-128	simvastatin	Leukocyte adhesion deficiency
-44	simvastatin	Leukocyte adhesion deficiency
-46	simvastatin	Leukocyte adhesion deficiency
-116	simvastatin	Renal tubular dysgenesis
-120	simvastatin	Renal tubular dysgenesis
-59	simvastatin	Renal tubular dysgenesis
-105	simvastatin	Renal tubular dysgenesis
-35	simvastatin	Renal tubular dysgenesis
-104	simvastatin	Renal tubular dysgenesis
-73	simvastatin	Renal tubular dysgenesis
-123	simvastatin	Renal tubular dysgenesis
-45	simvastatin	Renal tubular dysgenesis
-128	simvastatin	Renal tubular dysgenesis
-44	simvastatin	Renal tubular dysgenesis
-46	simvastatin	Renal tubular dysgenesis
-116	simvastatin	Migraine without aura, susceptibility to, 157300
-120	simvastatin	Migraine without aura, susceptibility to, 157300
-59	simvastatin	Migraine without aura, susceptibility to, 157300
-105	simvastatin	Migraine without aura, susceptibility to, 157300
-35	simvastatin	Migraine without aura, susceptibility to, 157300
-104	simvastatin	Migraine without aura, susceptibility to, 157300
-73	simvastatin	Migraine without aura, susceptibility to, 157300
-123	simvastatin	Migraine without aura, susceptibility to, 157300
-45	simvastatin	Migraine without aura, susceptibility to, 157300
-128	simvastatin	Migraine without aura, susceptibility to, 157300
-44	simvastatin	Migraine without aura, susceptibility to, 157300
-46	simvastatin	Migraine without aura, susceptibility to, 157300
-116	simvastatin	Preeclampsia, susceptibility to
-120	simvastatin	Preeclampsia, susceptibility to
-59	simvastatin	Preeclampsia, susceptibility to
-105	simvastatin	Preeclampsia, susceptibility to
-35	simvastatin	Preeclampsia, susceptibility to
-104	simvastatin	Preeclampsia, susceptibility to
-73	simvastatin	Preeclampsia, susceptibility to
-123	simvastatin	Preeclampsia, susceptibility to
-45	simvastatin	Preeclampsia, susceptibility to
-128	simvastatin	Preeclampsia, susceptibility to
-44	simvastatin	Preeclampsia, susceptibility to
-46	simvastatin	Preeclampsia, susceptibility to
-116	simvastatin	Asthma, susceptibility to, 600807
-120	simvastatin	Asthma, susceptibility to, 600807
-59	simvastatin	Asthma, susceptibility to, 600807
-105	simvastatin	Asthma, susceptibility to, 600807
-35	simvastatin	Asthma, susceptibility to, 600807
-104	simvastatin	Asthma, susceptibility to, 600807
-73	simvastatin	Asthma, susceptibility to, 600807
-123	simvastatin	Asthma, susceptibility to, 600807
-45	simvastatin	Asthma, susceptibility to, 600807
-128	simvastatin	Asthma, susceptibility to, 600807
-44	simvastatin	Asthma, susceptibility to, 600807
-46	simvastatin	Asthma, susceptibility to, 600807
-116	simvastatin	Coronary artery disease
-120	simvastatin	Coronary artery disease
-59	simvastatin	Coronary artery disease
-105	simvastatin	Coronary artery disease
-35	simvastatin	Coronary artery disease
-104	simvastatin	Coronary artery disease
-73	simvastatin	Coronary artery disease
-123	simvastatin	Coronary artery disease
-45	simvastatin	Coronary artery disease
-128	simvastatin	Coronary artery disease
-44	simvastatin	Coronary artery disease
-46	simvastatin	Coronary artery disease
-116	simvastatin	Hyperprothrombinemia
-120	simvastatin	Hyperprothrombinemia
-59	simvastatin	Hyperprothrombinemia
-105	simvastatin	Hyperprothrombinemia
-35	simvastatin	Hyperprothrombinemia
-104	simvastatin	Hyperprothrombinemia
-73	simvastatin	Hyperprothrombinemia
-123	simvastatin	Hyperprothrombinemia
-45	simvastatin	Hyperprothrombinemia
-128	simvastatin	Hyperprothrombinemia
-44	simvastatin	Hyperprothrombinemia
-46	simvastatin	Hyperprothrombinemia
-116	simvastatin	Migraine
-120	simvastatin	Migraine
-59	simvastatin	Migraine
-105	simvastatin	Migraine
-35	simvastatin	Migraine
-104	simvastatin	Migraine
-73	simvastatin	Migraine
-123	simvastatin	Migraine
-45	simvastatin	Migraine
-128	simvastatin	Migraine
-44	simvastatin	Migraine
-46	simvastatin	Migraine
-116	simvastatin	Aplastic anemia, 609135
-120	simvastatin	Aplastic anemia, 609135
-59	simvastatin	Aplastic anemia, 609135
-105	simvastatin	Aplastic anemia, 609135
-35	simvastatin	Aplastic anemia, 609135
-104	simvastatin	Aplastic anemia, 609135
-73	simvastatin	Aplastic anemia, 609135
-123	simvastatin	Aplastic anemia, 609135
-45	simvastatin	Aplastic anemia, 609135
-128	simvastatin	Aplastic anemia, 609135
-44	simvastatin	Aplastic anemia, 609135
-46	simvastatin	Aplastic anemia, 609135
-116	simvastatin	Hypoprothrombinemia
-120	simvastatin	Hypoprothrombinemia
-59	simvastatin	Hypoprothrombinemia
-105	simvastatin	Hypoprothrombinemia
-35	simvastatin	Hypoprothrombinemia
-104	simvastatin	Hypoprothrombinemia
-73	simvastatin	Hypoprothrombinemia
-123	simvastatin	Hypoprothrombinemia
-45	simvastatin	Hypoprothrombinemia
-128	simvastatin	Hypoprothrombinemia
-44	simvastatin	Hypoprothrombinemia
-46	simvastatin	Hypoprothrombinemia
-116	simvastatin	Dementia
-120	simvastatin	Dementia
-59	simvastatin	Dementia
-105	simvastatin	Dementia
-35	simvastatin	Dementia
-104	simvastatin	Dementia
-73	simvastatin	Dementia
-123	simvastatin	Dementia
-45	simvastatin	Dementia
-128	simvastatin	Dementia
-44	simvastatin	Dementia
-46	simvastatin	Dementia
-116	simvastatin	Hypertension
-120	simvastatin	Hypertension
-59	simvastatin	Hypertension
-105	simvastatin	Hypertension
-35	simvastatin	Hypertension
-104	simvastatin	Hypertension
-73	simvastatin	Hypertension
-123	simvastatin	Hypertension
-45	simvastatin	Hypertension
-128	simvastatin	Hypertension
-44	simvastatin	Hypertension
-46	simvastatin	Hypertension
-116	simvastatin	Tuberous sclerosis
-120	simvastatin	Tuberous sclerosis
-59	simvastatin	Tuberous sclerosis
-105	simvastatin	Tuberous sclerosis
-35	simvastatin	Tuberous sclerosis
-104	simvastatin	Tuberous sclerosis
-73	simvastatin	Tuberous sclerosis
-123	simvastatin	Tuberous sclerosis
-45	simvastatin	Tuberous sclerosis
-128	simvastatin	Tuberous sclerosis
-44	simvastatin	Tuberous sclerosis
-46	simvastatin	Tuberous sclerosis
-116	simvastatin	AIDS, rapid progression to, 609423
-120	simvastatin	AIDS, rapid progression to, 609423
-59	simvastatin	AIDS, rapid progression to, 609423
-105	simvastatin	AIDS, rapid progression to, 609423
-35	simvastatin	AIDS, rapid progression to, 609423
-104	simvastatin	AIDS, rapid progression to, 609423
-73	simvastatin	AIDS, rapid progression to, 609423
-123	simvastatin	AIDS, rapid progression to, 609423
-45	simvastatin	AIDS, rapid progression to, 609423
-128	simvastatin	AIDS, rapid progression to, 609423
-44	simvastatin	AIDS, rapid progression to, 609423
-46	simvastatin	AIDS, rapid progression to, 609423
-116	simvastatin	Kaposi sarcoma, susceptibility to, 148000
-120	simvastatin	Kaposi sarcoma, susceptibility to, 148000
-59	simvastatin	Kaposi sarcoma, susceptibility to, 148000
-105	simvastatin	Kaposi sarcoma, susceptibility to, 148000
-35	simvastatin	Kaposi sarcoma, susceptibility to, 148000
-104	simvastatin	Kaposi sarcoma, susceptibility to, 148000
-73	simvastatin	Kaposi sarcoma, susceptibility to, 148000
-123	simvastatin	Kaposi sarcoma, susceptibility to, 148000
-45	simvastatin	Kaposi sarcoma, susceptibility to, 148000
-128	simvastatin	Kaposi sarcoma, susceptibility to, 148000
-44	simvastatin	Kaposi sarcoma, susceptibility to, 148000
-46	simvastatin	Kaposi sarcoma, susceptibility to, 148000
-116	simvastatin	Malaria, cerebral, susceptibility to
-120	simvastatin	Malaria, cerebral, susceptibility to
-59	simvastatin	Malaria, cerebral, susceptibility to
-105	simvastatin	Malaria, cerebral, susceptibility to
-35	simvastatin	Malaria, cerebral, susceptibility to
-104	simvastatin	Malaria, cerebral, susceptibility to
-73	simvastatin	Malaria, cerebral, susceptibility to
-123	simvastatin	Malaria, cerebral, susceptibility to
-45	simvastatin	Malaria, cerebral, susceptibility to
-128	simvastatin	Malaria, cerebral, susceptibility to
-44	simvastatin	Malaria, cerebral, susceptibility to
-46	simvastatin	Malaria, cerebral, susceptibility to
-116	simvastatin	Hyperapobetalipoproteinemia, susceptibility to
-120	simvastatin	Hyperapobetalipoproteinemia, susceptibility to
-59	simvastatin	Hyperapobetalipoproteinemia, susceptibility to
-105	simvastatin	Hyperapobetalipoproteinemia, susceptibility to
-35	simvastatin	Hyperapobetalipoproteinemia, susceptibility to
-104	simvastatin	Hyperapobetalipoproteinemia, susceptibility to
-73	simvastatin	Hyperapobetalipoproteinemia, susceptibility to
-123	simvastatin	Hyperapobetalipoproteinemia, susceptibility to
-45	simvastatin	Hyperapobetalipoproteinemia, susceptibility to
-128	simvastatin	Hyperapobetalipoproteinemia, susceptibility to
-44	simvastatin	Hyperapobetalipoproteinemia, susceptibility to
-46	simvastatin	Hyperapobetalipoproteinemia, susceptibility to
-116	simvastatin	Statins, attenuated cholesterol lowering by
-120	simvastatin	Statins, attenuated cholesterol lowering by
-59	simvastatin	Statins, attenuated cholesterol lowering by
-105	simvastatin	Statins, attenuated cholesterol lowering by
-35	simvastatin	Statins, attenuated cholesterol lowering by
-104	simvastatin	Statins, attenuated cholesterol lowering by
-73	simvastatin	Statins, attenuated cholesterol lowering by
-123	simvastatin	Statins, attenuated cholesterol lowering by
-45	simvastatin	Statins, attenuated cholesterol lowering by
-128	simvastatin	Statins, attenuated cholesterol lowering by
-44	simvastatin	Statins, attenuated cholesterol lowering by
-46	simvastatin	Statins, attenuated cholesterol lowering by
-116	simvastatin	Dysprothrombinemia
-120	simvastatin	Dysprothrombinemia
-59	simvastatin	Dysprothrombinemia
-105	simvastatin	Dysprothrombinemia
-35	simvastatin	Dysprothrombinemia
-104	simvastatin	Dysprothrombinemia
-73	simvastatin	Dysprothrombinemia
-123	simvastatin	Dysprothrombinemia
-45	simvastatin	Dysprothrombinemia
-128	simvastatin	Dysprothrombinemia
-44	simvastatin	Dysprothrombinemia
-46	simvastatin	Dysprothrombinemia
-116	simvastatin	Tuberculosis, susceptibility to, 607948
-120	simvastatin	Tuberculosis, susceptibility to, 607948
-59	simvastatin	Tuberculosis, susceptibility to, 607948
-105	simvastatin	Tuberculosis, susceptibility to, 607948
-35	simvastatin	Tuberculosis, susceptibility to, 607948
-104	simvastatin	Tuberculosis, susceptibility to, 607948
-73	simvastatin	Tuberculosis, susceptibility to, 607948
-123	simvastatin	Tuberculosis, susceptibility to, 607948
-45	simvastatin	Tuberculosis, susceptibility to, 607948
-128	simvastatin	Tuberculosis, susceptibility to, 607948
-44	simvastatin	Tuberculosis, susceptibility to, 607948
-46	simvastatin	Tuberculosis, susceptibility to, 607948
-116	simvastatin	Hyperapobetalipoproteinemia
-120	simvastatin	Hyperapobetalipoproteinemia
-59	simvastatin	Hyperapobetalipoproteinemia
-105	simvastatin	Hyperapobetalipoproteinemia
-35	simvastatin	Hyperapobetalipoproteinemia
-104	simvastatin	Hyperapobetalipoproteinemia
-73	simvastatin	Hyperapobetalipoproteinemia
-123	simvastatin	Hyperapobetalipoproteinemia
-45	simvastatin	Hyperapobetalipoproteinemia
-128	simvastatin	Hyperapobetalipoproteinemia
-44	simvastatin	Hyperapobetalipoproteinemia
-46	simvastatin	Hyperapobetalipoproteinemia
-116	simvastatin	Renal tubular dysgenesis, 267430
-120	simvastatin	Renal tubular dysgenesis, 267430
-59	simvastatin	Renal tubular dysgenesis, 267430
-105	simvastatin	Renal tubular dysgenesis, 267430
-35	simvastatin	Renal tubular dysgenesis, 267430
-104	simvastatin	Renal tubular dysgenesis, 267430
-73	simvastatin	Renal tubular dysgenesis, 267430
-123	simvastatin	Renal tubular dysgenesis, 267430
-45	simvastatin	Renal tubular dysgenesis, 267430
-128	simvastatin	Renal tubular dysgenesis, 267430
-44	simvastatin	Renal tubular dysgenesis, 267430
-46	simvastatin	Renal tubular dysgenesis, 267430
-116	simvastatin	Immunodeficiency
-120	simvastatin	Immunodeficiency
-59	simvastatin	Immunodeficiency
-105	simvastatin	Immunodeficiency
-35	simvastatin	Immunodeficiency
-104	simvastatin	Immunodeficiency
-73	simvastatin	Immunodeficiency
-123	simvastatin	Immunodeficiency
-45	simvastatin	Immunodeficiency
-128	simvastatin	Immunodeficiency
-44	simvastatin	Immunodeficiency
-46	simvastatin	Immunodeficiency
-116	simvastatin	Leukocyte adhesion deficiency, 116920
-120	simvastatin	Leukocyte adhesion deficiency, 116920
-59	simvastatin	Leukocyte adhesion deficiency, 116920
-105	simvastatin	Leukocyte adhesion deficiency, 116920
-35	simvastatin	Leukocyte adhesion deficiency, 116920
-104	simvastatin	Leukocyte adhesion deficiency, 116920
-73	simvastatin	Leukocyte adhesion deficiency, 116920
-123	simvastatin	Leukocyte adhesion deficiency, 116920
-45	simvastatin	Leukocyte adhesion deficiency, 116920
-128	simvastatin	Leukocyte adhesion deficiency, 116920
-44	simvastatin	Leukocyte adhesion deficiency, 116920
-46	simvastatin	Leukocyte adhesion deficiency, 116920
-116	simvastatin	Aplastic anemia
-120	simvastatin	Aplastic anemia
-59	simvastatin	Aplastic anemia
-105	simvastatin	Aplastic anemia
-35	simvastatin	Aplastic anemia
-104	simvastatin	Aplastic anemia
-73	simvastatin	Aplastic anemia
-123	simvastatin	Aplastic anemia
-45	simvastatin	Aplastic anemia
-128	simvastatin	Aplastic anemia
-44	simvastatin	Aplastic anemia
-46	simvastatin	Aplastic anemia
-32	ibuprofen	Dysalbuminemic hyperthyroxinemia
-48	ibuprofen	Dysalbuminemic hyperthyroxinemia
+26	bupropion	Orthostatic intolerance, 604715
+29	carvedilol	Resting heart rate, 607276
+29	carvedilol	Atrioventricular septal defect, 600309
+29	carvedilol	Beta-2-adrenoreceptor agonist, reduced response to
+29	carvedilol	Congestive heart failure, susceptibility to
+29	carvedilol	Colchicine resistance
+29	carvedilol	Obesity, susceptibility to, 601665
+29	carvedilol	Oculodentodigital dysplasia, 164200
+29	carvedilol	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
+29	carvedilol	Diabetes mellitus
+29	carvedilol	Syndactyly, type III, 186100
+29	carvedilol	Hypoplastic left heart syndrome
+29	carvedilol	Long QT syndrome
+29	carvedilol	Long QT syndrome-2
+29	carvedilol	Acquired long QT syndrome, susceptibility to
+29	carvedilol	Atrioventricular block
+29	carvedilol	Asthma
+29	carvedilol	Syndactyly
+29	carvedilol	Asthma, nocturnal, susceptibility to
+29	carvedilol	Hypoplastic left heart syndrome, 241550
+29	carvedilol	Resting heart rate
+29	carvedilol	Oculodentodigital dysplasia
+29	carvedilol	Congestive heart failure
+29	carvedilol	Obesity
+29	carvedilol	Acquired long QT syndrome
+31	methotrexate	Analbuminemia
+31	methotrexate	Dysalbuminemic hyperthyroxinemia
 32	ibuprofen	Analbuminemia
-48	ibuprofen	Analbuminemia
+32	ibuprofen	Dysalbuminemic hyperthyroxinemia
+33	bupropion	Orthostatic intolerance
+33	bupropion	Orthostatic intolerance, 604715
+35	simvastatin	Aplastic anemia
+35	simvastatin	Leukocyte adhesion deficiency, 116920
+35	simvastatin	Immunodeficiency
+35	simvastatin	Renal tubular dysgenesis, 267430
+35	simvastatin	Hyperapobetalipoproteinemia
+35	simvastatin	Tuberculosis, susceptibility to, 607948
+35	simvastatin	Dysprothrombinemia
+35	simvastatin	Statins, attenuated cholesterol lowering by
+35	simvastatin	Hyperapobetalipoproteinemia, susceptibility to
+35	simvastatin	Malaria, cerebral, susceptibility to
+35	simvastatin	Kaposi sarcoma, susceptibility to, 148000
+35	simvastatin	AIDS, rapid progression to, 609423
+35	simvastatin	Tuberous sclerosis
+35	simvastatin	Hypertension
+35	simvastatin	Dementia
+35	simvastatin	Hypoprothrombinemia
+35	simvastatin	Aplastic anemia, 609135
+35	simvastatin	Migraine
+35	simvastatin	Hyperprothrombinemia
+35	simvastatin	Coronary artery disease
+35	simvastatin	Asthma, susceptibility to, 600807
+35	simvastatin	Preeclampsia, susceptibility to
+35	simvastatin	Migraine without aura, susceptibility to, 157300
+35	simvastatin	Renal tubular dysgenesis
+35	simvastatin	Leukocyte adhesion deficiency
+35	simvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
+35	simvastatin	Kaposi sarcoma
+35	simvastatin	Coronary heart disease, susceptibility to
+35	simvastatin	Diabetes mellitus
+35	simvastatin	AIDS
+35	simvastatin	Immunodeficiency with hyper-IgM, type 3, 606843
+35	simvastatin	Statins
+35	simvastatin	TSC2 angiomyolipomas, renal, modifier of, 191100
+35	simvastatin	Hypertension, essential, susceptibility to, 145500
+35	simvastatin	Tuberculosis
+35	simvastatin	Asthma
+35	simvastatin	Septic shock, susceptibility to
+35	simvastatin	Sepsis
+35	simvastatin	Preeclampsia
+35	simvastatin	Malaria
+35	simvastatin	Dementia, vascular, susceptibility to
+37	fluoxetine	Anxiety-related personality traits
+37	fluoxetine	Obsessive-compulsive disorder 1, 164230
+37	fluoxetine	Obsessive-compulsive disorder
+38	atorvastatin	Tall stature
+38	atorvastatin	Tall stature, susceptibility to
+38	atorvastatin	Hypercholesterolemia
+38	atorvastatin	Obesity, resistance to
+38	atorvastatin	Hypolactasia, adult type, 223100
+38	atorvastatin	Immunodeficiency
+38	atorvastatin	Renal tubular dysgenesis, 267430
+38	atorvastatin	Hyperapobetalipoproteinemia
+38	atorvastatin	Hypobetalipoproteinemia
+38	atorvastatin	Immunodeficiency, X-linked, with hyper-IgM, 308230
+38	atorvastatin	Statins, attenuated cholesterol lowering by
+38	atorvastatin	Glioblastoma
+38	atorvastatin	Hyperapobetalipoproteinemia, susceptibility to
+38	atorvastatin	Malaria, cerebral, susceptibility to
+38	atorvastatin	Insulin resistance, severe, digenic, 604367
+38	atorvastatin	Hypercholesterolemia, due to ligand-defective apo B, 144010
+38	atorvastatin	Hypertension
+38	atorvastatin	Dementia
+38	atorvastatin	Obesity
+38	atorvastatin	Obesity, severe, 601665
+38	atorvastatin	Migraine
+38	atorvastatin	Diabetes mellitus, insulin-resistant, with acanthosis nigricans and hypertension, 604367
+38	atorvastatin	Coronary artery disease
+38	atorvastatin	Asthma, susceptibility to, 600807
+38	atorvastatin	Preeclampsia, susceptibility to
+38	atorvastatin	Migraine without aura, susceptibility to, 157300
+38	atorvastatin	Renal tubular dysgenesis
+38	atorvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
+38	atorvastatin	Glioblastoma, susceptibility to, 137800
+38	atorvastatin	Diabetes mellitus
+38	atorvastatin	Statins
+38	atorvastatin	Hypolactasia, adult type
+38	atorvastatin	Abetalipoproteinemia
+38	atorvastatin	Hypertension, essential, susceptibility to, 145500
+38	atorvastatin	Insulin resistance
+38	atorvastatin	Asthma
+38	atorvastatin	Lipodystrophy, familial partial, 151660
+38	atorvastatin	Coronary artery disease, susceptibility to
+38	atorvastatin	Septic shock, susceptibility to
+38	atorvastatin	Sepsis
+38	atorvastatin	Preeclampsia
+38	atorvastatin	Coronary artery spasm, susceptibility to
+38	atorvastatin	Malaria
+38	atorvastatin	Lipodystrophy
+38	atorvastatin	Dementia, vascular, susceptibility to
+39	bupropion	Orthostatic intolerance
+39	bupropion	Orthostatic intolerance, 604715
+40	allopurinol	Xanthinuria, type I, 278300
+40	allopurinol	Xanthinuria, type I
+41	rosuvastatin	Statins
+41	rosuvastatin	Statins, attenuated cholesterol lowering by
+41	rosuvastatin	Alzheimer disease, late-onset, susceptibility to, 104300
+41	rosuvastatin	Placental abruption
+41	rosuvastatin	Hypertension, susceptibility to, 145500
+41	rosuvastatin	Coronary spasms
+41	rosuvastatin	Coronary spasms, susceptibility to
+41	rosuvastatin	Hypertension
+41	rosuvastatin	Alzheimer disease
+41	rosuvastatin	Hypertension, pregnancy-induced, 189800
+43	simvastatin	Aplastic anemia
+43	simvastatin	Leukocyte adhesion deficiency, 116920
+43	simvastatin	Immunodeficiency
+43	simvastatin	Renal tubular dysgenesis, 267430
+43	simvastatin	Hyperapobetalipoproteinemia
+43	simvastatin	Tuberculosis, susceptibility to, 607948
+43	simvastatin	Dysprothrombinemia
+43	simvastatin	Statins, attenuated cholesterol lowering by
+43	simvastatin	Hyperapobetalipoproteinemia, susceptibility to
+43	simvastatin	Malaria, cerebral, susceptibility to
+43	simvastatin	Kaposi sarcoma, susceptibility to, 148000
+43	simvastatin	AIDS, rapid progression to, 609423
+43	simvastatin	Tuberous sclerosis
+43	simvastatin	Hypertension
+43	simvastatin	Dementia
+43	simvastatin	Hypoprothrombinemia
+43	simvastatin	Aplastic anemia, 609135
+43	simvastatin	Migraine
+43	simvastatin	Hyperprothrombinemia
+43	simvastatin	Coronary artery disease
+43	simvastatin	Asthma, susceptibility to, 600807
+43	simvastatin	Preeclampsia, susceptibility to
+43	simvastatin	Migraine without aura, susceptibility to, 157300
+43	simvastatin	Renal tubular dysgenesis
+43	simvastatin	Leukocyte adhesion deficiency
+43	simvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
+43	simvastatin	Kaposi sarcoma
+43	simvastatin	Coronary heart disease, susceptibility to
+43	simvastatin	Diabetes mellitus
+43	simvastatin	AIDS
+43	simvastatin	Immunodeficiency with hyper-IgM, type 3, 606843
+43	simvastatin	Statins
+43	simvastatin	TSC2 angiomyolipomas, renal, modifier of, 191100
+43	simvastatin	Hypertension, essential, susceptibility to, 145500
+43	simvastatin	Tuberculosis
+43	simvastatin	Asthma
+43	simvastatin	Septic shock, susceptibility to
+43	simvastatin	Sepsis
+43	simvastatin	Preeclampsia
+43	simvastatin	Malaria
+43	simvastatin	Dementia, vascular, susceptibility to
+44	ezetimibe	Ezetimibe, nonresponse to
+44	simvastatin	Aplastic anemia
+44	simvastatin	Leukocyte adhesion deficiency, 116920
+44	simvastatin	Immunodeficiency
+44	simvastatin	Renal tubular dysgenesis, 267430
+44	simvastatin	Hyperapobetalipoproteinemia
+44	simvastatin	Tuberculosis, susceptibility to, 607948
+44	simvastatin	Dysprothrombinemia
+44	simvastatin	Statins, attenuated cholesterol lowering by
+44	simvastatin	Hyperapobetalipoproteinemia, susceptibility to
+44	simvastatin	Malaria, cerebral, susceptibility to
+44	simvastatin	Kaposi sarcoma, susceptibility to, 148000
+44	simvastatin	AIDS, rapid progression to, 609423
+44	simvastatin	Tuberous sclerosis
+44	simvastatin	Hypertension
+44	simvastatin	Dementia
+44	simvastatin	Hypoprothrombinemia
+44	simvastatin	Aplastic anemia, 609135
+44	simvastatin	Migraine
+44	simvastatin	Hyperprothrombinemia
+44	simvastatin	Coronary artery disease
+44	simvastatin	Asthma, susceptibility to, 600807
+44	simvastatin	Preeclampsia, susceptibility to
+44	simvastatin	Migraine without aura, susceptibility to, 157300
+44	simvastatin	Renal tubular dysgenesis
+44	simvastatin	Leukocyte adhesion deficiency
+44	simvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
+44	simvastatin	Kaposi sarcoma
+44	simvastatin	Coronary heart disease, susceptibility to
+44	simvastatin	Diabetes mellitus
+44	simvastatin	AIDS
+44	simvastatin	Immunodeficiency with hyper-IgM, type 3, 606843
+44	simvastatin	Statins
+44	simvastatin	TSC2 angiomyolipomas, renal, modifier of, 191100
+44	simvastatin	Hypertension, essential, susceptibility to, 145500
+44	simvastatin	Tuberculosis
+44	simvastatin	Asthma
+44	simvastatin	Septic shock, susceptibility to
+44	simvastatin	Sepsis
+44	simvastatin	Preeclampsia
+44	simvastatin	Malaria
+44	simvastatin	Dementia, vascular, susceptibility to
+46	simvastatin	Aplastic anemia
+46	simvastatin	Leukocyte adhesion deficiency, 116920
+46	simvastatin	Immunodeficiency
+46	simvastatin	Renal tubular dysgenesis, 267430
+46	simvastatin	Hyperapobetalipoproteinemia
+46	simvastatin	Tuberculosis, susceptibility to, 607948
+46	simvastatin	Dysprothrombinemia
+46	simvastatin	Statins, attenuated cholesterol lowering by
+46	simvastatin	Hyperapobetalipoproteinemia, susceptibility to
+46	simvastatin	Malaria, cerebral, susceptibility to
+46	simvastatin	Kaposi sarcoma, susceptibility to, 148000
+46	simvastatin	AIDS, rapid progression to, 609423
+46	simvastatin	Tuberous sclerosis
+46	simvastatin	Hypertension
+46	simvastatin	Dementia
+46	simvastatin	Hypoprothrombinemia
+46	simvastatin	Aplastic anemia, 609135
+46	simvastatin	Migraine
+46	simvastatin	Hyperprothrombinemia
+46	simvastatin	Coronary artery disease
+46	simvastatin	Asthma, susceptibility to, 600807
+46	simvastatin	Preeclampsia, susceptibility to
+46	simvastatin	Migraine without aura, susceptibility to, 157300
+46	simvastatin	Renal tubular dysgenesis
+46	simvastatin	Leukocyte adhesion deficiency
+46	simvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
+46	simvastatin	Kaposi sarcoma
+46	simvastatin	Coronary heart disease, susceptibility to
+46	simvastatin	Diabetes mellitus
+46	simvastatin	AIDS
+46	simvastatin	Immunodeficiency with hyper-IgM, type 3, 606843
+46	simvastatin	Statins
+46	simvastatin	TSC2 angiomyolipomas, renal, modifier of, 191100
+46	simvastatin	Hypertension, essential, susceptibility to, 145500
+46	simvastatin	Tuberculosis
+46	simvastatin	Asthma
+46	simvastatin	Septic shock, susceptibility to
+46	simvastatin	Sepsis
+46	simvastatin	Preeclampsia
+46	simvastatin	Malaria
+46	simvastatin	Dementia, vascular, susceptibility to
+46	atorvastatin	Tall stature
+46	atorvastatin	Tall stature, susceptibility to
+46	atorvastatin	Hypercholesterolemia
+46	atorvastatin	Obesity, resistance to
+46	atorvastatin	Hypolactasia, adult type, 223100
+46	atorvastatin	Immunodeficiency
+46	atorvastatin	Renal tubular dysgenesis, 267430
+46	atorvastatin	Hyperapobetalipoproteinemia
+46	atorvastatin	Hypobetalipoproteinemia
+46	atorvastatin	Immunodeficiency, X-linked, with hyper-IgM, 308230
+46	atorvastatin	Statins, attenuated cholesterol lowering by
+46	atorvastatin	Glioblastoma
+46	atorvastatin	Hyperapobetalipoproteinemia, susceptibility to
+46	atorvastatin	Malaria, cerebral, susceptibility to
+46	atorvastatin	Insulin resistance, severe, digenic, 604367
+46	atorvastatin	Hypercholesterolemia, due to ligand-defective apo B, 144010
+46	atorvastatin	Hypertension
+46	atorvastatin	Dementia
+46	atorvastatin	Obesity
+46	atorvastatin	Obesity, severe, 601665
+46	atorvastatin	Migraine
+46	atorvastatin	Diabetes mellitus, insulin-resistant, with acanthosis nigricans and hypertension, 604367
+46	atorvastatin	Coronary artery disease
+46	atorvastatin	Asthma, susceptibility to, 600807
+46	atorvastatin	Preeclampsia, susceptibility to
+46	atorvastatin	Migraine without aura, susceptibility to, 157300
+46	atorvastatin	Renal tubular dysgenesis
+46	atorvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
+46	atorvastatin	Glioblastoma, susceptibility to, 137800
+46	atorvastatin	Diabetes mellitus
+46	atorvastatin	Statins
+46	atorvastatin	Hypolactasia, adult type
+46	atorvastatin	Abetalipoproteinemia
+46	atorvastatin	Hypertension, essential, susceptibility to, 145500
+46	atorvastatin	Insulin resistance
+46	atorvastatin	Asthma
+46	atorvastatin	Lipodystrophy, familial partial, 151660
+46	atorvastatin	Coronary artery disease, susceptibility to
+46	atorvastatin	Septic shock, susceptibility to
+46	atorvastatin	Sepsis
+46	atorvastatin	Preeclampsia
+46	atorvastatin	Coronary artery spasm, susceptibility to
+46	atorvastatin	Malaria
+46	atorvastatin	Lipodystrophy
+46	atorvastatin	Dementia, vascular, susceptibility to
+47	ibuprofen	Analbuminemia
+47	ibuprofen	Dysalbuminemic hyperthyroxinemia
+49	etoposide	DNA topoisomerase II, resistance to inhibition of, by amsacrine
+49	etoposide	DNA topoisomerase
+50	phenytoin	Brugada syndrome, 601144
+50	phenytoin	Sick sinus syndrome
+50	phenytoin	Brugada syndrome
+50	phenytoin	Epilepsy
+50	phenytoin	Long QT syndrome-3, 603830
+50	phenytoin	Epilepsy, generalized, with febrile seizures plus, type 2, 604233
+50	phenytoin	Heart block, nonprogressive, 113900
+50	phenytoin	Ventricular fibrillation, idiopathic
+50	phenytoin	Long QT syndrome
+50	phenytoin	Ventricular fibrillation, idiopathic, 603829
+50	phenytoin	Heart block
+50	phenytoin	Epilepsy, severe myoclonic, of infancy, 607208
+50	phenytoin	Sick sinus syndrome, 608567
+50	phenytoin	Heart block, progressive, type I, 113900
+55	fluoxetine	Anxiety-related personality traits
+55	fluoxetine	Obsessive-compulsive disorder 1, 164230
+55	fluoxetine	Obsessive-compulsive disorder
+56	fluoxetine	Anxiety-related personality traits
+56	fluoxetine	Obsessive-compulsive disorder 1, 164230
+56	fluoxetine	Obsessive-compulsive disorder
+57	fluvastatin	Statins
+57	fluvastatin	Statins, attenuated cholesterol lowering by
+59	simvastatin	Aplastic anemia
+59	simvastatin	Leukocyte adhesion deficiency, 116920
+59	simvastatin	Immunodeficiency
+59	simvastatin	Renal tubular dysgenesis, 267430
+59	simvastatin	Hyperapobetalipoproteinemia
+59	simvastatin	Tuberculosis, susceptibility to, 607948
+59	simvastatin	Dysprothrombinemia
+59	simvastatin	Statins, attenuated cholesterol lowering by
+59	simvastatin	Hyperapobetalipoproteinemia, susceptibility to
+59	simvastatin	Malaria, cerebral, susceptibility to
+59	simvastatin	Kaposi sarcoma, susceptibility to, 148000
+59	simvastatin	AIDS, rapid progression to, 609423
+59	simvastatin	Tuberous sclerosis
+59	simvastatin	Hypertension
+59	simvastatin	Dementia
+59	simvastatin	Hypoprothrombinemia
+59	simvastatin	Aplastic anemia, 609135
+59	simvastatin	Migraine
+59	simvastatin	Hyperprothrombinemia
+59	simvastatin	Coronary artery disease
+59	simvastatin	Asthma, susceptibility to, 600807
+59	simvastatin	Preeclampsia, susceptibility to
+59	simvastatin	Migraine without aura, susceptibility to, 157300
+59	simvastatin	Renal tubular dysgenesis
+59	simvastatin	Leukocyte adhesion deficiency
+59	simvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
+59	simvastatin	Kaposi sarcoma
+59	simvastatin	Coronary heart disease, susceptibility to
+59	simvastatin	Diabetes mellitus
+59	simvastatin	AIDS
+59	simvastatin	Immunodeficiency with hyper-IgM, type 3, 606843
+59	simvastatin	Statins
+59	simvastatin	TSC2 angiomyolipomas, renal, modifier of, 191100
+59	simvastatin	Hypertension, essential, susceptibility to, 145500
+59	simvastatin	Tuberculosis
+59	simvastatin	Asthma
+59	simvastatin	Septic shock, susceptibility to
+59	simvastatin	Sepsis
+59	simvastatin	Preeclampsia
+59	simvastatin	Malaria
+59	simvastatin	Dementia, vascular, susceptibility to
+63	hydrocortisone	Asthma
+63	hydrocortisone	Malaria, resistance to, 248310
+63	hydrocortisone	Cortisol resistance
+63	hydrocortisone	Obesity, adrenal insufficiency, and red hair
+63	hydrocortisone	Atherosclerosis, susceptibility to
+63	hydrocortisone	Asthma, dimished response to antileukotriene treatment in, 600807
+63	hydrocortisone	Malaria
+63	hydrocortisone	Atherosclerosis
+63	hydrocortisone	Obesity
+66	metoclopramide	Dystonia, myoclonic, 159900
+66	metoclopramide	Dystonia
+67	metoclopramide	Dystonia, myoclonic, 159900
+67	metoclopramide	Dystonia
+68	hydrocortisone	Asthma
+68	hydrocortisone	Malaria, resistance to, 248310
+68	hydrocortisone	Cortisol resistance
+68	hydrocortisone	Obesity, adrenal insufficiency, and red hair
+68	hydrocortisone	Atherosclerosis, susceptibility to
+68	hydrocortisone	Asthma, dimished response to antileukotriene treatment in, 600807
+68	hydrocortisone	Malaria
+68	hydrocortisone	Atherosclerosis
+68	hydrocortisone	Obesity
+71	etoposide	DNA topoisomerase II, resistance to inhibition of, by amsacrine
+71	etoposide	DNA topoisomerase
+71	etoposide	DNA topoisomerase II, resistance to inhibition of, by amsacrine
+71	etoposide	DNA topoisomerase
+73	diclofenac	Dystransthyretinemic hyperthyroxinemia
+73	diclofenac	Amyloidosis, senile systemic
+73	diclofenac	Amyloid neuropathy
+73	diclofenac	Dystransthyretinemic hyperthyroxinemia(3)
+73	diclofenac	Amyloidosis
+73	diclofenac	Carpal tunnel syndrome, familial
+73	diclofenac	Amyloid neuropathy, familial, several allelic types
+74	simvastatin	Aplastic anemia
+74	simvastatin	Leukocyte adhesion deficiency, 116920
+74	simvastatin	Immunodeficiency
+74	simvastatin	Renal tubular dysgenesis, 267430
+74	simvastatin	Hyperapobetalipoproteinemia
+74	simvastatin	Tuberculosis, susceptibility to, 607948
+74	simvastatin	Dysprothrombinemia
+74	simvastatin	Statins, attenuated cholesterol lowering by
+74	simvastatin	Hyperapobetalipoproteinemia, susceptibility to
+74	simvastatin	Malaria, cerebral, susceptibility to
+74	simvastatin	Kaposi sarcoma, susceptibility to, 148000
+74	simvastatin	AIDS, rapid progression to, 609423
+74	simvastatin	Tuberous sclerosis
+74	simvastatin	Hypertension
+74	simvastatin	Dementia
+74	simvastatin	Hypoprothrombinemia
+74	simvastatin	Aplastic anemia, 609135
+74	simvastatin	Migraine
+74	simvastatin	Hyperprothrombinemia
+74	simvastatin	Coronary artery disease
+74	simvastatin	Asthma, susceptibility to, 600807
+74	simvastatin	Preeclampsia, susceptibility to
+74	simvastatin	Migraine without aura, susceptibility to, 157300
+74	simvastatin	Renal tubular dysgenesis
+74	simvastatin	Leukocyte adhesion deficiency
+74	simvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
+74	simvastatin	Kaposi sarcoma
+74	simvastatin	Coronary heart disease, susceptibility to
+74	simvastatin	Diabetes mellitus
+74	simvastatin	AIDS
+74	simvastatin	Immunodeficiency with hyper-IgM, type 3, 606843
+74	simvastatin	Statins
+74	simvastatin	TSC2 angiomyolipomas, renal, modifier of, 191100
+74	simvastatin	Hypertension, essential, susceptibility to, 145500
+74	simvastatin	Tuberculosis
+74	simvastatin	Asthma
+74	simvastatin	Septic shock, susceptibility to
+74	simvastatin	Sepsis
+74	simvastatin	Preeclampsia
+74	simvastatin	Malaria
+74	simvastatin	Dementia, vascular, susceptibility to
+77	pravastatin	Statins
+77	pravastatin	Statins, attenuated cholesterol lowering by
+77	pravastatin	Dubin-Johnson syndrome, 237500
+77	pravastatin	Dubin-Johnson syndrome
+77	pravastatin	Statins
+77	pravastatin	Statins, attenuated cholesterol lowering by
+77	pravastatin	Dubin-Johnson syndrome, 237500
+77	pravastatin	Dubin-Johnson syndrome
+79	metoclopramide	Dystonia, myoclonic, 159900
+79	metoclopramide	Dystonia
+80	cyclosporine	Colchicine resistance
+81	hydrocortisone	Asthma
+81	hydrocortisone	Malaria, resistance to, 248310
+81	hydrocortisone	Cortisol resistance
+81	hydrocortisone	Obesity, adrenal insufficiency, and red hair
+81	hydrocortisone	Atherosclerosis, susceptibility to
+81	hydrocortisone	Asthma, dimished response to antileukotriene treatment in, 600807
+81	hydrocortisone	Malaria
+81	hydrocortisone	Atherosclerosis
+81	hydrocortisone	Obesity
+82	ketoprofen	Analbuminemia
+82	ketoprofen	Dysalbuminemic hyperthyroxinemia
+88	phenobarbital	Epilepsy, juvenile myoclonic, 606904
+88	phenobarbital	Epilepsy
+89	amiodarone	Resting heart rate, 607276
+89	amiodarone	Long QT syndrome
+89	amiodarone	Long QT syndrome-2
+89	amiodarone	Congestive heart failure, susceptibility to
+89	amiodarone	Acquired long QT syndrome, susceptibility to
+89	amiodarone	Resting heart rate
+89	amiodarone	Congestive heart failure
+89	amiodarone	Acquired long QT syndrome
+90	warfarin	Warfarin resistance, 122700
+90	warfarin	Dysprothrombinemia
+90	warfarin	Hyperprothrombinemia
+90	warfarin	Warfarin resistance/sensitivity
+90	warfarin	Vitamin K-dependent coagulation defect
+90	warfarin	Vitamin K-dependent clotting factors, combined deficiency of, 2, 607473
+90	warfarin	Hypoprothrombinemia
+93	neostigmine	Blood group
+93	neostigmine	Blood group, Yt system, 112100
+95	etoposide	DNA topoisomerase II, resistance to inhibition of, by amsacrine
+95	etoposide	DNA topoisomerase
+95	etoposide	DNA topoisomerase II, resistance to inhibition of, by amsacrine
+95	etoposide	DNA topoisomerase
+97	rosuvastatin	Statins
+97	rosuvastatin	Statins, attenuated cholesterol lowering by
+97	rosuvastatin	Alzheimer disease, late-onset, susceptibility to, 104300
+97	rosuvastatin	Placental abruption
+97	rosuvastatin	Hypertension, susceptibility to, 145500
+97	rosuvastatin	Coronary spasms
+97	rosuvastatin	Coronary spasms, susceptibility to
+97	rosuvastatin	Hypertension
+97	rosuvastatin	Alzheimer disease
+97	rosuvastatin	Hypertension, pregnancy-induced, 189800
+99	danazol	Hypogonadotropic hypogonadism
+99	danazol	Migraine
+99	danazol	Fertile eunuch syndrome, 228300
+99	danazol	Estrogen resistance
+99	danazol	HDL response to hormone replacement, augmented
+99	danazol	Migraine, susceptibility to, 157300
+99	danazol	Fertile eunuch syndrome
+99	danazol	HDL cholesterol level QTL
+100	bosentan	Migraine
+100	bosentan	Hirschsprung disease-2, 600155
+100	bosentan	Waardenburg-Shah syndrome, 277580
+100	bosentan	Migraine, resistance to, 157300
+100	bosentan	Waardenburg-Shah syndrome
+100	bosentan	ABCD syndrome, 600501
+100	bosentan	Hirschsprung disease
+100	bosentan	Cholestasis, progressive familial intrahepatic 2, 601847
+100	bosentan	ABCD syndrome
+100	bosentan	Cholestasis
+103	atorvastatin	Tall stature
+103	atorvastatin	Tall stature, susceptibility to
+103	atorvastatin	Hypercholesterolemia
+103	atorvastatin	Obesity, resistance to
+103	atorvastatin	Hypolactasia, adult type, 223100
+103	atorvastatin	Immunodeficiency
+103	atorvastatin	Renal tubular dysgenesis, 267430
+103	atorvastatin	Hyperapobetalipoproteinemia
+103	atorvastatin	Hypobetalipoproteinemia
+103	atorvastatin	Immunodeficiency, X-linked, with hyper-IgM, 308230
+103	atorvastatin	Statins, attenuated cholesterol lowering by
+103	atorvastatin	Glioblastoma
+103	atorvastatin	Hyperapobetalipoproteinemia, susceptibility to
+103	atorvastatin	Malaria, cerebral, susceptibility to
+103	atorvastatin	Insulin resistance, severe, digenic, 604367
+103	atorvastatin	Hypercholesterolemia, due to ligand-defective apo B, 144010
+103	atorvastatin	Hypertension
+103	atorvastatin	Dementia
+103	atorvastatin	Obesity
+103	atorvastatin	Obesity, severe, 601665
+103	atorvastatin	Migraine
+103	atorvastatin	Diabetes mellitus, insulin-resistant, with acanthosis nigricans and hypertension, 604367
+103	atorvastatin	Coronary artery disease
+103	atorvastatin	Asthma, susceptibility to, 600807
+103	atorvastatin	Preeclampsia, susceptibility to
+103	atorvastatin	Migraine without aura, susceptibility to, 157300
+103	atorvastatin	Renal tubular dysgenesis
+103	atorvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
+103	atorvastatin	Glioblastoma, susceptibility to, 137800
+103	atorvastatin	Diabetes mellitus
+103	atorvastatin	Statins
+103	atorvastatin	Hypolactasia, adult type
+103	atorvastatin	Abetalipoproteinemia
+103	atorvastatin	Hypertension, essential, susceptibility to, 145500
+103	atorvastatin	Insulin resistance
+103	atorvastatin	Asthma
+103	atorvastatin	Lipodystrophy, familial partial, 151660
+103	atorvastatin	Coronary artery disease, susceptibility to
+103	atorvastatin	Septic shock, susceptibility to
+103	atorvastatin	Sepsis
+103	atorvastatin	Preeclampsia
+103	atorvastatin	Coronary artery spasm, susceptibility to
+103	atorvastatin	Malaria
+103	atorvastatin	Lipodystrophy
+103	atorvastatin	Dementia, vascular, susceptibility to
+104	simvastatin	Aplastic anemia
+104	simvastatin	Leukocyte adhesion deficiency, 116920
+104	simvastatin	Immunodeficiency
+104	simvastatin	Renal tubular dysgenesis, 267430
+104	simvastatin	Hyperapobetalipoproteinemia
+104	simvastatin	Tuberculosis, susceptibility to, 607948
+104	simvastatin	Dysprothrombinemia
+104	simvastatin	Statins, attenuated cholesterol lowering by
+104	simvastatin	Hyperapobetalipoproteinemia, susceptibility to
+104	simvastatin	Malaria, cerebral, susceptibility to
+104	simvastatin	Kaposi sarcoma, susceptibility to, 148000
+104	simvastatin	AIDS, rapid progression to, 609423
+104	simvastatin	Tuberous sclerosis
+104	simvastatin	Hypertension
+104	simvastatin	Dementia
+104	simvastatin	Hypoprothrombinemia
+104	simvastatin	Aplastic anemia, 609135
+104	simvastatin	Migraine
+104	simvastatin	Hyperprothrombinemia
+104	simvastatin	Coronary artery disease
+104	simvastatin	Asthma, susceptibility to, 600807
+104	simvastatin	Preeclampsia, susceptibility to
+104	simvastatin	Migraine without aura, susceptibility to, 157300
+104	simvastatin	Renal tubular dysgenesis
+104	simvastatin	Leukocyte adhesion deficiency
+104	simvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
+104	simvastatin	Kaposi sarcoma
+104	simvastatin	Coronary heart disease, susceptibility to
+104	simvastatin	Diabetes mellitus
+104	simvastatin	AIDS
+104	simvastatin	Immunodeficiency with hyper-IgM, type 3, 606843
+104	simvastatin	Statins
+104	simvastatin	TSC2 angiomyolipomas, renal, modifier of, 191100
+104	simvastatin	Hypertension, essential, susceptibility to, 145500
+104	simvastatin	Tuberculosis
+104	simvastatin	Asthma
+104	simvastatin	Septic shock, susceptibility to
+104	simvastatin	Sepsis
+104	simvastatin	Preeclampsia
+104	simvastatin	Malaria
+104	simvastatin	Dementia, vascular, susceptibility to
+105	simvastatin	Aplastic anemia
+105	simvastatin	Leukocyte adhesion deficiency, 116920
+105	simvastatin	Immunodeficiency
+105	simvastatin	Renal tubular dysgenesis, 267430
+105	simvastatin	Hyperapobetalipoproteinemia
+105	simvastatin	Tuberculosis, susceptibility to, 607948
+105	simvastatin	Dysprothrombinemia
+105	simvastatin	Statins, attenuated cholesterol lowering by
+105	simvastatin	Hyperapobetalipoproteinemia, susceptibility to
+105	simvastatin	Malaria, cerebral, susceptibility to
+105	simvastatin	Kaposi sarcoma, susceptibility to, 148000
+105	simvastatin	AIDS, rapid progression to, 609423
+105	simvastatin	Tuberous sclerosis
+105	simvastatin	Hypertension
+105	simvastatin	Dementia
+105	simvastatin	Hypoprothrombinemia
+105	simvastatin	Aplastic anemia, 609135
+105	simvastatin	Migraine
+105	simvastatin	Hyperprothrombinemia
+105	simvastatin	Coronary artery disease
+105	simvastatin	Asthma, susceptibility to, 600807
+105	simvastatin	Preeclampsia, susceptibility to
+105	simvastatin	Migraine without aura, susceptibility to, 157300
+105	simvastatin	Renal tubular dysgenesis
+105	simvastatin	Leukocyte adhesion deficiency
+105	simvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
+105	simvastatin	Kaposi sarcoma
+105	simvastatin	Coronary heart disease, susceptibility to
+105	simvastatin	Diabetes mellitus
+105	simvastatin	AIDS
+105	simvastatin	Immunodeficiency with hyper-IgM, type 3, 606843
+105	simvastatin	Statins
+105	simvastatin	TSC2 angiomyolipomas, renal, modifier of, 191100
+105	simvastatin	Hypertension, essential, susceptibility to, 145500
+105	simvastatin	Tuberculosis
+105	simvastatin	Asthma
+105	simvastatin	Septic shock, susceptibility to
+105	simvastatin	Sepsis
+105	simvastatin	Preeclampsia
+105	simvastatin	Malaria
+105	simvastatin	Dementia, vascular, susceptibility to
+109	etoposide	DNA topoisomerase II, resistance to inhibition of, by amsacrine
+109	etoposide	DNA topoisomerase
+110	atorvastatin	Tall stature
+110	atorvastatin	Tall stature, susceptibility to
+110	atorvastatin	Hypercholesterolemia
+110	atorvastatin	Obesity, resistance to
+110	atorvastatin	Hypolactasia, adult type, 223100
+110	atorvastatin	Immunodeficiency
+110	atorvastatin	Renal tubular dysgenesis, 267430
+110	atorvastatin	Hyperapobetalipoproteinemia
+110	atorvastatin	Hypobetalipoproteinemia
+110	atorvastatin	Immunodeficiency, X-linked, with hyper-IgM, 308230
+110	atorvastatin	Statins, attenuated cholesterol lowering by
+110	atorvastatin	Glioblastoma
+110	atorvastatin	Hyperapobetalipoproteinemia, susceptibility to
+110	atorvastatin	Malaria, cerebral, susceptibility to
+110	atorvastatin	Insulin resistance, severe, digenic, 604367
+110	atorvastatin	Hypercholesterolemia, due to ligand-defective apo B, 144010
+110	atorvastatin	Hypertension
+110	atorvastatin	Dementia
+110	atorvastatin	Obesity
+110	atorvastatin	Obesity, severe, 601665
+110	atorvastatin	Migraine
+110	atorvastatin	Diabetes mellitus, insulin-resistant, with acanthosis nigricans and hypertension, 604367
+110	atorvastatin	Coronary artery disease
+110	atorvastatin	Asthma, susceptibility to, 600807
+110	atorvastatin	Preeclampsia, susceptibility to
+110	atorvastatin	Migraine without aura, susceptibility to, 157300
+110	atorvastatin	Renal tubular dysgenesis
+110	atorvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
+110	atorvastatin	Glioblastoma, susceptibility to, 137800
+110	atorvastatin	Diabetes mellitus
+110	atorvastatin	Statins
+110	atorvastatin	Hypolactasia, adult type
+110	atorvastatin	Abetalipoproteinemia
+110	atorvastatin	Hypertension, essential, susceptibility to, 145500
+110	atorvastatin	Insulin resistance
+110	atorvastatin	Asthma
+110	atorvastatin	Lipodystrophy, familial partial, 151660
+110	atorvastatin	Coronary artery disease, susceptibility to
+110	atorvastatin	Septic shock, susceptibility to
+110	atorvastatin	Sepsis
+110	atorvastatin	Preeclampsia
+110	atorvastatin	Coronary artery spasm, susceptibility to
+110	atorvastatin	Malaria
+110	atorvastatin	Lipodystrophy
+110	atorvastatin	Dementia, vascular, susceptibility to
+111	atorvastatin	Tall stature
+111	atorvastatin	Tall stature, susceptibility to
+111	atorvastatin	Hypercholesterolemia
+111	atorvastatin	Obesity, resistance to
+111	atorvastatin	Hypolactasia, adult type, 223100
+111	atorvastatin	Immunodeficiency
+111	atorvastatin	Renal tubular dysgenesis, 267430
+111	atorvastatin	Hyperapobetalipoproteinemia
+111	atorvastatin	Hypobetalipoproteinemia
+111	atorvastatin	Immunodeficiency, X-linked, with hyper-IgM, 308230
+111	atorvastatin	Statins, attenuated cholesterol lowering by
+111	atorvastatin	Glioblastoma
+111	atorvastatin	Hyperapobetalipoproteinemia, susceptibility to
+111	atorvastatin	Malaria, cerebral, susceptibility to
+111	atorvastatin	Insulin resistance, severe, digenic, 604367
+111	atorvastatin	Hypercholesterolemia, due to ligand-defective apo B, 144010
+111	atorvastatin	Hypertension
+111	atorvastatin	Dementia
+111	atorvastatin	Obesity
+111	atorvastatin	Obesity, severe, 601665
+111	atorvastatin	Migraine
+111	atorvastatin	Diabetes mellitus, insulin-resistant, with acanthosis nigricans and hypertension, 604367
+111	atorvastatin	Coronary artery disease
+111	atorvastatin	Asthma, susceptibility to, 600807
+111	atorvastatin	Preeclampsia, susceptibility to
+111	atorvastatin	Migraine without aura, susceptibility to, 157300
+111	atorvastatin	Renal tubular dysgenesis
+111	atorvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
+111	atorvastatin	Glioblastoma, susceptibility to, 137800
+111	atorvastatin	Diabetes mellitus
+111	atorvastatin	Statins
+111	atorvastatin	Hypolactasia, adult type
+111	atorvastatin	Abetalipoproteinemia
+111	atorvastatin	Hypertension, essential, susceptibility to, 145500
+111	atorvastatin	Insulin resistance
+111	atorvastatin	Asthma
+111	atorvastatin	Lipodystrophy, familial partial, 151660
+111	atorvastatin	Coronary artery disease, susceptibility to
+111	atorvastatin	Septic shock, susceptibility to
+111	atorvastatin	Sepsis
+111	atorvastatin	Preeclampsia
+111	atorvastatin	Coronary artery spasm, susceptibility to
+111	atorvastatin	Malaria
+111	atorvastatin	Lipodystrophy
+111	atorvastatin	Dementia, vascular, susceptibility to
+112	atorvastatin	Tall stature
+112	atorvastatin	Tall stature, susceptibility to
+112	atorvastatin	Hypercholesterolemia
+112	atorvastatin	Obesity, resistance to
+112	atorvastatin	Hypolactasia, adult type, 223100
+112	atorvastatin	Immunodeficiency
+112	atorvastatin	Renal tubular dysgenesis, 267430
+112	atorvastatin	Hyperapobetalipoproteinemia
+112	atorvastatin	Hypobetalipoproteinemia
+112	atorvastatin	Immunodeficiency, X-linked, with hyper-IgM, 308230
+112	atorvastatin	Statins, attenuated cholesterol lowering by
+112	atorvastatin	Glioblastoma
+112	atorvastatin	Hyperapobetalipoproteinemia, susceptibility to
+112	atorvastatin	Malaria, cerebral, susceptibility to
+112	atorvastatin	Insulin resistance, severe, digenic, 604367
+112	atorvastatin	Hypercholesterolemia, due to ligand-defective apo B, 144010
+112	atorvastatin	Hypertension
+112	atorvastatin	Dementia
+112	atorvastatin	Obesity
+112	atorvastatin	Obesity, severe, 601665
+112	atorvastatin	Migraine
+112	atorvastatin	Diabetes mellitus, insulin-resistant, with acanthosis nigricans and hypertension, 604367
+112	atorvastatin	Coronary artery disease
+112	atorvastatin	Asthma, susceptibility to, 600807
+112	atorvastatin	Preeclampsia, susceptibility to
+112	atorvastatin	Migraine without aura, susceptibility to, 157300
+112	atorvastatin	Renal tubular dysgenesis
+112	atorvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
+112	atorvastatin	Glioblastoma, susceptibility to, 137800
+112	atorvastatin	Diabetes mellitus
+112	atorvastatin	Statins
+112	atorvastatin	Hypolactasia, adult type
+112	atorvastatin	Abetalipoproteinemia
+112	atorvastatin	Hypertension, essential, susceptibility to, 145500
+112	atorvastatin	Insulin resistance
+112	atorvastatin	Asthma
+112	atorvastatin	Lipodystrophy, familial partial, 151660
+112	atorvastatin	Coronary artery disease, susceptibility to
+112	atorvastatin	Septic shock, susceptibility to
+112	atorvastatin	Sepsis
+112	atorvastatin	Preeclampsia
+112	atorvastatin	Coronary artery spasm, susceptibility to
+112	atorvastatin	Malaria
+112	atorvastatin	Lipodystrophy
+112	atorvastatin	Dementia, vascular, susceptibility to
+113	etoposide	DNA topoisomerase II, resistance to inhibition of, by amsacrine
+113	etoposide	DNA topoisomerase
+113	cyclosporine	Colchicine resistance
+116	simvastatin	Aplastic anemia
+116	simvastatin	Leukocyte adhesion deficiency, 116920
+116	simvastatin	Immunodeficiency
+116	simvastatin	Renal tubular dysgenesis, 267430
+116	simvastatin	Hyperapobetalipoproteinemia
+116	simvastatin	Tuberculosis, susceptibility to, 607948
+116	simvastatin	Dysprothrombinemia
+116	simvastatin	Statins, attenuated cholesterol lowering by
+116	simvastatin	Hyperapobetalipoproteinemia, susceptibility to
+116	simvastatin	Malaria, cerebral, susceptibility to
+116	simvastatin	Kaposi sarcoma, susceptibility to, 148000
+116	simvastatin	AIDS, rapid progression to, 609423
+116	simvastatin	Tuberous sclerosis
+116	simvastatin	Hypertension
+116	simvastatin	Dementia
+116	simvastatin	Hypoprothrombinemia
+116	simvastatin	Aplastic anemia, 609135
+116	simvastatin	Migraine
+116	simvastatin	Hyperprothrombinemia
+116	simvastatin	Coronary artery disease
+116	simvastatin	Asthma, susceptibility to, 600807
+116	simvastatin	Preeclampsia, susceptibility to
+116	simvastatin	Migraine without aura, susceptibility to, 157300
+116	simvastatin	Renal tubular dysgenesis
+116	simvastatin	Leukocyte adhesion deficiency
+116	simvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
+116	simvastatin	Kaposi sarcoma
+116	simvastatin	Coronary heart disease, susceptibility to
+116	simvastatin	Diabetes mellitus
+116	simvastatin	AIDS
+116	simvastatin	Immunodeficiency with hyper-IgM, type 3, 606843
+116	simvastatin	Statins
+116	simvastatin	TSC2 angiomyolipomas, renal, modifier of, 191100
+116	simvastatin	Hypertension, essential, susceptibility to, 145500
+116	simvastatin	Tuberculosis
+116	simvastatin	Asthma
+116	simvastatin	Septic shock, susceptibility to
+116	simvastatin	Sepsis
+116	simvastatin	Preeclampsia
+116	simvastatin	Malaria
+116	simvastatin	Dementia, vascular, susceptibility to
+117	methylphenidate	Anxiety-related personality traits
+117	methylphenidate	Obsessive-compulsive disorder 1, 164230
+117	methylphenidate	Obsessive-compulsive disorder
+117	methylphenidate	Orthostatic intolerance
+117	methylphenidate	Orthostatic intolerance, 604715
+120	simvastatin	Aplastic anemia
+120	simvastatin	Leukocyte adhesion deficiency, 116920
+120	simvastatin	Immunodeficiency
+120	simvastatin	Renal tubular dysgenesis, 267430
+120	simvastatin	Hyperapobetalipoproteinemia
+120	simvastatin	Tuberculosis, susceptibility to, 607948
+120	simvastatin	Dysprothrombinemia
+120	simvastatin	Statins, attenuated cholesterol lowering by
+120	simvastatin	Hyperapobetalipoproteinemia, susceptibility to
+120	simvastatin	Malaria, cerebral, susceptibility to
+120	simvastatin	Kaposi sarcoma, susceptibility to, 148000
+120	simvastatin	AIDS, rapid progression to, 609423
+120	simvastatin	Tuberous sclerosis
+120	simvastatin	Hypertension
+120	simvastatin	Dementia
+120	simvastatin	Hypoprothrombinemia
+120	simvastatin	Aplastic anemia, 609135
+120	simvastatin	Migraine
+120	simvastatin	Hyperprothrombinemia
+120	simvastatin	Coronary artery disease
+120	simvastatin	Asthma, susceptibility to, 600807
+120	simvastatin	Preeclampsia, susceptibility to
+120	simvastatin	Migraine without aura, susceptibility to, 157300
+120	simvastatin	Renal tubular dysgenesis
+120	simvastatin	Leukocyte adhesion deficiency
+120	simvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
+120	simvastatin	Kaposi sarcoma
+120	simvastatin	Coronary heart disease, susceptibility to
+120	simvastatin	Diabetes mellitus
+120	simvastatin	AIDS
+120	simvastatin	Immunodeficiency with hyper-IgM, type 3, 606843
+120	simvastatin	Statins
+120	simvastatin	TSC2 angiomyolipomas, renal, modifier of, 191100
+120	simvastatin	Hypertension, essential, susceptibility to, 145500
+120	simvastatin	Tuberculosis
+120	simvastatin	Asthma
+120	simvastatin	Septic shock, susceptibility to
+120	simvastatin	Sepsis
+120	simvastatin	Preeclampsia
+120	simvastatin	Malaria
+120	simvastatin	Dementia, vascular, susceptibility to
+122	methotrexate	Analbuminemia
+122	methotrexate	Dysalbuminemic hyperthyroxinemia
+123	simvastatin	Aplastic anemia
+123	simvastatin	Leukocyte adhesion deficiency, 116920
+123	simvastatin	Immunodeficiency
+123	simvastatin	Renal tubular dysgenesis, 267430
+123	simvastatin	Hyperapobetalipoproteinemia
+123	simvastatin	Tuberculosis, susceptibility to, 607948
+123	simvastatin	Dysprothrombinemia
+123	simvastatin	Statins, attenuated cholesterol lowering by
+123	simvastatin	Hyperapobetalipoproteinemia, susceptibility to
+123	simvastatin	Malaria, cerebral, susceptibility to
+123	simvastatin	Kaposi sarcoma, susceptibility to, 148000
+123	simvastatin	AIDS, rapid progression to, 609423
+123	simvastatin	Tuberous sclerosis
+123	simvastatin	Hypertension
+123	simvastatin	Dementia
+123	simvastatin	Hypoprothrombinemia
+123	simvastatin	Aplastic anemia, 609135
+123	simvastatin	Migraine
+123	simvastatin	Hyperprothrombinemia
+123	simvastatin	Coronary artery disease
+123	simvastatin	Asthma, susceptibility to, 600807
+123	simvastatin	Preeclampsia, susceptibility to
+123	simvastatin	Migraine without aura, susceptibility to, 157300
+123	simvastatin	Renal tubular dysgenesis
+123	simvastatin	Leukocyte adhesion deficiency
+123	simvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
+123	simvastatin	Kaposi sarcoma
+123	simvastatin	Coronary heart disease, susceptibility to
+123	simvastatin	Diabetes mellitus
+123	simvastatin	AIDS
+123	simvastatin	Immunodeficiency with hyper-IgM, type 3, 606843
+123	simvastatin	Statins
+123	simvastatin	TSC2 angiomyolipomas, renal, modifier of, 191100
+123	simvastatin	Hypertension, essential, susceptibility to, 145500
+123	simvastatin	Tuberculosis
+123	simvastatin	Asthma
+123	simvastatin	Septic shock, susceptibility to
+123	simvastatin	Sepsis
+123	simvastatin	Preeclampsia
+123	simvastatin	Malaria
+123	simvastatin	Dementia, vascular, susceptibility to
+125	methotrexate	Analbuminemia
+125	methotrexate	Dysalbuminemic hyperthyroxinemia
+127	ursodeoxycholic acid	Obesity, hyperphagia, and developmental delay
+127	ursodeoxycholic acid	Obesity
+128	simvastatin	Aplastic anemia
+128	simvastatin	Leukocyte adhesion deficiency, 116920
+128	simvastatin	Immunodeficiency
+128	simvastatin	Renal tubular dysgenesis, 267430
+128	simvastatin	Hyperapobetalipoproteinemia
+128	simvastatin	Tuberculosis, susceptibility to, 607948
+128	simvastatin	Dysprothrombinemia
+128	simvastatin	Statins, attenuated cholesterol lowering by
+128	simvastatin	Hyperapobetalipoproteinemia, susceptibility to
+128	simvastatin	Malaria, cerebral, susceptibility to
+128	simvastatin	Kaposi sarcoma, susceptibility to, 148000
+128	simvastatin	AIDS, rapid progression to, 609423
+128	simvastatin	Tuberous sclerosis
+128	simvastatin	Hypertension
+128	simvastatin	Dementia
+128	simvastatin	Hypoprothrombinemia
+128	simvastatin	Aplastic anemia, 609135
+128	simvastatin	Migraine
+128	simvastatin	Hyperprothrombinemia
+128	simvastatin	Coronary artery disease
+128	simvastatin	Asthma, susceptibility to, 600807
+128	simvastatin	Preeclampsia, susceptibility to
+128	simvastatin	Migraine without aura, susceptibility to, 157300
+128	simvastatin	Renal tubular dysgenesis
+128	simvastatin	Leukocyte adhesion deficiency
+128	simvastatin	Diabetic retinopathy, NIDDM-related, susceptibility to, 125853
+128	simvastatin	Kaposi sarcoma
+128	simvastatin	Coronary heart disease, susceptibility to
+128	simvastatin	Diabetes mellitus
+128	simvastatin	AIDS
+128	simvastatin	Immunodeficiency with hyper-IgM, type 3, 606843
+128	simvastatin	Statins
+128	simvastatin	TSC2 angiomyolipomas, renal, modifier of, 191100
+128	simvastatin	Hypertension, essential, susceptibility to, 145500
+128	simvastatin	Tuberculosis
+128	simvastatin	Asthma
+128	simvastatin	Septic shock, susceptibility to
+128	simvastatin	Sepsis
+128	simvastatin	Preeclampsia
+128	simvastatin	Malaria
+128	simvastatin	Dementia, vascular, susceptibility to
+132	warfarin	Warfarin resistance, 122700
+132	warfarin	Dysprothrombinemia
+132	warfarin	Hyperprothrombinemia
+132	warfarin	Warfarin resistance/sensitivity
+132	warfarin	Vitamin K-dependent coagulation defect
+132	warfarin	Vitamin K-dependent clotting factors, combined deficiency of, 2, 607473
+132	warfarin	Hypoprothrombinemia
 \.
 
 
@@ -9791,138 +15616,138 @@ COPY public.trial_drug_disease (trial_id, drug_name, disease_name) FROM stdin;
 --
 
 COPY public.trial_researchers (trial_id, researcher_id) FROM stdin;
-1	124
-2	8
-3	98
-4	22
-5	92
-6	61
-7	101
-8	33
-8	33
-10	10
-11	50
+1	122
+2	49
+3	31
+4	109
+5	7
+6	96
+7	22
+8	90
+9	60
+10	9
+11	99
 12	32
-13	111
-14	19
-15	115
-16	123
-17	25
-18	35
-19	46
-20	68
-21	82
-22	94
-23	74
-24	71
-25	65
-26	86
-27	102
+12	32
+14	18
+15	114
+16	25
+17	121
+18	34
+19	45
+20	67
+21	81
+22	92
+23	73
+24	70
+25	64
+26	84
+27	100
 28	13
-29	59
+29	58
 30	1
-31	29
+31	28
 32	24
-33	70
-34	18
-35	38
-36	126
-37	96
-38	81
-39	21
-40	45
-41	108
-42	54
-43	23
-44	104
-45	57
-46	80
-47	83
-48	88
-49	69
+33	69
+34	17
+35	37
+36	124
+37	94
+38	80
+39	20
+40	44
+41	106
+42	23
+43	102
+44	56
+45	53
+46	79
+47	86
+48	126
+49	68
 50	48
-51	75
-52	99
-53	17
-54	89
-55	31
-56	110
-57	11
+51	74
+52	97
+53	11
+54	16
+55	88
+56	30
+57	108
 58	42
-59	49
-60	90
-61	64
-62	53
-63	20
-64	6
-65	79
-66	9
-67	36
-68	4
-69	77
-70	40
-71	55
-71	55
-73	100
-74	44
-75	72
-75	72
-77	72
-77	72
-79	51
-80	84
-81	105
-82	7
-83	28
-84	120
-85	91
-86	33
-86	33
-88	95
-89	85
-90	97
-91	67
-92	114
-93	113
+59	46
+60	87
+61	63
+62	52
+63	19
+64	5
+65	78
+66	8
+67	35
+68	3
+69	39
+70	76
+71	54
+71	54
+73	43
+74	98
+75	71
+75	71
+77	71
+77	71
+79	50
+80	82
+81	103
+82	6
+83	27
+84	118
+85	89
+86	32
+86	32
+88	93
+89	83
+90	95
+91	66
+92	113
+93	111
 94	14
-95	55
-95	55
-97	37
-98	121
-99	16
-100	39
-101	15
-102	93
-103	30
-104	78
-105	76
-106	27
-107	125
-108	5
+95	54
+95	54
+97	36
+98	38
+99	15
+100	119
+101	10
+102	91
+103	29
+104	75
+105	77
+106	21
+107	4
+108	123
 109	2
-110	119
-111	109
-112	106
-113	62
-114	118
-115	116
-116	60
+110	107
+111	104
+112	117
+113	61
+114	112
+115	115
+116	59
 117	26
-118	122
-119	43
+118	120
+119	40
 120	47
-121	52
-122	66
+121	51
+122	65
 123	41
-124	58
+124	57
 125	12
-126	117
-127	112
-128	63
-129	87
-130	107
-131	3
-132	103
+126	116
+127	110
+128	62
+129	85
+130	105
+131	101
+132	125
 \.
 
 

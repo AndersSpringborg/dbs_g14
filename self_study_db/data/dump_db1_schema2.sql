@@ -118,6 +118,18 @@ CREATE TABLE public.drug_interaction (
 ALTER TABLE public.drug_interaction OWNER TO postgres;
 
 --
+-- Name: drug_side_effects; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.drug_side_effects (
+    drug_name character varying(256),
+    side_effect_id bigint
+);
+
+
+ALTER TABLE public.drug_side_effects OWNER TO postgres;
+
+--
 -- Name: institution; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -405,6 +417,334 @@ hydrocortisone	butabarbital
 hydrocortisone	salsalate
 butabarbital	hydrocortisone
 salsalate	hydrocortisone
+\.
+
+
+--
+-- Data for Name: drug_side_effects; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.drug_side_effects (drug_name, side_effect_id) FROM stdin;
+etanercept	1
+cetuximab	2
+etanercept	2
+denileukin diftitox	3
+etanercept	4
+urokinase	5
+cetuximab	6
+denileukin diftitox	7
+cetuximab	8
+denileukin diftitox	9
+cetuximab	10
+denileukin diftitox	10
+urokinase	10
+cetuximab	11
+etanercept	11
+urokinase	12
+cetuximab	13
+cetuximab	14
+etanercept	14
+denileukin diftitox	14
+etanercept	15
+etanercept	16
+cetuximab	17
+etanercept	17
+denileukin diftitox	17
+etanercept	18
+etanercept	19
+denileukin diftitox	20
+urokinase	20
+denileukin diftitox	21
+denileukin diftitox	22
+denileukin diftitox	23
+etanercept	24
+etanercept	25
+cetuximab	26
+etanercept	26
+denileukin diftitox	26
+etanercept	27
+cetuximab	28
+urokinase	28
+etanercept	29
+etanercept	30
+etanercept	31
+urokinase	31
+etanercept	32
+cetuximab	33
+urokinase	33
+etanercept	34
+cetuximab	35
+urokinase	36
+etanercept	37
+etanercept	38
+etanercept	39
+urokinase	39
+etanercept	40
+denileukin diftitox	40
+urokinase	40
+cetuximab	41
+denileukin diftitox	41
+urokinase	41
+cetuximab	42
+etanercept	43
+etanercept	44
+cetuximab	45
+cetuximab	46
+denileukin diftitox	47
+etanercept	48
+denileukin diftitox	48
+cetuximab	49
+cetuximab	50
+denileukin diftitox	50
+denileukin diftitox	51
+cetuximab	52
+etanercept	52
+denileukin diftitox	52
+cetuximab	53
+denileukin diftitox	54
+etanercept	55
+urokinase	56
+etanercept	57
+urokinase	58
+etanercept	59
+denileukin diftitox	59
+cetuximab	60
+denileukin diftitox	60
+etanercept	61
+cetuximab	62
+etanercept	62
+denileukin diftitox	62
+etanercept	63
+denileukin diftitox	63
+etanercept	64
+cetuximab	65
+etanercept	65
+denileukin diftitox	65
+denileukin diftitox	66
+cetuximab	67
+etanercept	67
+denileukin diftitox	67
+urokinase	67
+cetuximab	68
+etanercept	68
+denileukin diftitox	68
+urokinase	68
+etanercept	69
+urokinase	69
+cetuximab	70
+denileukin diftitox	70
+etanercept	71
+etanercept	72
+etanercept	73
+cetuximab	74
+etanercept	74
+denileukin diftitox	74
+urokinase	74
+etanercept	75
+etanercept	76
+denileukin diftitox	76
+etanercept	77
+etanercept	78
+etanercept	79
+etanercept	80
+etanercept	81
+denileukin diftitox	82
+etanercept	83
+etanercept	84
+cetuximab	85
+etanercept	85
+denileukin diftitox	85
+etanercept	86
+denileukin diftitox	86
+denileukin diftitox	87
+urokinase	88
+etanercept	89
+etanercept	90
+cetuximab	91
+etanercept	92
+etanercept	93
+denileukin diftitox	93
+urokinase	93
+denileukin diftitox	94
+denileukin diftitox	95
+denileukin diftitox	96
+denileukin diftitox	97
+cetuximab	98
+etanercept	98
+denileukin diftitox	98
+urokinase	98
+denileukin diftitox	99
+urokinase	100
+urokinase	101
+etanercept	102
+denileukin diftitox	102
+urokinase	102
+cetuximab	103
+etanercept	103
+denileukin diftitox	103
+etanercept	104
+denileukin diftitox	104
+etanercept	105
+etanercept	106
+denileukin diftitox	106
+cetuximab	107
+denileukin diftitox	107
+cetuximab	108
+etanercept	109
+etanercept	110
+cetuximab	111
+etanercept	111
+denileukin diftitox	111
+urokinase	111
+etanercept	112
+etanercept	113
+cetuximab	114
+etanercept	114
+denileukin diftitox	114
+cetuximab	115
+denileukin diftitox	115
+etanercept	116
+etanercept	117
+denileukin diftitox	118
+etanercept	119
+denileukin diftitox	119
+cetuximab	120
+cetuximab	121
+cetuximab	122
+etanercept	122
+etanercept	123
+etanercept	124
+cetuximab	125
+etanercept	126
+denileukin diftitox	127
+etanercept	128
+denileukin diftitox	128
+etanercept	129
+denileukin diftitox	130
+etanercept	131
+denileukin diftitox	131
+urokinase	131
+etanercept	132
+cetuximab	133
+cetuximab	134
+etanercept	134
+denileukin diftitox	134
+urokinase	134
+denileukin diftitox	135
+etanercept	136
+etanercept	137
+etanercept	138
+cetuximab	139
+etanercept	140
+etanercept	141
+cetuximab	142
+etanercept	142
+denileukin diftitox	142
+urokinase	142
+etanercept	143
+denileukin diftitox	143
+etanercept	144
+denileukin diftitox	145
+cetuximab	146
+etanercept	146
+denileukin diftitox	147
+etanercept	148
+etanercept	149
+denileukin diftitox	149
+etanercept	150
+etanercept	151
+etanercept	152
+etanercept	153
+etanercept	154
+etanercept	155
+etanercept	156
+etanercept	157
+urokinase	158
+cetuximab	159
+etanercept	159
+denileukin diftitox	159
+urokinase	159
+etanercept	160
+etanercept	161
+cetuximab	162
+etanercept	163
+denileukin diftitox	164
+cetuximab	165
+etanercept	165
+denileukin diftitox	165
+urokinase	165
+urokinase	166
+etanercept	167
+cetuximab	168
+denileukin diftitox	169
+etanercept	170
+etanercept	171
+etanercept	172
+etanercept	173
+etanercept	174
+etanercept	175
+denileukin diftitox	175
+urokinase	176
+etanercept	177
+etanercept	178
+etanercept	179
+cetuximab	180
+etanercept	180
+etanercept	181
+etanercept	182
+etanercept	183
+etanercept	184
+etanercept	185
+cetuximab	186
+etanercept	187
+etanercept	188
+etanercept	189
+cetuximab	190
+etanercept	191
+cetuximab	192
+cetuximab	193
+urokinase	194
+denileukin diftitox	195
+denileukin diftitox	196
+etanercept	197
+denileukin diftitox	198
+urokinase	198
+etanercept	199
+denileukin diftitox	199
+urokinase	199
+etanercept	200
+denileukin diftitox	200
+etanercept	201
+denileukin diftitox	201
+denileukin diftitox	202
+denileukin diftitox	203
+denileukin diftitox	204
+etanercept	205
+etanercept	206
+etanercept	207
+etanercept	208
+denileukin diftitox	208
+etanercept	209
+etanercept	210
+cetuximab	211
+etanercept	211
+denileukin diftitox	211
+urokinase	211
+etanercept	212
+denileukin diftitox	213
+etanercept	214
+etanercept	215
+denileukin diftitox	215
+etanercept	216
+denileukin diftitox	216
+cetuximab	217
+etanercept	217
+denileukin diftitox	217
+urokinase	217
+cetuximab	218
+denileukin diftitox	218
+etanercept	219
+etanercept	220
 \.
 
 
